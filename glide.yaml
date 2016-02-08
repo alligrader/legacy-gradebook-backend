@@ -1,0 +1,3 @@
+package: github.com/gradeshaman/gradebook-backend
+import:
+  - package: github.com/Sirupsen/logrus
