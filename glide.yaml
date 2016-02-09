@@ -1,10 +1,11 @@
 package: github.com/gradeshaman/gradebook-backend
 import:
-  - package: github.com/onsi/gomega
-  - package: github.com/dgrijalva/jwt-go
-  - package: github.com/auth0/go-jwt-middleware
-  - package: github.com/manyminds/api2go
-  - package: github.com/Sirupsen/logrus
-  - package: github.com/spf13/viper
-  - package: github.com/onsi/ginkgo
-  - package: github.com/jmoiron/sqlx
+- package: github.com/onsi/gomega
+- package: github.com/dgrijalva/jwt-go
+- package: github.com/auth0/go-jwt-middleware
+- package: github.com/manyminds/api2go
+- package: github.com/Sirupsen/logrus
+- package: github.com/spf13/viper
+- package: github.com/onsi/ginkgo
+- package: github.com/jmoiron/sqlx
+- package: github.com/gorilla/mux
