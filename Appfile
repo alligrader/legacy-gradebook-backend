@@ -1,0 +1,5 @@
+application {
+  name = "gradebook-backend"
+  type = "go"
+}
+
