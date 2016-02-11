@@ -9,3 +9,4 @@ import:
 - package: github.com/onsi/ginkgo
 - package: github.com/jmoiron/sqlx
 - package: github.com/gorilla/mux
+- package: github.com/go-sql-driver/mysql

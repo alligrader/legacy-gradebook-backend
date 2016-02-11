@@ -1,5 +1,9 @@
 application {
   name = "gradebook-backend"
   type = "go"
-}
 
+  dependency {
+    # source = "github.com/hashicorp/otto/examples/mysql"
+    source = "./.appdeps/mysql"
+  }
+}
