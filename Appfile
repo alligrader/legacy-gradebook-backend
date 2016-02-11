@@ -3,7 +3,10 @@ application {
   type = "go"
 
   dependency {
-    # source = "github.com/hashicorp/otto/examples/mysql"
     source = "./.appdeps/mysql"
   }
+  dependency {
+    source = "./.appdeps/rabbitmq"
+  }
+
 }
