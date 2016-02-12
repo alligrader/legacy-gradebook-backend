@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gradeshaman/gradebook-backend/tasks"
 	"github.com/gradeshaman/gradebook-backend/util"
 
 	log "github.com/Sirupsen/logrus"
@@ -16,6 +17,8 @@ func main() {
 	util.ConfigureLogger()
 
 	pingDatabase()
+
+	tasks.SendTask()
 	/*
 		r := mux.NewRouter()
 		r.HandleFunc("/", HomeHandler)
