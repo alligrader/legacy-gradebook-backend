@@ -3,16 +3,16 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "ubuntu/wily64"
+  config.vm.box = "ubuntu/trusty64"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 5000, host: 5000
   config.vm.network "forwarded_port", guest: 8080, host: 8080
-  config.vm.network "forwarded_port", guest: 3306, host: 3306
+  # config.vm.network "forwarded_port", guest: 3306, host: 3306
   config.vm.network "forwarded_port", guest: 5672, host: 5672
 
   # removes the default shared folder.
-  # config.vm.synced_folder ".", "/vagrant", disabled: true
-  # config.vm.synced_folder ".", "/opt/gopath/src/github.com/gradesham/gradebook-backend"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/opt/gopath/src/github.com/gradeshaman/gradebook-backend"
 
   config.ssh.forward_agent = true
   config.vm.provider "virtualbox" do |v|
@@ -20,8 +20,9 @@ Vagrant.configure(2) do |config|
     v.cpus = 2
   end
 
-  config.vm.provision "shell", path: ".appdeps/provision.bash"
+  # config.vm.provision "shell", path: ".appdeps/provision.bash"
   config.vm.provision "shell", path: ".appdeps/install_go.bash"
+  config.vm.provision "shell", path: ".appdeps/as_vagrant.bash", privileged: false
   config.vm.provision "docker" do |d|
     d.run "mysql",  image: "mysql",    args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=shaman"
     d.run "rabbit", image: "rabbitmq:3.6.0-management", args: "-p 8080:15672 -p 5672:5672"

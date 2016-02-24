@@ -1,8 +1,7 @@
 #!/bin/bash
 
 function set_env {
-    export GO15VENDOREXPERIMENT=1
-    export SHAMAN_ENV='DEVELOPMENT'
+    echo 'export GO15VENDOREXPERIMENT=1' >> ~/.profile
 }
 
 function install_deps {
