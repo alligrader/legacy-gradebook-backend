@@ -1,11 +1,11 @@
 package db
 
 import (
-	"database/sql"
+	"github.com/jmoiron/sqlx"
 )
 
 type CourseMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *CourseMaker) CreateCourse(class *Course) error {
