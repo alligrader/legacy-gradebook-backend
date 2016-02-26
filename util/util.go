@@ -15,7 +15,7 @@ func ClearDatabase() {
 }
 
 func CreateTablesIfExists() {
-
+	conn := ConnectToDB()
 }
 
 func Configure() {

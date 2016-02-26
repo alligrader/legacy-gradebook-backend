@@ -1,6 +1,6 @@
 touch $HOME/.profile
 
-export APPDIR="/opt/gopath/src/github.com/gradesham/gradebook-backend"
+export APPDIR="/opt/gopath/src/github.com/gradeshaman/gradebook-backend"
 export GOPATH="/opt/gopath"
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
