@@ -5,7 +5,7 @@ import (
 )
 
 type CourseStore interface {
-	Ping() bool
+	Ping() error
 	CreateCourse(class *Course) error
 	UpdateCourse(class *Course) error
 	GetCourseByID(id int) (*Course, error)
@@ -13,7 +13,7 @@ type CourseStore interface {
 }
 
 type TeacherStore interface {
-	Ping() bool
+	Ping() error
 	CreateTeacher(teacher *Teacher) error
 	UpdateTeacher(teacher *Teacher) error
 	GetTeacherByID(id int) (*Teacher, error)
@@ -21,42 +21,42 @@ type TeacherStore interface {
 }
 
 type StudentStore interface {
-	Ping() bool
+	Ping() error
 	CreateStudent(student *Student) error
 	UpdateStudent(student *Student) error
 	GetStudentByID(id int) (*Student, error)
 	DestroyStudent(student *Student) error
 }
 type UserStore interface {
-	Ping() bool
+	Ping() error
 	CreateUser(user *User) error
 	UpdateUser(user *User) error
 	GetUserByID(id int) (*User, error)
 	DestroyUser(user *User) error
 }
 type TestStore interface {
-	Ping() bool
+	Ping() error
 	CreateTestStore(score *Test) error
 	UpdateTestScore(score *Test) error
 	GetTestScoreByID(id int) (*Test, error)
 	DestroyUser(score *Test) error
 }
 type TestResultStore interface {
-	Ping() bool
+	Ping() error
 	CreateTestResult(result *TestResult) error
 	UpdateTestResult(result *TestResult) error
 	GetTestResultByID(id int) (*TestResult, error)
 	DestroyTestResult(result *TestResult) error
 }
 type RunResultStore interface {
-	Ping() bool
+	Ping() error
 	CreateRunResult(result *RunResult) error
 	UpdateRunResult(result *RunResult) error
 	GetRunResultByID(id int) (*RunResult, error)
 	DestroyRunResult(result *RunResult) error
 }
 type AssignmentStore interface {
-	Ping() bool
+	Ping() error
 	CreateAssignment(assig *Assignment) error
 	UpdateAssignment(assig *Assignment) error
 	GetAssignmentByID(id int) (*Assignment, error)

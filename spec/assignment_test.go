@@ -3,7 +3,7 @@ package spec
 import (
 	"testing"
 
-	"github.com/gradeshaman/gradebook-backend/db"
+	. "github.com/gradeshaman/gradebook-backend/db"
 	"github.com/gradeshaman/gradebook-backend/models"
 	. "github.com/gradeshaman/gradebook-backend/util"
 )
@@ -16,22 +16,33 @@ func TestCanReachDB(t *testing.T) {
 	}
 }
 
+func TestDBSetUp(t *testing.T) {
+	config := GetDBConfigFromEnv()
+	db := config.ConnectToDB()
+	CreateTablesIfNotExists(db)
+}
+
 func TestCreateAssignment(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Select")
 	}
 	config := GetDBConfigFromEnv()
 	db := config.ConnectToDB()
-	course := &models.Assignment{}
-	var courseStore CourseStore = &db.CourseMaker{db}
-	courseStore.CreateCourse(course)
+	CreateTablesIfNotExists(db)
+	defer Clean(db)
+	assignment := &models.Assignment{}
+	var assignmentStore AssignmentStore = &AssignmentMaker{db}
+	assignmentStore.CreateAssignment(assignment)
 
-	if course.ID == 0 {
-		t.Error("Failed to set a new ID for a created course")
+	if assignment.ID == 0 {
+		t.Error("Failed to set a new ID for a created assignment")
 	}
-	observedCourse := courseStore.GetCourseByID(course.ID)
-	if !course.Equals(observedCourse) {
-		t.Error("Observed course did not make the original course.")
+	observedAssignment, err := assignmentStore.GetAssignmentByID(assignment.ID)
+	if err != nil {
+		t.Error(err)
+	}
+	if !assignment.Equals(observedAssignment) {
+		t.Error("Observed assignment did not match the original assignment.")
 	}
 }
 
