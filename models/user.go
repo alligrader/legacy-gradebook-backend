@@ -11,8 +11,8 @@ type User struct {
 
 	GithubID    int
 	Email       string
-	StudentID   sql.NullInt
-	TeacherID   sql.NullInt
+	StudentID   sql.NullInt64
+	TeacherID   sql.NullInt64
 	CreatedAt   time.Time
 	LastUpdated time.Time
 }

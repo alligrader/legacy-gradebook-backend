@@ -31,12 +31,3 @@ func main() {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, GradeShaman!")
 }
-
-func pingDatabase() {
-	db := util.ConnectToDB()
-	if err := db.Ping(); err != nil {
-		log.Fatal(err)
-	} else {
-		log.Println("Connected!")
-	}
-}

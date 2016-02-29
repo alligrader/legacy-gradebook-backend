@@ -1,6 +1,7 @@
 package db
 
 import (
+	. "github.com/gradeshaman/gradebook-backend/models"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -27,7 +28,7 @@ func (maker *CourseMaker) DestroyCourse(class *Course) error {
 }
 
 type TeacherMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *TeacherMaker) CreateTeacher(teacher *Teacher) error {
@@ -48,7 +49,7 @@ func (maker *TeacherMaker) DestroyTeacher(t *Teacher) error {
 }
 
 type StudentMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *StudentMaker) CreateStudent(student *Student) error {
@@ -68,7 +69,7 @@ func (maker *StudentMaker) DestroyStudent(student *Student) error {
 }
 
 type UserMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *UserMaker) CreateUser(user *User) error {
@@ -89,28 +90,27 @@ func (maker *UserMaker) DestroyUser(user *User) error {
 }
 
 type TestScoreMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
-func (maker *TestScoreMaker) CreateTestStore(score *TestScore) error {
+func (maker *TestScoreMaker) CreateTestStore(score *Test) error {
 	return nil
 
 }
-func (maker *TestScoreMaker) UpdateTestScore(score *TestScore) error {
+func (maker *TestScoreMaker) UpdateTestScore(score *Test) error {
 	return nil
 
 }
-func (maker *TestScoreMaker) GetTestScoreByID(id int) (*TestScore, error) {
+func (maker *TestScoreMaker) GetTestScoreByID(id int) (*Test, error) {
 	return nil, nil
 
 }
-func (maker *TestScoreMaker) DestroyUser(score *TestScore) error {
+func (maker *TestScoreMaker) DestroyUser(score *Test) error {
 	return nil
-
 }
 
 type TestResultMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *TestResultMaker) CreateTestResult(result *TestResult) error {
@@ -127,11 +127,10 @@ func (maker *TestResultMaker) GetTestResultByID(id int) (*TestResult, error) {
 }
 func (maker *TestResultMaker) DestroyTestResult(result *TestResult) error {
 	return nil
-
 }
 
 type RunResultMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *RunResultMaker) CreateRunResult(result *RunResult) error {
@@ -148,16 +147,14 @@ func (maker *RunResultMaker) GetRunResultByID(id int) (*RunResult, error) {
 }
 func (maker *RunResultMaker) DestroyRunResult(result *RunResult) error {
 	return nil
-
 }
 
 type AssignmentMaker struct {
-	*sql.DB
+	*sqlx.DB
 }
 
 func (maker *AssignmentMaker) CreateAssignment(assig *Assignment) error {
 	return nil
-
 }
 
 func (maker *AssignmentMaker) UpdateAssignment(assig *Assignment) error {
@@ -171,5 +168,4 @@ func (maker *AssignmentMaker) GetAssignmentByID(id int) (*Assignment, error) {
 
 func (maker *AssignmentMaker) DestroyAssignment(assig *Assignment) error {
 	return nil
-
 }
