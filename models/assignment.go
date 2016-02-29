@@ -17,3 +17,8 @@ type Assignment struct {
 func (assig *Assignment) GetID() string {
 	return strconv.Itoa(assig.ID)
 }
+
+// TODO impl
+func (assig *Assignment) Equals(other *Assignment) bool {
+	return false
+}
