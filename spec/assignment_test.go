@@ -5,15 +5,23 @@ import (
 
 	"github.com/gradeshaman/gradebook-backend/db"
 	"github.com/gradeshaman/gradebook-backend/models"
-	"github.com/gradeshaman/gradebook-backend/util"
+	. "github.com/gradeshaman/gradebook-backend/util"
 )
+
+func TestCanReachDB(t *testing.T) {
+	config := GetDBConfigFromEnv()
+	db := config.ConnectToDB()
+	if err := db.Ping(); err != nil {
+		t.Error(err)
+	}
+}
 
 func TestCreateAssignment(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Select")
 	}
-	util.EmptyDatabase()
-	db := ConnectToDB()
+	config := GetDBConfigFromEnv()
+	db := config.ConnectToDB()
 	course := &models.Assignment{}
 	var courseStore CourseStore = &db.CourseMaker{db}
 	courseStore.CreateCourse(course)
