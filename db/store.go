@@ -1,5 +1,9 @@
 package db
 
+import (
+	. "github.com/gradeshaman/gradebook-backend/models"
+)
+
 type CourseStore interface {
 	Ping() bool
 	CreateCourse(class *Course) error
@@ -32,10 +36,10 @@ type UserStore interface {
 }
 type TestStore interface {
 	Ping() bool
-	CreateTestStore(score *TestScore) error
-	UpdateTestScore(score *TestScore) error
-	GetTestScoreByID(id int) (*TestScore, error)
-	DestroyUser(score *TestScore) error
+	CreateTestStore(score *Test) error
+	UpdateTestScore(score *Test) error
+	GetTestScoreByID(id int) (*Test, error)
+	DestroyUser(score *Test) error
 }
 type TestResultStore interface {
 	Ping() bool

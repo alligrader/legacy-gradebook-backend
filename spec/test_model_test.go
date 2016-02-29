@@ -4,22 +4,22 @@ import (
 	"testing"
 )
 
-func TestCreateClass(t *testing.T) {
+func TestCreateTestModel(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Select")
 	}
 }
 
-func TestUpdateClass(t *testing.T) {
+func TestUpdateTestModel(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Create")
 	}
 }
 
-func TestDeleteClass(t *testing.T) {
+func TestDeleteTestModel(t *testing.T) {
 }
 
-func TestSelectClass(t *testing.T) {
+func TestSelectTestModel(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Create")
 	}

@@ -2,25 +2,20 @@ package spec
 
 import (
 	"testing"
+
+	_ "github.com/gradeshaman/gradebook-backend/db"
+	_ "github.com/gradeshaman/gradebook-backend/models"
+	_ "github.com/gradeshaman/gradebook-backend/util"
 )
 
-func TestCreateClass(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Testing dependent on Select")
-	}
+func TestCreateCourse(t *testing.T) {
 }
 
-func TestUpdateClass(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Testing dependent on Create")
-	}
+func TestUpdateCourse(t *testing.T) {
 }
 
-func TestDeleteClass(t *testing.T) {
+func TestDeleteCourse(t *testing.T) {
 }
 
-func TestSelectClass(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Testing dependent on Create")
-	}
+func TestSelectCourse(t *testing.T) {
 }
