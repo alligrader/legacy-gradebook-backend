@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gradeshaman/gradebook-backend/tasks"
+	. "github.com/gradeshaman/gradebook-backend/tasks"
 	"github.com/gradeshaman/gradebook-backend/util"
 
 	log "github.com/Sirupsen/logrus"
-	_ "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -16,16 +16,11 @@ func main() {
 	util.Configure()
 	util.ConfigureLogger()
 
-	pingDatabase()
-
-	tasks.SendTask()
-	/*
-		r := mux.NewRouter()
-		r.HandleFunc("/", HomeHandler)
-		http.Handle("/", r)
-		log.Println("Running on port 8080")
-		log.Fatal(http.ListenAndServe(":8080", nil))
-	*/
+	r := mux.NewRouter()
+	r.HandleFunc("/", HomeHandler)
+	http.Handle("/", r)
+	log.Println("Running on port 8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
