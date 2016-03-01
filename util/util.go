@@ -10,6 +10,11 @@ import (
 	"io/ioutil"
 )
 
+func init() {
+	Configure()
+	ConfigureLogger()
+}
+
 type DBConfig struct {
 	Flavor     string
 	URI        string
@@ -21,7 +26,7 @@ type DBConfig struct {
 }
 
 func GetDBConfigFromEnv() *DBConfig {
-	Configure()
+
 	return &DBConfig{
 		Flavor:     viper.GetString("DB_FLAVOR"),
 		URI:        viper.GetString("DB_URI"),
@@ -50,7 +55,6 @@ func RemoveDatabase(db *sqlx.DB, database string) {
 }
 
 func CreateTablesIfExists(db *sqlx.DB, config *DBConfig) {
-	Configure()
 	if viper.GetBool("RUNNING_SCHEMA_BROKEN") {
 		ShellOut(config)
 		return
