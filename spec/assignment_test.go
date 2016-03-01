@@ -20,6 +20,7 @@ func TestDBSetUp(t *testing.T) {
 	config := GetDBConfigFromEnv()
 	db := config.ConnectToDB()
 	CreateTablesIfNotExists(db)
+	defer Clean(db)
 }
 
 func TestCreateAssignment(t *testing.T) {
@@ -30,6 +31,7 @@ func TestCreateAssignment(t *testing.T) {
 	db := config.ConnectToDB()
 	CreateTablesIfNotExists(db)
 	defer Clean(db)
+
 	assignment := &models.Assignment{}
 	var assignmentStore AssignmentStore = &AssignmentMaker{db}
 	assignmentStore.CreateAssignment(assignment)
