@@ -20,6 +20,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
+	r.HandleFunc("/auth/callback", AuthCallback)
 	http.Handle("/", r)
 	log.Println("Running on port 8000")
 	log.Fatal(http.ListenAndServe(":8000", nil))
@@ -27,4 +28,8 @@ func main() {
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, GradeShaman!")
+}
+
+func AuthCallback(w http.ResponseWriter, r *http.Request) {
+
 }
