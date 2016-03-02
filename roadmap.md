@@ -40,10 +40,10 @@ This includes, but is not limited to, the following interfaces:
 
 I was able to log in to Github using OAuth. Now, I need to make sure I request the right permissions, and store the access token in the database. I also need create an unguessable state string, probabling using time.Now() and bcrypt.
 
-I need to implement the code to interface with the Github API. Luckily, there's [this](https://github.com/google/go-github). Note that it requires use of [the OAuth library](https://github.com/golang/oauth2). It doens't look awful, but testing it is going to be a huge chore.
+I need to implement the code to interface with the Github API. Luckily, there's [this](https://github.com/google/go-github). Note that it requires use of [the OAuth library](https://github.com/golang/oauth2). It doesn't look awful, but testing it is going to be a huge chore.
 
 Luckily, the end goal is only to programmatically create a set of repos with the right properties. In particular, I need to have a teacher submit a repo name and a course. Then, I get each of the student from the course, and create a new team within the org for each student in the course. Then, I create a new repo for each of the students, and add the student's team to the repo.
-i
+
 # Step Four: Git Hooks
 
 Next, I need to implement a micro service that listens for Git hooks and creates messages in the queue to test a new commit. I might want to use [this](https://github.com/phayes/hookserve), which is at least partially designed to work for Github.
