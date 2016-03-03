@@ -1,6 +1,10 @@
-hash: 3af3902d4a411e2723f39c024a12ced76f3d114951a68cdcdaad15428ff1e13c
-updated: 2016-03-02T07:40:31.522586358Z
+hash: b38634648271a67fe9082a3ee8daaa57e7dc21e38bb835ad08de3a3419e508c6
+updated: 2016-03-03T11:22:49.13122167Z
 imports:
+- name: bitbucket.org/liamstask/goose
+  version: 8488cc47d90c8a502b1c41a462a6d9cc8ee0a895
+  subpackages:
+  - cmd/goose
 - name: github.com/armon/consul-api
   version: dcfedd50ed5334f96adee43fc88518a4f095e15c
 - name: github.com/auth0/go-jwt-middleware
@@ -10,7 +14,7 @@ imports:
   subpackages:
   - memcache
 - name: github.com/BurntSushi/toml
-  version: a4eecd407cf4129fc902ece859a0114e4cf1a7f4
+  version: 75869ce70f3cd0f6d1473c58f4adac5941f1055a
 - name: github.com/coreos/go-etcd
   version: 003851be7bb0694fe3cc457a49529a19388ee7cf
   subpackages:
@@ -71,7 +75,7 @@ imports:
 - name: github.com/onsi/gomega
   version: a1094b2db2d4845621602c667bd4ccf09834544e
 - name: github.com/RichardKnop/machinery
-  version: 81049829e419e2ef46c5700ab4d7fd6964f218b8
+  version: f28172158971aece996b6178dfea8c18929cdb6c
   subpackages:
   - v1
   - v1/config
@@ -140,7 +144,7 @@ imports:
   - internal/log
   - internal/remote_api
 - name: gopkg.in/fsnotify.v1
-  version: 8611c35ab31c1c28aa903d33cf8b6e44a399b09e
+  version: 875cf421b32f8f1b31bd43776297876d01542279
 - name: gopkg.in/Masterminds/squirrel.v1
   version: e21b13aa472ea70fe2e8172d668d1fee4028d2fd
 - name: gopkg.in/yaml.v2

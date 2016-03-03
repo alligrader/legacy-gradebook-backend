@@ -81,12 +81,12 @@ func AuthCallback(w http.ResponseWriter, r *http.Request) {
 }
 
 var userTemplate = `
-<p>Name: {{.Name}}</p>p>
-<p>Email: {{.Email}}</p>p>
-<p>NickName: {{.NickName}}</p>p>
-<p>Location: {{.Location}}</p>p>
-<p>AvatarURL: {{.AvatarURL}} <img src="{{.AvatarURL}}"></img>p>
-<p>Description: {{.Description}}</p>p>
-<p>UserID: {{.UserID}}</p>p>
-<p>AccessToken: {{.AccessToken}}</p>p>
+<p>Name: {{.Name}}</p>
+<p>Email: {{.Email}}</p>
+<p>NickName: {{.NickName}}</p>
+<p>Location: {{.Location}}</p>
+<p>AvatarURL: {{.AvatarURL}} <img src="{{.AvatarURL}}"></img></p>
+<p>Description: {{.Description}}</p>
+<p>UserID: {{.UserID}}</p>
+<p>AccessToken: {{.AccessToken}}</p>
 `
