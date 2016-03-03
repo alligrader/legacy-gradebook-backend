@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/spf13/viper"
+	_ "github.com/spf13/viper"
 )
 
 type ServerData struct {
@@ -13,5 +13,5 @@ func GetBaseURL() string {
 	return ""
 }
 func GetPrefix() string {
-	""
+	return ""
 }

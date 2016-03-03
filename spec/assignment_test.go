@@ -17,13 +17,19 @@ func TestCanReachDB(t *testing.T) {
 }
 
 func TestDBSetUp(t *testing.T) {
+	t.Skip("Testing Goose right now")
 	config := GetDBConfigFromEnv()
 	db := config.ConnectToDB()
 	CreateTablesIfNotExists(db)
 	defer Clean(db)
 }
 
+func TestGoose(t *testing.T) {
+	NewestMigration()
+}
+
 func TestCreateAssignment(t *testing.T) {
+	t.Skip("Working on Goose right now")
 	if testing.Short() {
 		t.Skip("Testing dependent on Select")
 	}

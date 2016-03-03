@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bitbucket.org/liamstask/goose/lib/goose"
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	_ "github.com/go-sql-driver/mysql"
@@ -8,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper/remote"
 	"io/ioutil"
+	"strings"
 )
 
 func init() {
@@ -121,4 +123,31 @@ func PrepAndExec(query string, db *sqlx.DB) error {
 		panic(err)
 	}
 	return nil
+}
+
+func NewestMigration() {
+
+	var dirpath string = viper.GetString("GOOSE_DIR")
+	cfg := newGooseConf()
+	version, err := goose.GetMostRecentDBVersion(dirpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = goose.RunMigrations(cfg, dirpath, version)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func newGooseConf() *goose.DBConf {
+
+	var p string = viper.GetString("GOOSE_DIR")
+	var env string = strings.ToLower(viper.GetString("ENV"))
+	var schema string = "db"
+	g, err := goose.NewDBConf(p, env, schema)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return g
 }
