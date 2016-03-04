@@ -1,6 +1,10 @@
-hash: 089acdbc4d5c3086c8ac7e2efd46e3297f2e7349ee9beca2f768e2bc2f0605a0
-updated: 2016-02-29T01:37:37.047075282-05:00
+hash: b38634648271a67fe9082a3ee8daaa57e7dc21e38bb835ad08de3a3419e508c6
+updated: 2016-03-03T11:22:49.13122167Z
 imports:
+- name: bitbucket.org/liamstask/goose
+  version: 8488cc47d90c8a502b1c41a462a6d9cc8ee0a895
+  subpackages:
+  - cmd/goose
 - name: github.com/armon/consul-api
   version: dcfedd50ed5334f96adee43fc88518a4f095e15c
 - name: github.com/auth0/go-jwt-middleware
@@ -10,7 +14,7 @@ imports:
   subpackages:
   - memcache
 - name: github.com/BurntSushi/toml
-  version: a4eecd407cf4129fc902ece859a0114e4cf1a7f4
+  version: 75869ce70f3cd0f6d1473c58f4adac5941f1055a
 - name: github.com/coreos/go-etcd
   version: 003851be7bb0694fe3cc457a49529a19388ee7cf
   subpackages:
@@ -22,16 +26,22 @@ imports:
   subpackages:
   - internal
   - redis
-- name: github.com/gedex/inflector
-  version: 8c0e57904488c554ab26caec525db5c92b23f051
 - name: github.com/go-sql-driver/mysql
-  version: 71f003c6e927d2550713e7637affb769977ece78
+  version: 1fca743146605a172a266e1654e01e5cd5669bee
+- name: github.com/golang/protobuf
+  version: 552c7b9542c194800fd493123b3798ef0a832032
+  subpackages:
+  - proto
 - name: github.com/gorilla/context
   version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
 - name: github.com/gorilla/mux
   version: c9e326e2bdec29039a3761c07bece13133863e1e
+- name: github.com/gorilla/securecookie
+  version: 8dacca26977607e637262eb66b15b7d39f2d3009
+- name: github.com/gorilla/sessions
+  version: 8cd570d8b4ed84b18bca9d8c3ae2db55885ccd8b
 - name: github.com/hashicorp/hcl
-  version: 1c284ec98f4b398443cbabb0d9197f7f4cc0077c
+  version: 71c7409f1abba841e528a80556ed2c67671744c3
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -45,58 +55,27 @@ imports:
   version: 398dd5876282499cdfd4cb8ea0f31a672abe9495
   subpackages:
   - reflectx
-- name: github.com/julienschmidt/httprouter
-  version: 77366a47451a56bb3ba682481eed85b64fea14e8
 - name: github.com/kr/pretty
   version: e6ac2fc51e89a3249e82157fa0bb7a18ef9dd5bb
 - name: github.com/kr/text
   version: bb797dc4fb8320488f47bf11de07a733d7233e1f
-- name: github.com/lann/builder
-  version: f22ce00fd9394014049dad11c244859432bd6820
-- name: github.com/lann/ps
-  version: 62de8c46ede02a7675c4c79c84883eb164cb71e3
 - name: github.com/magiconair/properties
   version: 497d0afefddf378f9ffb3c89db6a326985908519
 - name: github.com/manyminds/api2go
   version: 0f0aba686fffe91897ee4b7e1d682efbfcbac7fd
+- name: github.com/markbates/goth
+  version: b91c24e5af296fb59d54685bc3b9bdb51d1edf1a
   subpackages:
-  - jsonapi
-  - routing
+  - gothic
+  - providers/github
 - name: github.com/mitchellh/mapstructure
   version: d2dd0262208475919e1a362f675cfc0e7c10e905
 - name: github.com/onsi/ginkgo
   version: ac3d45ddd7ef5c4d7fc4d037b615a81f4d67981e
-  subpackages:
-  - config
-  - internal/codelocation
-  - internal/failer
-  - internal/remote
-  - internal/suite
-  - internal/testingtproxy
-  - internal/writer
-  - reporters
-  - reporters/stenographer
-  - types
-  - internal/containernode
-  - internal/leafnodes
-  - internal/spec
-  - internal/specrunner
 - name: github.com/onsi/gomega
   version: a1094b2db2d4845621602c667bd4ccf09834544e
-  subpackages:
-  - internal/assertion
-  - internal/asyncassertion
-  - internal/testingtsupport
-  - matchers
-  - types
-  - internal/oraclematcher
-  - format
-  - matchers/support/goraph/bipartitegraph
-  - matchers/support/goraph/edge
-  - matchers/support/goraph/node
-  - matchers/support/goraph/util
 - name: github.com/RichardKnop/machinery
-  version: a58fbce0cc09760039ff5e5546242c17f2d97afa
+  version: f28172158971aece996b6178dfea8c18929cdb6c
   subpackages:
   - v1
   - v1/config
@@ -146,10 +125,28 @@ imports:
   version: 6acef71eb69611914f7a30939ea9f6e194c78172
   subpackages:
   - context
+- name: golang.org/x/oauth2
+  version: 2cd4472c321b6cba78e029d99f0e7fe51032fd21
+  subpackages:
+  - internal
+- name: golang.org/x/sys
+  version: 54535356f1d989a6072b0898d9ddc4dd7009dcd3
+  subpackages:
+  - unix
+- name: google.golang.org/appengine
+  version: 12d5545dc1cfa6047a286d5e853841b6471f4c19
+  subpackages:
+  - urlfetch
+  - internal
+  - internal/urlfetch
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
 - name: gopkg.in/fsnotify.v1
-  version: 8611c35ab31c1c28aa903d33cf8b6e44a399b09e
+  version: 875cf421b32f8f1b31bd43776297876d01542279
 - name: gopkg.in/Masterminds/squirrel.v1
-  version: 7ed60807eee5f32ec15e57ccb4e11df4da9e7d05
+  version: e21b13aa472ea70fe2e8172d668d1fee4028d2fd
 - name: gopkg.in/yaml.v2
   version: f7716cbe52baa25d2e9b0d0da546fcf909fc16b4
 devImports: []

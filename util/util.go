@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bitbucket.org/liamstask/goose/lib/goose"
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	_ "github.com/go-sql-driver/mysql"
@@ -8,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper/remote"
 	"io/ioutil"
+	"strings"
 )
 
 func init() {
@@ -52,16 +54,6 @@ func RemoveDatabase(db *sqlx.DB, database string) {
 		log.Error(err)
 	}
 	tx.Commit()
-}
-
-func CreateTablesIfExists(db *sqlx.DB, config *DBConfig) {
-	if viper.GetBool("RUNNING_SCHEMA_BROKEN") {
-		ShellOut(config)
-		return
-	}
-	RemoveDatabase(db, config.Name)
-	schema := config.Schema()
-	PrepAndExec(schema, db)
 }
 
 func Configure() {
@@ -121,4 +113,55 @@ func PrepAndExec(query string, db *sqlx.DB) error {
 		panic(err)
 	}
 	return nil
+}
+
+func Up() {
+
+	var dirpath string = viper.GetString("GOOSE_DIR")
+	cfg := newGooseConf()
+	version, err := goose.GetMostRecentDBVersion(dirpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = goose.RunMigrations(cfg, dirpath, version)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func newGooseConf() *goose.DBConf {
+
+	var p string = viper.GetString("GOOSE_DIR")
+	var env string = strings.ToLower(viper.GetString("ENV"))
+	var schema string = "db"
+	g, err := goose.NewDBConf(p, env, schema)
+	if err != nil {
+		panic(err)
+	}
+	return g
+}
+
+func Down() {
+	var dirpath string = viper.GetString("GOOSE_DIR")
+	cfg := newGooseConf()
+	version, err := goose.GetMostRecentDBVersion(dirpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	previous, err := goose.GetPreviousDBVersion(dirpath, version)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = goose.RunMigrations(cfg, dirpath, previous)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func WithCleanDB(f func()) {
+	Up()
+	defer Down()
+	f()
 }

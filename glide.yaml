@@ -12,3 +12,8 @@ import:
 - package: github.com/go-sql-driver/mysql
 - package: github.com/RichardKnop/machinery
 - package: gopkg.in/Masterminds/squirrel.v1
+- package: github.com/markbates/goth
+- package: github.com/gorilla/sessions
+- package: bitbucket.org/liamstask/goose
+  subpackages:
+  - cmd/goose

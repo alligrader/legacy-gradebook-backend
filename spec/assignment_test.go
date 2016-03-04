@@ -16,36 +16,27 @@ func TestCanReachDB(t *testing.T) {
 	}
 }
 
-func TestDBSetUp(t *testing.T) {
-	config := GetDBConfigFromEnv()
-	db := config.ConnectToDB()
-	CreateTablesIfNotExists(db)
-	defer Clean(db)
-}
-
 func TestCreateAssignment(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Testing dependent on Select")
-	}
-	config := GetDBConfigFromEnv()
-	db := config.ConnectToDB()
-	CreateTablesIfNotExists(db)
-	defer Clean(db)
 
-	assignment := &models.Assignment{}
-	var assignmentStore AssignmentStore = &AssignmentMaker{db}
-	assignmentStore.CreateAssignment(assignment)
+	WithCleanDB(func() {
+		config := GetDBConfigFromEnv()
+		db := config.ConnectToDB()
 
-	if assignment.ID == 0 {
-		t.Error("Failed to set a new ID for a created assignment")
-	}
-	observedAssignment, err := assignmentStore.GetAssignmentByID(assignment.ID)
-	if err != nil {
-		t.Error(err)
-	}
-	if !assignment.Equals(observedAssignment) {
-		t.Error("Observed assignment did not match the original assignment.")
-	}
+		assignment := &models.Assignment{}
+		var assignmentStore AssignmentStore = &AssignmentMaker{db}
+		assignmentStore.CreateAssignment(assignment)
+
+		if assignment.ID == 0 {
+			t.Error("Failed to set a new ID for a created assignment")
+		}
+		observedAssignment, err := assignmentStore.GetAssignmentByID(assignment.ID)
+		if err != nil {
+			t.Error(err)
+		}
+		if !assignment.Equals(observedAssignment) {
+			t.Error("Observed assignment did not match the original assignment.")
+		}
+	})
 }
 
 func TestUpdateAssignment(t *testing.T) {

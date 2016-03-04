@@ -6,8 +6,21 @@ This document will serve as the roadmap for feature work, as well as a complete 
 # Step One: Models
 
 First, I have to correct the models to make sure that I use an array where I'm supposed to.
+Next, make sure that all of the models have the correct fields (aren't missing any)
+Make sure that Goose can generate them.
 
 Second, I have to implement the model tests so that we can "red-green-refactor" our way to success with the SQL queries (DB package).
+
+Write a "WithCleanDB()" function that looks like this:
+
+    ```golang
+    func WithCleanDB(func a ) {
+        Migrate()
+        defer Clean()
+        a()
+    }
+
+    ```
 
 # Step Two: Interfaces
 
@@ -25,7 +38,9 @@ This includes, but is not limited to, the following interfaces:
 
 # Step Three: Repo Creation
 
-I need to implement the code to interface with the Github API. Luckily, there's [this](https://github.com/google/go-github). Note that it requires use of [the OAuth library](https://github.com/golang/oauth2). It doens't look awful, but testing it is going to be a huge chore.
+I was able to log in to Github using OAuth. Now, I need to make sure I request the right permissions, and store the access token in the database. I also need create an unguessable state string, probabling using time.Now() and bcrypt.
+
+I need to implement the code to interface with the Github API. Luckily, there's [this](https://github.com/google/go-github). Note that it requires use of [the OAuth library](https://github.com/golang/oauth2). It doesn't look awful, but testing it is going to be a huge chore.
 
 Luckily, the end goal is only to programmatically create a set of repos with the right properties. In particular, I need to have a teacher submit a repo name and a course. Then, I get each of the student from the course, and create a new team within the org for each student in the course. Then, I create a new repo for each of the students, and add the student's team to the repo.
 
@@ -34,6 +49,13 @@ Luckily, the end goal is only to programmatically create a set of repos with the
 Next, I need to implement a micro service that listens for Git hooks and creates messages in the queue to test a new commit. I might want to use [this](https://github.com/phayes/hookserve), which is at least partially designed to work for Github.
 
 # TODO
+
+- Set the unguessable state string using bcrypt and time.Now()
+    - This should probable mean that oauth is going in it's own package somewhere
+
+- In the oauth package, set the gorilla session store and the GetProviderName() function to work with gorilla mux
+
+- Make sure that Goose installs and runs on Vagrant start
 
 - Implement the `tasks` package to build and execute the Docker containers
 
@@ -55,3 +77,9 @@ Next, I need to implement a micro service that listens for Git hooks and creates
 - Implement misc JSON:API functions.
 
 - Implement server_data.go in `db`
+
+- Clean up the `postinstall` scripts and the rest of the Vagrant install bash.
+
+- Tear out the test code that uses the Shell to load the schema and replace it with Goose.
+
+[x] Make sure that Goose doesn't return an error when it's already at the newest migration
