@@ -55,8 +55,6 @@ Next, I need to implement a micro service that listens for Git hooks and creates
 
 - In the oauth package, set the gorilla session store and the GetProviderName() function to work with gorilla mux
 
-- Make sure that Goose doesn't return an error when it's already at the newest migration
-
 - Make sure that Goose installs and runs on Vagrant start
 
 - Implement the `tasks` package to build and execute the Docker containers
@@ -79,3 +77,9 @@ Next, I need to implement a micro service that listens for Git hooks and creates
 - Implement misc JSON:API functions.
 
 - Implement server_data.go in `db`
+
+- Clean up the `postinstall` scripts and the rest of the Vagrant install bash.
+
+- Tear out the test code that uses the Shell to load the schema and replace it with Goose.
+
+[x] Make sure that Goose doesn't return an error when it's already at the newest migration

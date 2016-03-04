@@ -56,16 +56,6 @@ func RemoveDatabase(db *sqlx.DB, database string) {
 	tx.Commit()
 }
 
-func CreateTablesIfExists(db *sqlx.DB, config *DBConfig) {
-	if viper.GetBool("RUNNING_SCHEMA_BROKEN") {
-		ShellOut(config)
-		return
-	}
-	RemoveDatabase(db, config.Name)
-	schema := config.Schema()
-	PrepAndExec(schema, db)
-}
-
 func Configure() {
 	viper.SetEnvPrefix("SHAMAN")
 	viper.AutomaticEnv()
@@ -125,7 +115,7 @@ func PrepAndExec(query string, db *sqlx.DB) error {
 	return nil
 }
 
-func NewestMigration() {
+func Up() {
 
 	var dirpath string = viper.GetString("GOOSE_DIR")
 	cfg := newGooseConf()
@@ -147,7 +137,31 @@ func newGooseConf() *goose.DBConf {
 	var schema string = "db"
 	g, err := goose.NewDBConf(p, env, schema)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return g
+}
+
+func Down() {
+	var dirpath string = viper.GetString("GOOSE_DIR")
+	cfg := newGooseConf()
+	version, err := goose.GetMostRecentDBVersion(dirpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	previous, err := goose.GetPreviousDBVersion(dirpath, version)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = goose.RunMigrations(cfg, dirpath, previous)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func WithCleanDB(f func()) {
+	Up()
+	defer Down()
+	f()
 }
