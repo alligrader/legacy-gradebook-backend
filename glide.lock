@@ -1,10 +1,11 @@
 hash: b38634648271a67fe9082a3ee8daaa57e7dc21e38bb835ad08de3a3419e508c6
-updated: 2016-03-03T11:22:49.13122167Z
+updated: 2016-03-05T06:21:16.456215444Z
 imports:
 - name: bitbucket.org/liamstask/goose
   version: 8488cc47d90c8a502b1c41a462a6d9cc8ee0a895
   subpackages:
   - cmd/goose
+  - lib/goose
 - name: github.com/armon/consul-api
   version: dcfedd50ed5334f96adee43fc88518a4f095e15c
 - name: github.com/auth0/go-jwt-middleware
@@ -27,9 +28,9 @@ imports:
   - internal
   - redis
 - name: github.com/go-sql-driver/mysql
-  version: 1fca743146605a172a266e1654e01e5cd5669bee
+  version: 0f2db9e6c9cff80a97ca5c2c5096242cc1554e16
 - name: github.com/golang/protobuf
-  version: 552c7b9542c194800fd493123b3798ef0a832032
+  version: c75fbf01dc6cb73649c4cd4326182c3e44aa9dbb
   subpackages:
   - proto
 - name: github.com/gorilla/context
@@ -59,6 +60,18 @@ imports:
   version: e6ac2fc51e89a3249e82157fa0bb7a18ef9dd5bb
 - name: github.com/kr/text
   version: bb797dc4fb8320488f47bf11de07a733d7233e1f
+- name: github.com/kylelemons/go-gypsy
+  version: 42fc2c7ee9b8bd0ff636cd2d7a8c0a49491044c5
+  subpackages:
+  - yaml
+- name: github.com/lann/builder
+  version: f22ce00fd9394014049dad11c244859432bd6820
+- name: github.com/lann/ps
+  version: 62de8c46ede02a7675c4c79c84883eb164cb71e3
+- name: github.com/lib/pq
+  version: e182dc4027e2ded4b19396d638610f2653295f36
+  subpackages:
+  - oid
 - name: github.com/magiconair/properties
   version: 497d0afefddf378f9ffb3c89db6a326985908519
 - name: github.com/manyminds/api2go
@@ -68,6 +81,8 @@ imports:
   subpackages:
   - gothic
   - providers/github
+- name: github.com/mattn/go-sqlite3
+  version: 45f056ca8f5ef4ee3f68796167a0a0e6a6214813
 - name: github.com/mitchellh/mapstructure
   version: d2dd0262208475919e1a362f675cfc0e7c10e905
 - name: github.com/onsi/ginkgo
@@ -111,6 +126,12 @@ imports:
   - backend/consul
   - backend/etcd
   - encoding/secconf
+- name: github.com/ziutek/mymysql
+  version: e5d54ebfda3f8a15e7b192b65c2aa10cb4fd7e04
+  subpackages:
+  - godrv
+  - mysql
+  - native
 - name: golang.org/x/crypto
   version: 5dc8cb4b8a8eb076cbb5a06bc3b8682c15bdbbd3
   subpackages:
@@ -122,15 +143,15 @@ imports:
   - cast5
   - openpgp/elgamal
 - name: golang.org/x/net
-  version: 6acef71eb69611914f7a30939ea9f6e194c78172
+  version: 08f168e593b5aab61849054b77981de812666697
   subpackages:
   - context
 - name: golang.org/x/oauth2
-  version: 2cd4472c321b6cba78e029d99f0e7fe51032fd21
+  version: 045497edb6234273d67dbc25da3f2ddbc4c4cacf
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 54535356f1d989a6072b0898d9ddc4dd7009dcd3
+  version: 7a56174f0086b32866ebd746a794417edbc678a1
   subpackages:
   - unix
 - name: google.golang.org/appengine
