@@ -88,8 +88,6 @@ func (config *DBConfig) ConnectToDB() *sqlx.DB {
 
 func PrepAndExec(query string, db Execer, args ...interface{}) (result sql.Result, err error) {
 	var (
-		// err    error
-		// result sql.Result
 		tx   *sqlx.Tx
 		stmt *sqlx.Stmt
 	)
@@ -100,31 +98,57 @@ func PrepAndExec(query string, db Execer, args ...interface{}) (result sql.Resul
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
-			log.Info("We're correctly panicking and recovering")
 		}
 	}()
 
 	if err != nil {
-		log.Info("We're fucking up inside the commit creation")
 		panic(err)
 		return result, err
 	}
 
 	stmt, err = tx.Preparex(query)
 	if err != nil {
-		log.Info("We're fucking up inside the statement preparation")
 		panic(err)
-		log.Info("We're about to return from the prep statement")
-		log.Info(err)
 		return result, err
 	}
 	if result, err = stmt.Exec(args...); err != nil {
-		log.Info("We're fucking up inside the stmt executation")
 		panic(err)
 	}
 
-	log.Info("We're correctly returning from the function.")
 	return result, err
+}
+
+func GetAndMarshal(query string, db Execer, destination interface{}, args ...interface{}) (err error) {
+	var (
+		tx   *sqlx.Tx
+		stmt *sqlx.Stmt
+	)
+
+	log.Info(query)
+	tx, err = db.Beginx()
+	defer tx.Commit()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err != nil {
+		panic(err)
+		return err
+	}
+
+	stmt, err = tx.Preparex(query)
+	if err != nil {
+		panic(err)
+		return err
+	}
+	if err = stmt.Get(destination, args...); err != nil {
+		panic(err)
+	}
+
+	return err
+
 }
 
 func newGooseConf() *goose.DBConf {

@@ -10,6 +10,7 @@ import (
 
 func TestCreateAssignment(t *testing.T) {
 
+	t.Skip("Dependent on course impl")
 	WithCleanDB(func() {
 		config := GetDBConfigFromEnv()
 		db := config.ConnectToDB()

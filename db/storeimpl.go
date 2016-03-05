@@ -13,8 +13,30 @@ type CourseMaker struct {
 	*sqlx.DB
 }
 
-func (maker *CourseMaker) CreateCourse(class *Course) error {
+func (maker *CourseMaker) CreateCourse(course *Course) error {
+
+	query, _, err := sq.
+		Insert("course").Columns().Values().
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	log.Info(query)
+
+	result, err := util.PrepAndExec(query, maker)
+	if err != nil {
+		return err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	course.ID = int(id)
+
 	return nil
+
 }
 
 func (maker *CourseMaker) UpdateCourse(class *Course) error {
@@ -23,7 +45,21 @@ func (maker *CourseMaker) UpdateCourse(class *Course) error {
 }
 
 func (maker *CourseMaker) GetCourseByID(id int) (*Course, error) {
-	return nil, nil
+	query, _, err := sq.
+		Select("id, created_at, last_updated").From("course").
+		Where(sq.Eq{"ID": id}).
+		ToSql()
+
+	if err != nil {
+		return nil, err
+	}
+	var course = &Course{}
+	err = util.GetAndMarshal(query, maker, course, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return course, nil
 
 }
 func (maker *CourseMaker) DestroyCourse(class *Course) error {
@@ -161,7 +197,6 @@ func (maker *AssignmentMaker) CreateAssignment(assig *Assignment) error {
 	query, _, err := sq.
 		Insert("assignment").Columns("student_id", "teacher_id").
 		Values(assig.StudentID, assig.TeacherID).
-		//Values(assig.StudentID, assig.TeacherID).
 		ToSql()
 	if err != nil {
 		return err
