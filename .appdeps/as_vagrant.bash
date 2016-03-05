@@ -10,6 +10,7 @@ function set_env {
     echo "export GOBIN=\$GOPATH/bin" >> $HOME/.profile
     echo "export PATH=\$PATH:/usr/local/go/bin:$GOPATH/bin" >> $HOME/.profile
     echo 'export GO15VENDOREXPERIMENT=1' >> ~/.profile
+    echo "cd $APPDIR" >> /home/vagrant/.bashrc
     source $HOME/.profile
 }
 

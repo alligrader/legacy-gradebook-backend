@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/viper"
 
 	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/spf13/viper/remote"
 )
 
 func init() {
@@ -92,7 +91,6 @@ func PrepAndExec(query string, db Execer, args ...interface{}) (result sql.Resul
 		stmt *sqlx.Stmt
 	)
 
-	log.Info(query)
 	tx, err = db.Beginx()
 	defer tx.Commit()
 	defer func() {
@@ -124,7 +122,6 @@ func GetAndMarshal(query string, db Execer, destination interface{}, args ...int
 		stmt *sqlx.Stmt
 	)
 
-	log.Info(query)
 	tx, err = db.Beginx()
 	defer tx.Commit()
 	defer func() {

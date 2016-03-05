@@ -6,7 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	sq "gopkg.in/Masterminds/squirrel.v1"
 
-	log "github.com/Sirupsen/logrus"
+	_ "github.com/Sirupsen/logrus"
 )
 
 type CourseMaker struct {
@@ -16,15 +16,13 @@ type CourseMaker struct {
 func (maker *CourseMaker) CreateCourse(course *Course) error {
 
 	query, _, err := sq.
-		Insert("course").Columns().Values().
+		Insert("course").Columns("name").Values("name").
 		ToSql()
 	if err != nil {
 		return err
 	}
 
-	log.Info(query)
-
-	result, err := util.PrepAndExec(query, maker)
+	result, err := util.PrepAndExec(query, maker, course.Name)
 	if err != nil {
 		return err
 	}
@@ -39,14 +37,28 @@ func (maker *CourseMaker) CreateCourse(course *Course) error {
 
 }
 
-func (maker *CourseMaker) UpdateCourse(class *Course) error {
+func (maker *CourseMaker) UpdateCourse(course *Course) error {
+
+	query, _, err := sq.
+		Update("course").
+		Set("name", course.Name).
+		Where(sq.Eq{"id": course.ID}).
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	_, err = util.PrepAndExec(query, maker, course.Name, course.ID)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
 func (maker *CourseMaker) GetCourseByID(id int) (*Course, error) {
 	query, _, err := sq.
-		Select("id, created_at, last_updated").From("course").
+		Select("id, name, created_at, last_updated").From("course").
 		Where(sq.Eq{"ID": id}).
 		ToSql()
 
@@ -62,7 +74,19 @@ func (maker *CourseMaker) GetCourseByID(id int) (*Course, error) {
 	return course, nil
 
 }
-func (maker *CourseMaker) DestroyCourse(class *Course) error {
+func (maker *CourseMaker) DestroyCourse(course *Course) error {
+	query, _, err := sq.
+		Delete("course").
+		Where(sq.Eq{"ID": course.ID}).
+		ToSql()
+
+	if err != nil {
+		return err
+	}
+	_, err = util.PrepAndExec(query, maker, course.ID)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -201,7 +225,6 @@ func (maker *AssignmentMaker) CreateAssignment(assig *Assignment) error {
 	if err != nil {
 		return err
 	}
-	log.Warn(query)
 
 	result, err := util.PrepAndExec(query, maker, assig.StudentID, assig.TeacherID)
 	if err != nil {

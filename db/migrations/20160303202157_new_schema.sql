@@ -3,6 +3,7 @@
 -- SQL in section 'Up' is executed when this migration is applied
 create table course (
     id int auto_increment,
+    name varchar(255) NOT NULL,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 

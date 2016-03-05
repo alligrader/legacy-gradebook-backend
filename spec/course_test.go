@@ -5,16 +5,20 @@ import (
 
 	. "github.com/gradeshaman/gradebook-backend/db"
 	"github.com/gradeshaman/gradebook-backend/models"
-	. "github.com/gradeshaman/gradebook-backend/util"
+	"github.com/gradeshaman/gradebook-backend/util"
+	"github.com/jmoiron/sqlx"
 )
 
 func TestCreateCourse(t *testing.T) {
-	WithCleanDB(func() {
-		config := GetDBConfigFromEnv()
-		db := config.ConnectToDB()
+	util.WithCleanDB(func() {
 
-		course := &models.Course{}
-		var courseStore CourseStore = &CourseMaker{db}
+		var (
+			config      *util.DBConfig = util.GetDBConfigFromEnv()
+			db          *sqlx.DB       = config.ConnectToDB()
+			course      *models.Course = &models.Course{Name: "Dr. Misurda's Wild Ride"}
+			courseStore CourseStore    = &CourseMaker{db}
+		)
+
 		err := courseStore.CreateCourse(course)
 		if err != nil {
 			t.Fatal(err)
@@ -29,9 +33,6 @@ func TestCreateCourse(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		if course == nil {
-			t.Fatal("What the fuck?")
-		}
 		if !course.Equals(observedCourse) {
 			t.Fatal("Observed course did not match the original course.")
 		}
@@ -39,9 +40,58 @@ func TestCreateCourse(t *testing.T) {
 }
 
 func TestUpdateCourse(t *testing.T) {
+	util.WithCleanDB(func() {
+
+		var (
+			config      *util.DBConfig = util.GetDBConfigFromEnv()
+			db          *sqlx.DB       = config.ConnectToDB()
+			course      *models.Course = &models.Course{}
+			courseStore CourseStore    = &CourseMaker{db}
+		)
+
+		_ = courseStore.CreateCourse(course)
+		course.Name = "Advanced Topics in Static Analysis"
+		err := courseStore.UpdateCourse(course)
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		observedCourse, err := courseStore.GetCourseByID(course.ID)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if !course.Equals(observedCourse) {
+			t.Fatal("The observed course does not match what was passed into the database.")
+		}
+		if observedCourse.Name != "Advanced Topics in Static Analysis" {
+			t.Fatal("The object in the database was not updated with a new name.")
+		}
+	})
 }
 
 func TestDeleteCourse(t *testing.T) {
+	util.WithCleanDB(func() {
+
+		var (
+			config      *util.DBConfig = util.GetDBConfigFromEnv()
+			db          *sqlx.DB       = config.ConnectToDB()
+			course      *models.Course = &models.Course{}
+			courseStore CourseStore    = &CourseMaker{db}
+		)
+
+		_ = courseStore.CreateCourse(course)
+		err := courseStore.DestroyCourse(course)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		_, err = courseStore.GetCourseByID(course.ID)
+		if err == nil {
+			t.Fatal("No error, when an error is expected.")
+		}
+	})
 }
 
 func TestSelectCourse(t *testing.T) {

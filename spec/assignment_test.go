@@ -5,18 +5,21 @@ import (
 
 	. "github.com/gradeshaman/gradebook-backend/db"
 	"github.com/gradeshaman/gradebook-backend/models"
-	. "github.com/gradeshaman/gradebook-backend/util"
+	"github.com/gradeshaman/gradebook-backend/util"
+	"github.com/jmoiron/sqlx"
 )
 
 func TestCreateAssignment(t *testing.T) {
 
 	t.Skip("Dependent on course impl")
-	WithCleanDB(func() {
-		config := GetDBConfigFromEnv()
-		db := config.ConnectToDB()
+	util.WithCleanDB(func() {
+		var (
+			config          *util.DBConfig     = util.GetDBConfigFromEnv()
+			db              *sqlx.DB           = config.ConnectToDB()
+			assignment      *models.Assignment = &models.Assignment{}
+			assignmentStore AssignmentStore    = &AssignmentMaker{db}
+		)
 
-		assignment := &models.Assignment{}
-		var assignmentStore AssignmentStore = &AssignmentMaker{db}
 		err := assignmentStore.CreateAssignment(assignment)
 		if err != nil {
 			t.Fatal(err)
