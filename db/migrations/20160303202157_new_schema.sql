@@ -4,7 +4,7 @@
 create table course (
     id int auto_increment,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     primary key (id)
 );
@@ -13,7 +13,7 @@ create table teacher (
     id int auto_increment,
     course_id int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     foreign key (course_id) REFERENCES course(id),
     primary key (id)
@@ -23,7 +23,7 @@ create table student (
     id int auto_increment,
     course_id int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     foreign key (course_id) REFERENCES course(id),
     primary key (id)
@@ -36,7 +36,7 @@ create table user (
     student_id int,
     teacher_id int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     foreign key (student_id) REFERENCES student(id),
     foreign key (teacher_id) REFERENCES teacher(id),
@@ -48,7 +48,7 @@ create table test (
     id int auto_increment,
     weight int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     primary key (id)
 );
@@ -59,7 +59,7 @@ create table test_result (
     error_message text,
     test_id int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     foreign key (test_id) REFERENCES test(id),
     primary key (id)
@@ -70,7 +70,7 @@ create table run_result (
     test_result_id int,
     compilation_failure text,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     foreign key (test_result_id) REFERENCES test_result(id),
     primary key (id)
@@ -81,7 +81,7 @@ create table assignment (
     student_id int,
     teacher_id int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     foreign key (student_id) REFERENCES student(id),
     foreign key (teacher_id) REFERENCES teacher(id),
@@ -94,7 +94,8 @@ create table repo (
     assignment_id int,
     run_result_id int,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp ON UPDATE CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
 
     foreign key (student_id) REFERENCES student(id),
     foreign key (assignment_id) REFERENCES assignment(id),

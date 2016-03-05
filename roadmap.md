@@ -50,36 +50,38 @@ Next, I need to implement a micro service that listens for Git hooks and creates
 
 # TODO
 
-- Set the unguessable state string using bcrypt and time.Now()
+- [ ] Write the SQL for the Course, Student, and Teacher tables so that you can test the success of Assignment
+
+- [ ] Set the unguessable state string using bcrypt and time.Now()
     - This should probable mean that oauth is going in it's own package somewhere
 
-- In the oauth package, set the gorilla session store and the GetProviderName() function to work with gorilla mux
+- [ ] In the oauth package, set the gorilla session store and the GetProviderName() function to work with gorilla mux
 
-- Make sure that Goose installs and runs on Vagrant start
+- [ ] Make sure that Goose installs and runs on Vagrant start
 
-- Implement the `tasks` package to build and execute the Docker containers
+- [ ] Implement the `tasks` package to build and execute the Docker containers
 
-- Implement the `git hooks` package to receive information from github.
+- [ ] Implement the `git hooks` package to receive information from github.
 
-- Implement the tests for the model
+- [ ] Implement the tests for the model
 
-- Correct the models to have arrays when referencing foreign keys in a one-to-many relationship.
+- [ ] Correct the models to have arrays when referencing foreign keys in a one-to-many relationship.
 
-- Implement Equals on each of the models
+- [ ] Implement Equals on each of the models
     - This is dependent on having the models corrected.
 
-- Complete enough SQL to get all of the tests to pass
+- [ ] Complete enough SQL to get all of the tests to pass
 
-- Implement a set of integration tests using Response Recorder from `"net/http/httptest"`
+- [ ] Implement a set of integration tests using Response Recorder from `"net/http/httptest"`
 
-- Make sure that each of the models implements the correct set of interfaces for `api2go`. 
+- [ ] Make sure that each of the models implements the correct set of interfaces for `api2go`. 
 
-- Implement misc JSON:API functions.
+- [ ] Implement misc JSON:API functions.
 
-- Implement server_data.go in `db`
+- [ ] Implement server_data.go in `db`
 
-- Clean up the `postinstall` scripts and the rest of the Vagrant install bash.
+- [ ] Clean up the `postinstall` scripts and the rest of the Vagrant install bash.
 
-- Tear out the test code that uses the Shell to load the schema and replace it with Goose.
+- [ ] Tear out the test code that uses the Shell to load the schema and replace it with Goose.
 
-[x] Make sure that Goose doesn't return an error when it's already at the newest migration
+- [x] Make sure that Goose doesn't return an error when it's already at the newest migration

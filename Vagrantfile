@@ -29,8 +29,6 @@ Vagrant.configure(2) do |config|
     d.run "rabbit", image: "rabbitmq:3.6.0-management", args: "-p 8080:15672 -p 5672:5672"
   end
 
-  # config.vm.provision "shell", path: "postinstall.bash"
-
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
   # https://docs.vagrantup.com/v2/push/atlas.html for more information.
