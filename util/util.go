@@ -1,15 +1,18 @@
 package util
 
 import (
-	"bitbucket.org/liamstask/goose/lib/goose"
+	"database/sql"
 	"fmt"
+	"strings"
+
 	log "github.com/Sirupsen/logrus"
-	_ "github.com/go-sql-driver/mysql"
+
+	"bitbucket.org/liamstask/goose/lib/goose"
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
+
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/spf13/viper/remote"
-	"io/ioutil"
-	"strings"
 )
 
 func init() {
@@ -27,15 +30,18 @@ type DBConfig struct {
 	SchemaFile string
 }
 
+type Execer interface {
+	Beginx() (*sqlx.Tx, error)
+}
+
 func GetDBConfigFromEnv() *DBConfig {
 
 	return &DBConfig{
-		Flavor:     viper.GetString("DB_FLAVOR"),
-		URI:        viper.GetString("DB_URI"),
-		Host:       viper.GetString("DB_HOST"),
-		Port:       viper.GetString("DB_PORT"),
-		Name:       viper.GetString("DB_NAME"),
-		SchemaFile: viper.GetString("DB_SCHEMA"),
+		Flavor: viper.GetString("DB_FLAVOR"),
+		URI:    viper.GetString("DB_URI"),
+		Host:   viper.GetString("DB_HOST"),
+		Port:   viper.GetString("DB_PORT"),
+		Name:   viper.GetString("DB_NAME"),
 	}
 }
 
@@ -80,39 +86,57 @@ func (config *DBConfig) ConnectToDB() *sqlx.DB {
 	return result
 }
 
-func (config *DBConfig) Schema() string {
-	name := config.SchemaFile
-	result, err := ioutil.ReadFile(name)
-	if err != nil {
-		log.Error(err)
-	}
-	return string(result)
-}
+func PrepAndExec(query string, db Execer, args ...interface{}) (result sql.Result, err error) {
+	var (
+		// err    error
+		// result sql.Result
+		tx   *sqlx.Tx
+		stmt *sqlx.Stmt
+	)
 
-func PrepAndExec(query string, db *sqlx.DB) error {
-	var err error
 	log.Info(query)
-	tx, err := db.Beginx()
+	tx, err = db.Beginx()
 	defer tx.Commit()
 	defer func() {
 		if r := recover(); r != nil {
-			log.Error(err)
 			tx.Rollback()
+			log.Info("We're correctly panicking and recovering")
 		}
 	}()
 
 	if err != nil {
+		log.Info("We're fucking up inside the commit creation")
+		panic(err)
+		return result, err
+	}
+
+	stmt, err = tx.Preparex(query)
+	if err != nil {
+		log.Info("We're fucking up inside the statement preparation")
+		panic(err)
+		log.Info("We're about to return from the prep statement")
+		log.Info(err)
+		return result, err
+	}
+	if result, err = stmt.Exec(args...); err != nil {
+		log.Info("We're fucking up inside the stmt executation")
 		panic(err)
 	}
 
-	stmt, err := tx.Preparex(query)
+	log.Info("We're correctly returning from the function.")
+	return result, err
+}
+
+func newGooseConf() *goose.DBConf {
+
+	var p string = viper.GetString("GOOSE_DIR")
+	var env string = strings.ToLower(viper.GetString("ENV"))
+	var schema string = "db"
+	g, err := goose.NewDBConf(p, env, schema)
 	if err != nil {
 		panic(err)
 	}
-	if _, err = stmt.Exec(); err != nil {
-		panic(err)
-	}
-	return nil
+	return g
 }
 
 func Up() {
@@ -128,18 +152,6 @@ func Up() {
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func newGooseConf() *goose.DBConf {
-
-	var p string = viper.GetString("GOOSE_DIR")
-	var env string = strings.ToLower(viper.GetString("ENV"))
-	var schema string = "db"
-	g, err := goose.NewDBConf(p, env, schema)
-	if err != nil {
-		panic(err)
-	}
-	return g
 }
 
 func Down() {

@@ -8,14 +8,6 @@ import (
 	. "github.com/gradeshaman/gradebook-backend/util"
 )
 
-func TestCanReachDB(t *testing.T) {
-	config := GetDBConfigFromEnv()
-	db := config.ConnectToDB()
-	if err := db.Ping(); err != nil {
-		t.Error(err)
-	}
-}
-
 func TestCreateAssignment(t *testing.T) {
 
 	WithCleanDB(func() {
@@ -24,17 +16,22 @@ func TestCreateAssignment(t *testing.T) {
 
 		assignment := &models.Assignment{}
 		var assignmentStore AssignmentStore = &AssignmentMaker{db}
-		assignmentStore.CreateAssignment(assignment)
+		err := assignmentStore.CreateAssignment(assignment)
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		if assignment.ID == 0 {
-			t.Error("Failed to set a new ID for a created assignment")
+			t.Fatal("Failed to set a new ID for a created assignment")
 		}
+
 		observedAssignment, err := assignmentStore.GetAssignmentByID(assignment.ID)
 		if err != nil {
-			t.Error(err)
+			t.Fatal(err)
 		}
+
 		if !assignment.Equals(observedAssignment) {
-			t.Error("Observed assignment did not match the original assignment.")
+			t.Fatal("Observed assignment did not match the original assignment.")
 		}
 	})
 }

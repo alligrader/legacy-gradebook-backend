@@ -2,7 +2,11 @@ package db
 
 import (
 	. "github.com/gradeshaman/gradebook-backend/models"
+	"github.com/gradeshaman/gradebook-backend/util"
 	"github.com/jmoiron/sqlx"
+	sq "gopkg.in/Masterminds/squirrel.v1"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 type CourseMaker struct {
@@ -154,6 +158,27 @@ type AssignmentMaker struct {
 }
 
 func (maker *AssignmentMaker) CreateAssignment(assig *Assignment) error {
+	query, _, err := sq.
+		Insert("assignment").Columns("student_id", "teacher_id").
+		Values(assig.StudentID, assig.TeacherID).
+		//Values(assig.StudentID, assig.TeacherID).
+		ToSql()
+	if err != nil {
+		return err
+	}
+	log.Warn(query)
+
+	result, err := util.PrepAndExec(query, maker, assig.StudentID, assig.TeacherID)
+	if err != nil {
+		return err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	assig.ID = int(id)
+
 	return nil
 }
 
