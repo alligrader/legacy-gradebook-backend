@@ -1,11 +1,14 @@
 package main
 
 import (
+	"crypto/subtle"
 	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
 	"os"
+	"strconv"
+	"time"
 
 	. "github.com/gradeshaman/gradebook-backend/tasks"
 	"github.com/gradeshaman/gradebook-backend/util"
@@ -17,11 +20,32 @@ import (
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/github"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func init() {
+var bits []byte
 
-	gothic.Store = sessions.NewFilesystemStore(os.TempDir(), []byte("goth-example"))
+func init() {
+	util.Configure()
+	util.ConfigureLogger()
+	githubKey := viper.GetString("AUTH_CLIENT_ID")
+	githubSecret := viper.GetString("AUTH_CLIENT_SECRET")
+	goth.UseProviders(github.New(githubKey, githubSecret, "", "user:email", "repo", "admin:repo_hook", "admin:org_hook", "admin:org"))
+
+	t := time.Now().UnixNano()
+	hash := strconv.Itoa(int(t))
+	var err error
+
+	bits, err = bcrypt.GenerateFromPassword([]byte(hash), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	gothic.SetState = func(req *http.Request) string {
+		return string(bits)
+	}
+
+	gothic.Store = sessions.NewFilesystemStore(os.TempDir(), bits)
 	gothic.GetProviderName = func(r *http.Request) (string, error) {
 		vars := mux.Vars(r)
 		provider := vars["provider"]
@@ -40,16 +64,9 @@ func main() {
 
 	SendTask()
 
-	util.Configure()
-	util.ConfigureLogger()
-
-	githubKey := viper.GetString("AUTH_CLIENT_ID")
-	githubSecret := viper.GetString("AUTH_CLIENT_SECRET")
-	goth.UseProviders(github.New(githubKey, githubSecret, ""))
-
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
-	r.HandleFunc("/auth/{provider}", auth) // gothic.BeginAuthHandler)
+	r.HandleFunc("/auth/{provider}", gothic.BeginAuthHandler)
 	r.HandleFunc("/auth/{provider}/callback", AuthCallback)
 	http.Handle("/", r)
 	log.Println("Running on port 8000")
@@ -60,16 +77,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, GradeShaman!")
 }
 
-func auth(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	provider := vars["provider"]
-	log.Warn(provider)
-	gothic.BeginAuthHandler(w, r)
-}
-
 func AuthCallback(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("State: ", gothic.GetState(r))
+	observedState := []byte(gothic.GetState(r))
+	expectedState := bits
+
+	if subtle.ConstantTimeCompare(observedState, expectedState) != 1 {
+		http.Error(w, "State sent did not match state received.", 400)
+		log.Error(string(observedState))
+		log.Error(string(expectedState))
+		return
+	}
 
 	user, err := gothic.CompleteUserAuth(w, r)
 	if err != nil {
