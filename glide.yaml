@@ -17,3 +17,6 @@ import:
 - package: bitbucket.org/liamstask/goose
   subpackages:
   - cmd/goose
+- package: golang.org/x/crypto
+  subpackages:
+  - bcrypt
