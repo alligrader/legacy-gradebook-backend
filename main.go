@@ -15,12 +15,13 @@ import (
 func main() {
 
 	SendTask()
-
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
 
-	r.HandleFunc("/auth/{provider}", gothic.BeginAuthHandler)
-	r.HandleFunc("/auth/{provider}/callback", oauth.AuthCallback)
+	s := r.PathPrefix("/auth").Subrouter()
+
+	s.HandleFunc("/{provider}", gothic.BeginAuthHandler)
+	s.HandleFunc("/{provider}/callback", oauth.AuthCallback)
 
 	http.Handle("/", r)
 	log.Println("Running on port 8000")
