@@ -1,4 +1,4 @@
-package: github.com/gradeshaman/gradebook-backend
+package: github.com/alligrader/gradebook-backend
 import:
 - package: github.com/onsi/gomega
 - package: github.com/dgrijalva/jwt-go
@@ -20,3 +20,7 @@ import:
 - package: golang.org/x/crypto
   subpackages:
   - bcrypt
+- package: github.com/mholt/archiver
+- package: google.golang.org/api
+  subpackages:
+  - storage

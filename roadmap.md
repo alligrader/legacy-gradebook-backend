@@ -1,3 +1,22 @@
+# Adjusting:
+
+Need to adjust the roadmap to reflect our new direction.
+
+  My tasks package blows ass.
+  I need to adjust the schema to reflect our new data model.
+
+- First, we need to have a route that accepts a POST request with the zip file.
+- Next, we need to store the zip file on the filesystem.
+- Then we need to consider under what conditions we move the files onto the Google Cloud Storage. (Only keep the first 3 projects at a time)
+- After that, we need to add a message to the message bus to run checkstyle.
+- After that, we need to add a message to the message bus to run findbugs.
+- Then, we need to parse the XML output and store it in the database.
+- Finally, we need to expose an endpoint to return the XML as JSON, along with the associated lines of code.
+
+  I need to clean up the SendTask function
+  I need to create a fixture file for tests
+
+
 # Roadmap
 
 I want to lay out what needs to be done, and what the prioritization on each of the tasks is.

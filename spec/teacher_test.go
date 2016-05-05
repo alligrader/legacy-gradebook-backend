@@ -3,9 +3,9 @@ package spec
 import (
 	"testing"
 
-	_ "github.com/gradeshaman/gradebook-backend/db"
-	_ "github.com/gradeshaman/gradebook-backend/models"
-	_ "github.com/gradeshaman/gradebook-backend/util"
+	_ "github.com/alligrader/gradebook-backend/db"
+	_ "github.com/alligrader/gradebook-backend/models"
+	_ "github.com/alligrader/gradebook-backend/util"
 )
 
 func TestCreateTeacher(t *testing.T) {

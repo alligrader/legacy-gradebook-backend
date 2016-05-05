@@ -24,25 +24,22 @@ func ConnectServer() *machinery.Server {
 	return server
 }
 
-func Add(args ...int64) (int64, error) {
-	sum := int64(0)
-	for _, arg := range args {
-		sum += arg
-	}
-	return sum, nil
-}
-
-func Multiply(args ...int64) (int64, error) {
-	sum := int64(1)
-	for _, arg := range args {
-		sum *= arg
-	}
-	return sum, nil
-}
-
 func AddTasks(s *machinery.Server) {
-	s.RegisterTask("add", Add)
-	s.RegisterTask("multiply", Multiply)
+	s.RegisterTask("checkstyle", Checkstyle)
+	s.RegisterTask("findbugs", Findbugs)
+}
+
+func Checkstyle(submissionID int) {
+	// Fire off a docker container that contains the checkstlye code
+	// with the repo copied from the filesystem
+	// Take the results and put them into a results table that matches the submission ID to the output.
+}
+
+func Findbugs(submission int) {
+	// Fire off a docker container that contains the findbugs code
+	// with the repo copied from the filesystem
+	// Take the results and put them into a results table that matches the submission ID to the output.
+
 }
 
 func SendTask() {
@@ -50,6 +47,7 @@ func SendTask() {
 	server := ConnectServer()
 	AddTasks(server)
 
+	// SendTask no longer works!
 	task := signatures.TaskSignature{
 		Name: "add",
 		Args: []signatures.TaskArg{
@@ -69,5 +67,4 @@ func SendTask() {
 		// failed to send the task
 		log.Fatal(err)
 	}
-
 }

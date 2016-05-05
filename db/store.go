@@ -1,7 +1,7 @@
 package db
 
 import (
-	. "github.com/gradeshaman/gradebook-backend/models"
+	. "github.com/alligrader/gradebook-backend/models"
 )
 
 type CourseStore interface {

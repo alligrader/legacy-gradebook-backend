@@ -3,7 +3,7 @@ package spec
 import (
 	"testing"
 
-	. "github.com/gradeshaman/gradebook-backend/util"
+	. "github.com/alligrader/gradebook-backend/util"
 )
 
 func TestCanReachDB(t *testing.T) {

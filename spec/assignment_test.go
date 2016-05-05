@@ -3,9 +3,9 @@ package spec
 import (
 	"testing"
 
-	. "github.com/gradeshaman/gradebook-backend/db"
-	"github.com/gradeshaman/gradebook-backend/models"
-	"github.com/gradeshaman/gradebook-backend/util"
+	. "github.com/alligrader/gradebook-backend/db"
+	"github.com/alligrader/gradebook-backend/models"
+	"github.com/alligrader/gradebook-backend/util"
 	"github.com/jmoiron/sqlx"
 )
 
