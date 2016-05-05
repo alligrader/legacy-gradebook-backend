@@ -29,42 +29,58 @@ func AddTasks(s *machinery.Server) {
 	s.RegisterTask("findbugs", Findbugs)
 }
 
-func Checkstyle(submissionID int) {
-	// Fire off a docker container that contains the checkstlye code
-	// with the repo copied from the filesystem
-	// Take the results and put them into a results table that matches the submission ID to the output.
-}
+// Make the connection a shared global
+func PushFindbugs(submissionID int) {
+	s := ConnectServer()
 
-func Findbugs(submission int) {
-	// Fire off a docker container that contains the findbugs code
-	// with the repo copied from the filesystem
-	// Take the results and put them into a results table that matches the submission ID to the output.
-
-}
-
-func SendTask() {
-
-	server := ConnectServer()
-	AddTasks(server)
-
-	// SendTask no longer works!
 	task := signatures.TaskSignature{
-		Name: "add",
+		Name: "findbugs",
 		Args: []signatures.TaskArg{
 			signatures.TaskArg{
-				Type:  "int64",
-				Value: 4,
-			},
-			signatures.TaskArg{
-				Type:  "int64",
-				Value: 1,
+				Type:  "int",
+				Value: submissionID,
 			},
 		},
 	}
 
-	_, err := server.SendTask(&task)
+	_, err := s.SendTask(&task)
 	if err != nil {
 		// failed to send the task
-		log.Fatal(err)
+		log.Error(err)
 	}
+}
+
+func PushCheckstyle(submissionID int) {
+	s := ConnectServer()
+
+	task := signatures.TaskSignature{
+		Name: "checkstyle",
+		Args: []signatures.TaskArg{
+			signatures.TaskArg{
+				Type:  "int",
+				Value: submissionID,
+			},
+		},
+	}
+
+	_, err := s.SendTask(&task)
+	if err != nil {
+		// failed to send the task
+		log.Error(err)
+	}
+}
+
+func Checkstyle(submissionID int) {
+	// Fire off a docker container that contains the checkstlye code
+	// with the repo copied from the filesystem
+	// Take the results and put them into a results table that matches the submission ID to the output.
+	log.Info("Processing Checkstyle")
+}
+
+func Findbugs(submissionID int) {
+	// Fire off a docker container that contains the findbugs code
+	// with the repo copied from the filesystem
+	// Take the results and put them into a results table that matches the submission ID to the output.
+	log.Info("Processing Findbugs")
+
 }

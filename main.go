@@ -10,8 +10,9 @@ import (
 	"strconv"
 	"time"
 
-	. "github.com/alligrader/gradebook-backend/tasks"
+	_ "github.com/alligrader/gradebook-backend/tasks"
 	"github.com/alligrader/gradebook-backend/util"
+	"github.com/alligrader/gradebook-backend/ziphandler"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
@@ -61,13 +62,12 @@ func init() {
 }
 
 func main() {
-
-	SendTask()
-
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/auth/{provider}", gothic.BeginAuthHandler)
 	r.HandleFunc("/auth/{provider}/callback", AuthCallback)
+	r.HandleFunc("/zip", ziphandler.MockHandler)
+	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
 	http.Handle("/", r)
 	log.Println("Running on port 8000")
 	log.Fatal(http.ListenAndServe(":8000", nil))
