@@ -38,27 +38,27 @@ func init() {
 
 	goth.UseProviders(github.New(githubKey, githubSecret, "", githubPermissions[0], githubPermissions[1], githubPermissions[2], githubPermissions[3], githubPermissions[4]))
 
-	GenerateFromPassword(err, hash)
-	SetState()
+	generateFromPassword(err, hash)
+	setState()
 
 	gothic.Store = sessions.NewFilesystemStore(os.TempDir(), state_hash)
-	GetProviderName()
+	getProviderName()
 }
 
-func GenerateFromPassword(err error, hash string) {
+func generateFromPassword(err error, hash string) {
 	state_hash, err = bcrypt.GenerateFromPassword([]byte(hash), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func SetState() {
+func setState() {
 	gothic.SetState = func(req *http.Request) string {
 		return string(state_hash)
 	}
 }
 
-func GetProviderName() {
+func getProviderName() {
 	gothic.GetProviderName = func(r *http.Request) (string, error) {
 		vars := mux.Vars(r)
 		provider := vars["provider"]
