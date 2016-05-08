@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gradeshaman/gradebook-backend/oauth"
-	. "github.com/gradeshaman/gradebook-backend/tasks"
+	"github.com/alligrader/gradebook-backend/oauth"
+	. "github.com/alligrader/gradebook-backend/tasks"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"

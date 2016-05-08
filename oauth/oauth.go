@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gradeshaman/gradebook-backend/util"
+	"github.com/alligrader/gradebook-backend/util"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"

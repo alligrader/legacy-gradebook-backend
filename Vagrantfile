@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
 
   # removes the default shared folder.
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder ".", "/opt/gopath/src/github.com/gradeshaman/gradebook-backend"
+  config.vm.synced_folder ".", "/opt/gopath/src/github.com/alligrader/gradebook-backend"
 
   config.ssh.forward_agent = true
   config.vm.provider "virtualbox" do |v|

@@ -1,7 +1,7 @@
 touch $HOME/.profile
 
 function set_env {
-    export APPDIR="/opt/gopath/src/github.com/gradeshaman/gradebook-backend"
+    export APPDIR="/opt/gopath/src/github.com/alligrader/gradebook-backend"
     export GOPATH="/opt/gopath"
     export GOBIN=$GOPATH/bin
     export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
