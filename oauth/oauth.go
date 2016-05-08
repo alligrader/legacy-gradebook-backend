@@ -79,7 +79,8 @@ func AuthCallback(w http.ResponseWriter, r *http.Request) {
 	expectedState := state_hash
 
 	if subtle.ConstantTimeCompare(observedState, expectedState) != 1 {
-		log.Info("State sent did not match state received.")
+		http.Error(w, "State sent did not match state received.", http.StatusBadRequest)
+		log.Info("Observed and expected states do not match.")
 		return
 	}
 
@@ -93,6 +94,7 @@ func AuthCallback(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Warn(w, err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	t.Execute(w, user)
 }
