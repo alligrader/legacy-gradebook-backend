@@ -1,8 +1,8 @@
 package db
 
 import (
-	. "github.com/gradeshaman/gradebook-backend/models"
-	"github.com/gradeshaman/gradebook-backend/util"
+	. "github.com/alligrader/gradebook-backend/models"
+	"github.com/alligrader/gradebook-backend/util"
 	"github.com/jmoiron/sqlx"
 	sq "gopkg.in/Masterminds/squirrel.v1"
 
