@@ -3,7 +3,6 @@ package oauth
 import (
 	"crypto/subtle"
 	"errors"
-	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -22,7 +21,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var bits []byte
+var state_hash []byte
 
 func init() {
 	util.Configure()
@@ -39,16 +38,27 @@ func init() {
 
 	goth.UseProviders(github.New(githubKey, githubSecret, "", githubPermissions[0], githubPermissions[1], githubPermissions[2], githubPermissions[3], githubPermissions[4]))
 
-	bits, err = bcrypt.GenerateFromPassword([]byte(hash), bcrypt.DefaultCost)
+	GenerateFromPassword(err, hash)
+	SetState()
+
+	gothic.Store = sessions.NewFilesystemStore(os.TempDir(), state_hash)
+	GetProviderName()
+}
+
+func GenerateFromPassword(err error, hash string) {
+	state_hash, err = bcrypt.GenerateFromPassword([]byte(hash), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
 	}
+}
 
+func SetState() {
 	gothic.SetState = func(req *http.Request) string {
-		return string(bits)
+		return string(state_hash)
 	}
+}
 
-	gothic.Store = sessions.NewFilesystemStore(os.TempDir(), bits)
+func GetProviderName() {
 	gothic.GetProviderName = func(r *http.Request) (string, error) {
 		vars := mux.Vars(r)
 		provider := vars["provider"]
@@ -66,24 +76,23 @@ func init() {
 func AuthCallback(w http.ResponseWriter, r *http.Request) {
 
 	observedState := []byte(gothic.GetState(r))
-	expectedState := bits
+	expectedState := state_hash
 
 	if subtle.ConstantTimeCompare(observedState, expectedState) != 1 {
-		http.Error(w, "State sent did not match state received.", 400)
-		log.Error(string(observedState))
-		log.Error(string(expectedState))
+		log.Info("State sent did not match state received.")
 		return
 	}
 
 	user, err := gothic.CompleteUserAuth(w, r)
 	if err != nil {
-		fmt.Fprintln(w, err)
+		log.Warn(w, err)
 		return
 	}
 
 	t, err := template.ParseFiles("oauth/templates/user.html.tmpl")
 	if err != nil {
-		log.Fatal(err)
+		log.Warn(w, err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	t.Execute(w, user)
 }
