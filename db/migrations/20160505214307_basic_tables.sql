@@ -29,10 +29,8 @@ create table teacher (
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     person_id int NOT NULL,
-    course_id int,              -- this maaaay be null...
 
     foreign key (person_id) REFERENCES person(id),
-    foreign key (course_id) REFERENCES course(id), -- does this go here or on the course?
     primary key (id)
 );
 
@@ -42,10 +40,27 @@ create table course (
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     name varchar(255) NOT NULL,
-    student_id int NOT NULL,
     
+    primary key (id)
+);
+
+create table course_members (
+    course_id int NOT NULL,
+    student_id int NOT NULL,
+
+    foreign key (course_id) REFERENCES course(id),
     foreign key (student_id) REFERENCES student(id),
-    primary key (id)      
+    primary key(course_id, student_id)
+);
+
+create table course_teachers (
+    course_id int NOT NULL,
+    teacher_id int NOT NULL,
+
+    foreign key (course_id) REFERENCES course(id),
+    foreign key (teacher_id) REFERENCES teacher(id),
+    primary key(course_id, teacher_id)
+   
 );
 
 create table project (
@@ -76,8 +91,10 @@ create table submission (
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
 DROP TABLE submission;
+DROP TABLE project;
+DROP TABLE course_teachers;
+DROP TABLE course_members;
 DROP TABLE teacher;
 DROP TABLE student;
-DROP TABLE project;
 DROP TABLE course;
 DROP TABLE person;
