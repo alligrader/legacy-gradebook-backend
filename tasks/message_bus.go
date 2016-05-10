@@ -7,13 +7,28 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
-var cnf = config.Config{
-	Broker:        "amqp://guest:guest@localhost:5672/",
-	ResultBackend: "amqp://guest:guest@localhost:5672/",
-	Exchange:      "machinery_exchange",
-	ExchangeType:  "direct",
-	DefaultQueue:  "machinery_tasks",
-	BindingKey:    "machinery_task",
+func init() {
+	Bus = &MessageBus{ConnectServer()}
+	Bus.AddTasks()
+}
+
+// TODO get this configuration from the environment
+// TODO swap the default queue with redis or something ?
+var (
+	cnf = config.Config{
+		Broker:        "amqp://guest:guest@localhost:5672/",
+		ResultBackend: "amqp://guest:guest@localhost:5672/",
+		Exchange:      "machinery_exchange",
+		ExchangeType:  "direct",
+		DefaultQueue:  "machinery_tasks",
+		BindingKey:    "machinery_task",
+	}
+
+	Bus *MessageBus
+)
+
+type MessageBus struct {
+	machinery.Server
 }
 
 func ConnectServer() *machinery.Server {
@@ -24,14 +39,13 @@ func ConnectServer() *machinery.Server {
 	return server
 }
 
-func AddTasks(s *machinery.Server) {
-	s.RegisterTask("checkstyle", Checkstyle)
-	s.RegisterTask("findbugs", Findbugs)
+func (bus *MessageBus) AddTasks() {
+	bus.RegisterTask("checkstyle", Checkstyle)
+	bus.RegisterTask("findbugs", Findbugs)
 }
 
 // Make the connection a shared global
-func PushFindbugs(submissionID int) {
-	s := ConnectServer()
+func (bus *MessageBus) PushFindbugs(submissionID int) {
 
 	task := signatures.TaskSignature{
 		Name: "findbugs",
@@ -43,15 +57,14 @@ func PushFindbugs(submissionID int) {
 		},
 	}
 
-	_, err := s.SendTask(&task)
+	_, err := bus.SendTask(&task)
 	if err != nil {
 		// failed to send the task
 		log.Error(err)
 	}
 }
 
-func PushCheckstyle(submissionID int) {
-	s := ConnectServer()
+func (bus *MessageBus) PushCheckstyle(submissionID int) {
 
 	task := signatures.TaskSignature{
 		Name: "checkstyle",
@@ -63,7 +76,7 @@ func PushCheckstyle(submissionID int) {
 		},
 	}
 
-	_, err := s.SendTask(&task)
+	_, err := bus.SendTask(&task)
 	if err != nil {
 		// failed to send the task
 		log.Error(err)
@@ -82,5 +95,4 @@ func Findbugs(submissionID int) {
 	// with the repo copied from the filesystem
 	// Take the results and put them into a results table that matches the submission ID to the output.
 	log.Info("Processing Findbugs")
-
 }
