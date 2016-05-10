@@ -117,21 +117,17 @@ func ExecCheckStyleImage(client *docker.Client, port int, container *dockerConta
 	}
 }
 
-// StripDockerIO strips the first and last line of the output from the container. This leaves us with an XML document.
-func StripDockerIO() {}
-
 // ParseXMDocument parses the XML returned from running the CheckStyle container and converts it into a struct
 func ParseXMLDocument() {}
 
-// ConvertDocumentToJSON transforms the XML document to a JSON document with similar tags.
-func ConvertDocumentToJSON() {}
-
-// PushJSONToMachinery pushes the JSON data to the RabbitMQ message bush via Machinery.
-func PushJSONToMachinery() {}
+// PersistStyleDetection serializes the object containing all of the style warnings as a database record.
+func PersistStyleDetection() {}
 
 const (
 	Dockerfile = `
-	FROM CheckStyle
-	CPY %s /repo
+	FROM java:7
+	COPY %s/* /usr/src/workdir
+	COPY ./.checkstyle/* /usr/src/workdir
+	WORKDIR /usr/src/workdir
 	`
 )
