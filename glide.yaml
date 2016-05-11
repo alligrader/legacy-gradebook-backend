@@ -24,3 +24,4 @@ import:
 - package: google.golang.org/api
   subpackages:
   - storage
+- package: github.com/fsouza/go-dockerclient

@@ -6,7 +6,6 @@ import (
 	. "github.com/alligrader/gradebook-backend/db"
 	"github.com/alligrader/gradebook-backend/models"
 	"github.com/alligrader/gradebook-backend/util"
-
 	"github.com/jmoiron/sqlx"
 )
 
