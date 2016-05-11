@@ -3,10 +3,12 @@
 -- SQL in section 'Up' is executed when this migration is applied
 create table person (
     id int auto_increment,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
-    username   varchar(255) NOT NULL,
+    username   varchar(255) UNIQUE NOT NULL,
     password   varchar(255) NOT NULL,
 
     primary key (id)
