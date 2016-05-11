@@ -5,7 +5,9 @@ import (
 	"net/http"
 
 	"github.com/alligrader/gradebook-backend/oauth"
-	. "github.com/alligrader/gradebook-backend/tasks"
+	_ "github.com/alligrader/gradebook-backend/tasks"
+	"github.com/alligrader/gradebook-backend/util"
+	"github.com/alligrader/gradebook-backend/ziphandler"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
@@ -13,8 +15,11 @@ import (
 )
 
 func main() {
+	r := mux.NewRouter()
+	r.HandleFunc("/", HomeHandler)
+	r.HandleFunc("/zip", ziphandler.MockHandler)
+	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
 
-	SendTask()
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
 

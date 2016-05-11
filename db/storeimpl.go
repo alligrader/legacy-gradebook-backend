@@ -9,8 +9,44 @@ import (
 	_ "github.com/Sirupsen/logrus"
 )
 
-type CourseMaker struct {
-	*sqlx.DB
+func (maker *PersonMaker) Create(person *Person) error {
+	query, _, err := sq.
+		Insert("person").Columns("first_name", "last_name", "username", "password").Values("first_name", "last_name", "username", "password").
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	result, err := util.PrepAndExec(query, maker, person.FirstName, person.LastName, person.Username, string(person.Password))
+	if err != nil {
+		return err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	person.ID = int(id)
+
+	return nil
+}
+
+func (maker *PersonMaker) GetByID(id int) (*Person, error) {
+	query, _, err := sq.
+		Select("id", "first_name", "last_name", "username", "created_at", "last_updated").From("person").
+		Where(sq.Eq{"ID": id}).
+		ToSql()
+
+	if err != nil {
+		return nil, err
+	}
+	var person = &Person{}
+	err = util.GetAndMarshal(query, maker, person, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return person, nil
 }
 
 func (maker *CourseMaker) CreateCourse(course *Course) error {
@@ -91,10 +127,6 @@ func (maker *CourseMaker) DestroyCourse(course *Course) error {
 	return nil
 }
 
-type TeacherMaker struct {
-	*sqlx.DB
-}
-
 func (maker *TeacherMaker) CreateTeacher(teacher *Teacher) error {
 	return nil
 
@@ -112,10 +144,6 @@ func (maker *TeacherMaker) DestroyTeacher(t *Teacher) error {
 	return nil
 }
 
-type StudentMaker struct {
-	*sqlx.DB
-}
-
 func (maker *StudentMaker) CreateStudent(student *Student) error {
 	return nil
 
@@ -129,87 +157,6 @@ func (maker *StudentMaker) GetStudentByID(id int) (*Student, error) {
 
 }
 func (maker *StudentMaker) DestroyStudent(student *Student) error {
-	return nil
-}
-
-type UserMaker struct {
-	*sqlx.DB
-}
-
-func (maker *UserMaker) CreateUser(user *User) error {
-	return nil
-
-}
-func (maker *UserMaker) UpdateUser(user *User) error {
-	return nil
-
-}
-func (maker *UserMaker) GetUserByID(id int) (*User, error) {
-	return nil, nil
-
-}
-func (maker *UserMaker) DestroyUser(user *User) error {
-	return nil
-
-}
-
-type TestScoreMaker struct {
-	*sqlx.DB
-}
-
-func (maker *TestScoreMaker) CreateTestStore(score *Test) error {
-	return nil
-
-}
-func (maker *TestScoreMaker) UpdateTestScore(score *Test) error {
-	return nil
-
-}
-func (maker *TestScoreMaker) GetTestScoreByID(id int) (*Test, error) {
-	return nil, nil
-
-}
-func (maker *TestScoreMaker) DestroyUser(score *Test) error {
-	return nil
-}
-
-type TestResultMaker struct {
-	*sqlx.DB
-}
-
-func (maker *TestResultMaker) CreateTestResult(result *TestResult) error {
-	return nil
-
-}
-func (maker *TestResultMaker) UpdateTestResult(result *TestResult) error {
-	return nil
-
-}
-func (maker *TestResultMaker) GetTestResultByID(id int) (*TestResult, error) {
-	return nil, nil
-
-}
-func (maker *TestResultMaker) DestroyTestResult(result *TestResult) error {
-	return nil
-}
-
-type RunResultMaker struct {
-	*sqlx.DB
-}
-
-func (maker *RunResultMaker) CreateRunResult(result *RunResult) error {
-	return nil
-
-}
-func (maker *RunResultMaker) UpdateRunResult(result *RunResult) error {
-	return nil
-
-}
-func (maker *RunResultMaker) GetRunResultByID(id int) (*RunResult, error) {
-	return nil, nil
-
-}
-func (maker *RunResultMaker) DestroyRunResult(result *RunResult) error {
 	return nil
 }
 

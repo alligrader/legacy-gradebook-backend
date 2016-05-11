@@ -20,3 +20,8 @@ import:
 - package: golang.org/x/crypto
   subpackages:
   - bcrypt
+- package: github.com/mholt/archiver
+- package: google.golang.org/api
+  subpackages:
+  - storage
+- package: github.com/fsouza/go-dockerclient

@@ -28,10 +28,15 @@ function install_deps {
     cd -
 }
 
+function make_storage {
+    mkdir /home/vagrant/storage
+}
+
 function main {
     set_env
     install_deps
     install_autoenv
+    make_storage
 }
 
 main
