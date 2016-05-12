@@ -28,7 +28,7 @@ var (
 )
 
 type MessageBus struct {
-	machinery.Server
+	*machinery.Server
 }
 
 func ConnectServer() *machinery.Server {
