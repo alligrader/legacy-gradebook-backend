@@ -1,9 +1,10 @@
 package tasks
 
 import (
+	"archive/tar"
 	"bytes"
+	"fmt"
 	"io"
-	"os"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -22,57 +23,75 @@ import (
 // Push that XML document to a new queue
 // Or Convert the Document to JSON, then push that ?
 
+type DockerManager struct {
+	*docker.Client
+}
+
 // CreateDockerfileForCheckStyle starts with the Checkstyle container image,
 // which is hosted on a private artifact repository,
 // and Copies onto the image the directory we fetched from Github.
 // src -- the source directory for the build
-func CreateDockerfileForCheckStyle(src string) io.Reader {
+func GetClient() *docker.Client {
+	c, err := docker.NewClientFromEnv()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return c
+}
+
+func (client *DockerManager) CreateDockerfileForCheckStyle(src string) io.Reader {
 
 	var (
 		buffer     bytes.Buffer                   // Create a buffer to write our archive to
-		tarBuf     = tar.NewWriter(buffer)        // Create a tarfile
+		tarBuf     = tar.NewWriter(&buffer)       // Create a tarfile
 		dockerfile = fmt.Sprintf(Dockerfile, src) // Create a new tar archive.
 		now        = time.Now()
 	)
 
-	defer tarBuff.Close()
+	defer tarBuf.Close()
 
 	header := &tar.Header{
 		Name:       "Dockerfile",
-		Size:       len(dockerfile),
-		ModTime:    t,
-		AccessTime: t,
-		ChangeTime: t,
+		Size:       int64(len(dockerfile)),
+		ModTime:    now,
+		AccessTime: now,
+		ChangeTime: now,
 	}
 
 	tarBuf.WriteHeader(header)
 	tarBuf.Write([]byte(dockerfile))
 
-	return buffer
+	return &buffer
 }
 
 // BuildCheckStyleImage builds the CheckStyle image created from CreateDockerfileForCheckStyle
-func BuildCheckStyleImage(dockerfile io.Reader, imageName string) (io.Writer, string, error) {
+func (client *DockerManager) BuildCheckStyleImage(dockerfile io.Reader, imageName string) (io.Writer, error) {
 
 	var output bytes.Buffer
 	var tagName string = GenerateTagname() // TODO how the fuck am i generate the tagname?
+	_ = tagName
 
 	imageOps := docker.BuildImageOptions{
 		Name:         "", // TODO checkstyle + repo-name + sha
 		InputStream:  dockerfile,
-		OutputStream: output, // the output buffer
-		ContextDir:   "",     // TODO path to th temp directory
+		OutputStream: &output, // the output buffer
+		ContextDir:   "",      // TODO path to th temp directory
 	}
 
 	if err := client.BuildImage(imageOps); err != nil {
 		return nil, err
 	}
-	return output, nil
+	return &output, nil
+}
+
+// TODO imple
+func GenerateTagname() string {
+	return ""
 }
 
 // BuildCheckStyleContainer builds the checkstyle container from the image
-func BuildCheckStyleContainer(imageName string) *docker.Container {
-	config := getImageConfig()
+func (client *DockerManager) BuildCheckStyleContainer(imageName string) *docker.Container {
+	config := client.getImageConfig(imageName)
 
 	containerOps := docker.CreateContainerOptions{
 		Name:   imageName,
@@ -87,9 +106,9 @@ func BuildCheckStyleContainer(imageName string) *docker.Container {
 	return container
 }
 
-func getImageConfig(client *docker.Client, imageTag string) *docker.Config {
+func (client *DockerManager) getImageConfig(imageTag string) *docker.Config {
 
-	img, err := client.InspecImage(imageTag)
+	img, err := client.InspectImage(imageTag)
 	if err != nil {
 		log.Error(err)
 	}
@@ -97,11 +116,11 @@ func getImageConfig(client *docker.Client, imageTag string) *docker.Config {
 }
 
 // ExecCheckStyleImage takes the container image we created with BuildCheckStyleImage and runs the container.
-func ExecCheckStyleImage(client *docker.Client, port int, container *dockerContainer) {
-	ports := make(make[docker.Port][docker.PortBinding])
+func (client *DockerManager) ExecCheckStyleImage(port int, container *docker.Container) {
+	ports := make(map[docker.Port][]docker.PortBinding)
 	portStr := docker.Port(fmt.Sprintf("%d/tcp", 8000))
 
-	ports[portStr] = docker.PortBindings{
+	ports[portStr] = []docker.PortBinding{
 		{
 			HostPort: fmt.Sprintf("%d", port),
 			HostIP:   "0.0.0.0",

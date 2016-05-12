@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/alligrader/gradebook-backend/tasks"
+	_ "github.com/alligrader/gradebook-backend/tasks"
 	"github.com/alligrader/gradebook-backend/util"
 
 	log "github.com/Sirupsen/logrus"
@@ -48,8 +48,8 @@ func HandleZipUpload(w http.ResponseWriter, r *http.Request) {
 	storeZip(file, submissionID)
 
 	// TODO Push new tasks to the message bus
-	tasks.PushFindbugs(submissionID)
-	tasks.PushCheckstyle(submissionID)
+	// tasks.PushFindbugs(submissionID)
+	// tasks.PushCheckstyle(submissionID)
 }
 
 func GenerateSubmissionID(submitter string) int {
