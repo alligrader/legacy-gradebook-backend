@@ -6,20 +6,16 @@ import (
 	. "github.com/alligrader/gradebook-backend/db"
 	"github.com/alligrader/gradebook-backend/models"
 	"github.com/alligrader/gradebook-backend/util"
-	"github.com/jmoiron/sqlx"
 )
 
 func TestCreateCourse(t *testing.T) {
 	util.WithCleanDB(func() {
 
 		var (
-			config      *util.DBConfig = util.GetDBConfigFromEnv()
-			db          *sqlx.DB       = config.ConnectToDB()
-			course      *models.Course = &models.Course{Name: "Dr. Misurda's Wild Ride"}
-			courseStore CourseStore    = &CourseMaker{db}
+			course *models.Course = &models.Course{Name: "Dr. Misurda's Wild Ride"}
 		)
 
-		err := courseStore.CreateCourse(course)
+		err := CourseStore.Create(course)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -28,7 +24,7 @@ func TestCreateCourse(t *testing.T) {
 			t.Fatal("Failed to set a new ID for a created assignment")
 		}
 
-		observedCourse, err := courseStore.GetCourseByID(course.ID)
+		observedCourse, err := CourseStore.GetByID(course.ID)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -43,21 +39,18 @@ func TestUpdateCourse(t *testing.T) {
 	util.WithCleanDB(func() {
 
 		var (
-			config      *util.DBConfig = util.GetDBConfigFromEnv()
-			db          *sqlx.DB       = config.ConnectToDB()
-			course      *models.Course = &models.Course{}
-			courseStore CourseStore    = &CourseMaker{db}
+			course *models.Course = &models.Course{}
 		)
 
-		_ = courseStore.CreateCourse(course)
+		_ = CourseStore.Create(course)
 		course.Name = "Advanced Topics in Static Analysis"
-		err := courseStore.UpdateCourse(course)
+		err := CourseStore.UpdateCourse(course)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		observedCourse, err := courseStore.GetCourseByID(course.ID)
+		observedCourse, err := CourseStore.GetByID(course.ID)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -75,19 +68,16 @@ func TestDeleteCourse(t *testing.T) {
 	util.WithCleanDB(func() {
 
 		var (
-			config      *util.DBConfig = util.GetDBConfigFromEnv()
-			db          *sqlx.DB       = config.ConnectToDB()
-			course      *models.Course = &models.Course{}
-			courseStore CourseStore    = &CourseMaker{db}
+			course *models.Course = &models.Course{}
 		)
 
-		_ = courseStore.CreateCourse(course)
-		err := courseStore.DestroyCourse(course)
+		_ = CourseStore.Create(course)
+		err := CourseStore.Destroy(course)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		_, err = courseStore.GetCourseByID(course.ID)
+		_, err = CourseStore.GetByID(course.ID)
 		if err == nil {
 			t.Fatal("No error, when an error is expected.")
 		}

@@ -1,29 +1,51 @@
 package db
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/alligrader/gradebook-backend/util"
+	"github.com/jmoiron/sqlx"
+)
+
+func init() {
+	conn := util.GetDBConfigFromEnv().ConnectToDB()
+	PersonStore = &personMaker{conn}
+	StudentStore = &studentMaker{conn}
+	TeacherStore = &teacherMaker{conn}
+	CourseStore = &courseMaker{conn}
+	ProjectStore = &projectMaker{conn}
+	SubmissionStore = &submissionMaker{conn}
+}
+
+var (
+	PersonStore     *personMaker
+	StudentStore    *studentMaker
+	TeacherStore    *teacherMaker
+	CourseStore     *courseMaker
+	ProjectStore    *projectMaker
+	SubmissionStore *submissionMaker
+)
 
 type (
-	PersonMaker struct {
+	personMaker struct {
 		*sqlx.DB
 	}
 
-	StudentMaker struct {
+	studentMaker struct {
 		*sqlx.DB
 	}
 
-	TeacherMaker struct {
+	teacherMaker struct {
 		*sqlx.DB
 	}
 
-	CourseMaker struct {
+	courseMaker struct {
 		*sqlx.DB
 	}
 
-	ProjectMaker struct {
+	projectMaker struct {
 		*sqlx.DB
 	}
 
-	SubmissionMaker struct {
+	submissionMaker struct {
 		*sqlx.DB
 	}
 )

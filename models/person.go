@@ -21,6 +21,9 @@ func (person *Person) GetID() string {
 }
 
 func (person *Person) Equals(other *Person) bool {
+	if other == nil {
+		return false
+	}
 	return person.FirstName == other.FirstName &&
 		person.LastName == other.LastName &&
 		person.Username == other.Username

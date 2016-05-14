@@ -9,7 +9,7 @@ import (
 	_ "github.com/Sirupsen/logrus"
 )
 
-func (maker *PersonMaker) Create(person *Person) error {
+func (maker *personMaker) Create(person *Person) error {
 	query, _, err := sq.
 		Insert("person").Columns("first_name", "last_name", "username", "password").Values("first_name", "last_name", "username", "password").
 		ToSql()
@@ -31,7 +31,7 @@ func (maker *PersonMaker) Create(person *Person) error {
 	return nil
 }
 
-func (maker *PersonMaker) GetByID(id int) (*Person, error) {
+func (maker *personMaker) GetByID(id int) (*Person, error) {
 	query, _, err := sq.
 		Select("id", "first_name", "last_name", "username", "created_at", "last_updated").From("person").
 		Where(sq.Eq{"ID": id}).
@@ -49,7 +49,59 @@ func (maker *PersonMaker) GetByID(id int) (*Person, error) {
 	return person, nil
 }
 
-func (maker *CourseMaker) CreateCourse(course *Course) error {
+func (maker *studentMaker) Create(student *Student) error {
+
+	PersonStore.Create(&student.Person)
+
+	query, _, err := sq.
+		Insert("student").Columns("person_id").Values("person_id").
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	result, err := util.PrepAndExec(query, maker, student.Person.ID)
+	if err != nil {
+		return err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	student.ID = int(id)
+
+	return nil
+
+}
+func (maker *studentMaker) Update(student *Student) error {
+	return nil
+
+}
+func (maker *studentMaker) GetByID(id int) (*Student, error) {
+	query, _, err := sq.
+		Select("student.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
+		From("student").
+		Join("person on student.person_id=person.id").
+		Where(sq.Eq{"student.id": id}).
+		ToSql()
+
+	if err != nil {
+		return nil, err
+	}
+	var student = &Student{}
+	err = util.GetAndMarshal(query, maker, student, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return student, nil
+}
+func (maker *studentMaker) Destroy(student *Student) error {
+	return nil
+}
+
+func (maker *courseMaker) Create(course *Course) error {
 
 	query, _, err := sq.
 		Insert("course").Columns("name").Values("name").
@@ -73,7 +125,7 @@ func (maker *CourseMaker) CreateCourse(course *Course) error {
 
 }
 
-func (maker *CourseMaker) UpdateCourse(course *Course) error {
+func (maker *courseMaker) UpdateCourse(course *Course) error {
 
 	query, _, err := sq.
 		Update("course").
@@ -92,7 +144,7 @@ func (maker *CourseMaker) UpdateCourse(course *Course) error {
 	return nil
 }
 
-func (maker *CourseMaker) GetCourseByID(id int) (*Course, error) {
+func (maker *courseMaker) GetByID(id int) (*Course, error) {
 	query, _, err := sq.
 		Select("id, name, created_at, last_updated").From("course").
 		Where(sq.Eq{"ID": id}).
@@ -110,7 +162,7 @@ func (maker *CourseMaker) GetCourseByID(id int) (*Course, error) {
 	return course, nil
 
 }
-func (maker *CourseMaker) DestroyCourse(course *Course) error {
+func (maker *courseMaker) Destroy(course *Course) error {
 	query, _, err := sq.
 		Delete("course").
 		Where(sq.Eq{"ID": course.ID}).
@@ -127,36 +179,20 @@ func (maker *CourseMaker) DestroyCourse(course *Course) error {
 	return nil
 }
 
-func (maker *TeacherMaker) CreateTeacher(teacher *Teacher) error {
+func (maker *teacherMaker) Create(teacher *Teacher) error {
 	return nil
 
 }
-func (maker *TeacherMaker) UpdateTeacher(teacher *Teacher) error {
+func (maker *teacherMaker) Update(teacher *Teacher) error {
 	return nil
 
 }
-func (maker *TeacherMaker) GetTeacherByID(id int) (*Teacher, error) {
+func (maker *teacherMaker) GetByID(id int) (*Teacher, error) {
 	return nil, nil
 
 }
 
-func (maker *TeacherMaker) DestroyTeacher(t *Teacher) error {
-	return nil
-}
-
-func (maker *StudentMaker) CreateStudent(student *Student) error {
-	return nil
-
-}
-func (maker *StudentMaker) UpdateStudent(student *Student) error {
-	return nil
-
-}
-func (maker *StudentMaker) GetStudentByID(id int) (*Student, error) {
-	return nil, nil
-
-}
-func (maker *StudentMaker) DestroyStudent(student *Student) error {
+func (maker *teacherMaker) Destroy(t *Teacher) error {
 	return nil
 }
 

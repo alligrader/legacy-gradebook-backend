@@ -6,25 +6,21 @@ import (
 	. "github.com/alligrader/gradebook-backend/db"
 	"github.com/alligrader/gradebook-backend/models"
 	"github.com/alligrader/gradebook-backend/util"
-	"github.com/jmoiron/sqlx"
 )
 
 func TestCreatePerson(t *testing.T) {
 
 	util.WithCleanDB(func() {
 		var (
-			config *util.DBConfig = util.GetDBConfigFromEnv()
-			db     *sqlx.DB       = config.ConnectToDB()
 			person *models.Person = &models.Person{
 				FirstName: "Robbie",
 				LastName:  "McKinstry",
 				Username:  "thesnowmancometh",
 				Password:  []byte("0000"),
 			}
-			personStore = &PersonMaker{db}
 		)
 
-		err := personStore.Create(person)
+		err := PersonStore.Create(person)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -33,7 +29,7 @@ func TestCreatePerson(t *testing.T) {
 			t.Fatal("Failed to set a new ID for a created person")
 		}
 
-		observedPerson, err := personStore.GetByID(person.ID)
+		observedPerson, err := PersonStore.GetByID(person.ID)
 		if err != nil {
 			t.Fatal(err)
 		}
