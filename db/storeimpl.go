@@ -110,10 +110,11 @@ func (maker *courseMaker) Create(course *Course) error {
 		return err
 	}
 
-	result, err := util.PrepAndExec(query, maker, course.Name)
-	if err != nil {
-		return err
-	}
+	// Make a new tx
+	// Add the course
+	// Then add a new record for each of the students to course_members
+	// Then add a new record for each of the teachers to course_teachers
+	// Commit the tx
 
 	id, err := result.LastInsertId()
 	if err != nil {
