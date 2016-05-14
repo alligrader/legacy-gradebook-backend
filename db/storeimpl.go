@@ -180,16 +180,50 @@ func (maker *courseMaker) Destroy(course *Course) error {
 }
 
 func (maker *teacherMaker) Create(teacher *Teacher) error {
-	return nil
+	PersonStore.Create(&teacher.Person)
 
+	query, _, err := sq.
+		Insert("teacher").Columns("person_id").Values("person_id").
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	result, err := util.PrepAndExec(query, maker, teacher.Person.ID)
+	if err != nil {
+		return err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	teacher.ID = int(id)
+
+	return nil
 }
 func (maker *teacherMaker) Update(teacher *Teacher) error {
 	return nil
 
 }
 func (maker *teacherMaker) GetByID(id int) (*Teacher, error) {
-	return nil, nil
+	query, _, err := sq.
+		Select("teacher.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
+		From("teacher").
+		Join("person on teacher.person_id=person.id").
+		Where(sq.Eq{"teacher.id": id}).
+		ToSql()
 
+	if err != nil {
+		return nil, err
+	}
+	var teacher = &Teacher{}
+	err = util.GetAndMarshal(query, maker, teacher, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return teacher, nil
 }
 
 func (maker *teacherMaker) Destroy(t *Teacher) error {

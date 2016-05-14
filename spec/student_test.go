@@ -42,7 +42,6 @@ func TestCreateStudent(t *testing.T) {
 			t.Fatal("Observed student did not match the original person.")
 		}
 	})
-
 }
 
 func TestUpdateStudent(t *testing.T) {
