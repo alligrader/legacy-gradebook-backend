@@ -3,6 +3,7 @@ package tasks
 import (
 	"archive/tar"
 	"bytes"
+	"encoding/xml"
 	"fmt"
 	"io"
 	"time"
@@ -136,8 +137,30 @@ func (client *DockerManager) ExecCheckStyleImage(port int, container *docker.Con
 	}
 }
 
+type CheckstylePayload struct {
+	XMLName xml.Name `xml:"checkstyle"`
+	Version string   `xml:"version"`
+	File    CheckstyleFile
+}
+
+type CheckstyleFile struct {
+	XMLName xml.Name `xml:"file"`
+	Name    string   `xml:"name"`
+	Errors  []CheckstyleError
+}
+
+type CheckstyleError struct {
+	Line     string `xml:"line"`
+	Severity string `xml:"severity"`
+	Message  string `xml:"message"`
+	Source   string `xml:"source"`
+}
+
 // ParseXMDocument parses the XML returned from running the CheckStyle container and converts it into a struct
-func ParseXMLDocument() {}
+// This is what needs to be implemented for issue #16 ! ! !
+func ParseXMLDocument(testOutput []byte) *CheckstylePayload {
+	return &CheckstylePayload{}
+}
 
 // PersistStyleDetection serializes the object containing all of the style warnings as a database record.
 func PersistStyleDetection() {}
