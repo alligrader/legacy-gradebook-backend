@@ -6,7 +6,7 @@ import (
 )
 
 type Assignment struct {
-	ID        int
+	ID        int64
 	StudentID int
 	TeacherID int
 
@@ -15,7 +15,7 @@ type Assignment struct {
 }
 
 func (assig *Assignment) GetID() string {
-	return strconv.Itoa(assig.ID)
+	return strconv.FormatInt(assig.ID, 10)
 }
 
 // TODO impl

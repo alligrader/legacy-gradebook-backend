@@ -6,7 +6,7 @@ import (
 )
 
 type Teacher struct {
-	ID int
+	ID int64
 	Person
 
 	CreatedAt   time.Time
@@ -14,7 +14,7 @@ type Teacher struct {
 }
 
 func (teacher *Teacher) GetID() string {
-	return strconv.Itoa(teacher.ID)
+	return strconv.FormatInt(teacher.ID, 10)
 }
 
 func (teacher *Teacher) Equals(other *Teacher) bool {

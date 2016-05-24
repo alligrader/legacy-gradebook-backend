@@ -26,12 +26,12 @@ func (maker *personMaker) Create(person *Person) error {
 	if err != nil {
 		return err
 	}
-	person.ID = int(id)
+	person.ID = id
 
 	return nil
 }
 
-func (maker *personMaker) GetByID(id int) (*Person, error) {
+func (maker *personMaker) GetByID(id int64) (*Person, error) {
 	query, _, err := sq.
 		Select("id", "first_name", "last_name", "username", "created_at", "last_updated").From("person").
 		Where(sq.Eq{"ID": id}).
@@ -69,7 +69,7 @@ func (maker *studentMaker) Create(student *Student) error {
 	if err != nil {
 		return err
 	}
-	student.ID = int(id)
+	student.ID = id
 
 	return nil
 
@@ -78,7 +78,7 @@ func (maker *studentMaker) Update(student *Student) error {
 	return nil
 
 }
-func (maker *studentMaker) GetByID(id int) (*Student, error) {
+func (maker *studentMaker) GetByID(id int64) (*Student, error) {
 	query, _, err := sq.
 		Select("student.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
 		From("student").
@@ -110,18 +110,20 @@ func (maker *courseMaker) Create(course *Course) error {
 		return err
 	}
 
+	_ = query
+
 	// Make a new tx
 	// Add the course
 	// Then add a new record for each of the students to course_members
 	// Then add a new record for each of the teachers to course_teachers
 	// Commit the tx
-
-	id, err := result.LastInsertId()
-	if err != nil {
-		return err
-	}
-	course.ID = int(id)
-
+	/*
+		id, err := result.LastInsertId()
+		if err != nil {
+			return err
+		}
+		course.ID = int(id)
+	*/
 	return nil
 
 }
@@ -145,7 +147,7 @@ func (maker *courseMaker) UpdateCourse(course *Course) error {
 	return nil
 }
 
-func (maker *courseMaker) GetByID(id int) (*Course, error) {
+func (maker *courseMaker) GetByID(id int64) (*Course, error) {
 	query, _, err := sq.
 		Select("id, name, created_at, last_updated").From("course").
 		Where(sq.Eq{"ID": id}).
@@ -199,7 +201,7 @@ func (maker *teacherMaker) Create(teacher *Teacher) error {
 	if err != nil {
 		return err
 	}
-	teacher.ID = int(id)
+	teacher.ID = id
 
 	return nil
 }
@@ -207,7 +209,7 @@ func (maker *teacherMaker) Update(teacher *Teacher) error {
 	return nil
 
 }
-func (maker *teacherMaker) GetByID(id int) (*Teacher, error) {
+func (maker *teacherMaker) GetByID(id int64) (*Teacher, error) {
 	query, _, err := sq.
 		Select("teacher.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
 		From("teacher").
@@ -253,7 +255,7 @@ func (maker *AssignmentMaker) CreateAssignment(assig *Assignment) error {
 	if err != nil {
 		return err
 	}
-	assig.ID = int(id)
+	assig.ID = id
 
 	return nil
 }

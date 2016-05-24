@@ -6,7 +6,7 @@ import (
 )
 
 type Course struct {
-	ID          int    `db:"id"`
+	ID          int64  `db:"id"`
 	Name        string `db:"name"`
 	Students    []*Student
 	Teachers    []*Teacher
@@ -15,7 +15,7 @@ type Course struct {
 }
 
 func (course *Course) GetID() string {
-	return strconv.Itoa(course.ID)
+	return strconv.FormatInt(course.ID, 10)
 }
 
 func (course *Course) Equals(other *Course) bool {
