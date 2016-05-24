@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/alligrader/gradebook-backend/db"
@@ -39,7 +40,10 @@ func TestCreateStudent(t *testing.T) {
 		}
 
 		if !student.Equals(observedStudent) {
+			fmt.Println("Observed: %v\n", observedStudent)
+			fmt.Println("Expected: %v\n", student)
 			t.Fatal("Observed student did not match the original person.")
+
 		}
 	})
 }

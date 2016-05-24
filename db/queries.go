@@ -13,7 +13,7 @@ var (
 			INSERT INTO student (person_id)
 			VALUES (?);`,
 		"get_student": `
-			SELECT student.id, person.id, person.last_name, 
+			SELECT student.id, person.id, person.first_name, person.last_name,
 			person.username, person.created_at, person.last_updated
 			FROM student
 			JOIN person ON student.person_id=person.id

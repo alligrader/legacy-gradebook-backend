@@ -44,14 +44,10 @@ func (maker *personMaker) GetByID(id int64) (*Person, error) {
 
 func (maker *studentMaker) Create(student *Student) error {
 
+	// TODO make PersonStore.Create private.
 	PersonStore.Create(&student.Person)
 
-	query, _, err := sq.
-		Insert("student").Columns("person_id").Values("person_id").
-		ToSql()
-	if err != nil {
-		return err
-	}
+	query := queries["create_student"]
 
 	result, err := util.PrepAndExec(query, maker, student.Person.ID)
 	if err != nil {
@@ -72,24 +68,19 @@ func (maker *studentMaker) Update(student *Student) error {
 
 }
 func (maker *studentMaker) GetByID(id int64) (*Student, error) {
-	query, _, err := sq.
-		Select("student.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
-		From("student").
-		Join("person on student.person_id=person.id").
-		Where(sq.Eq{"student.id": id}).
-		ToSql()
+	var (
+		student *Student = &Student{}
+		query   string   = queries["get_student"]
+		err     error    = util.GetAndMarshal(query, maker, student, id)
+	)
 
-	if err != nil {
-		return nil, err
-	}
-	var student = &Student{}
-	err = util.GetAndMarshal(query, maker, student, id)
 	if err != nil {
 		return nil, err
 	}
 
 	return student, nil
 }
+
 func (maker *studentMaker) Destroy(student *Student) error {
 	return nil
 }

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -22,4 +23,10 @@ func (student *Student) Equals(other *Student) bool {
 		return false
 	}
 	return student.Person.Equals(&other.Person)
+}
+
+func (student *Student) String() string {
+	return fmt.Sprintf(" { ID: %v, FirstName: %v, LastName: %v, Username: %v }",
+		student.ID, student.Person.FirstName, student.Person.LastName, student.Person.Username,
+	)
 }
