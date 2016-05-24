@@ -4,7 +4,7 @@ var (
 	queries = map[string]string{
 		"create_person": `
 			INSERT INTO person (first_name, last_name, username, password)
-			VALUES ( ?, ?, ?, ?.);`,
+			VALUES ( ?, ?, ?, ?);`,
 		"get_person": `
 			SELECT id, first_name, last_name, username, created_at, last_updated 
 			FROM person

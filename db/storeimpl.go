@@ -10,12 +10,8 @@ import (
 )
 
 func (maker *personMaker) Create(person *Person) error {
-	query, _, err := sq.
-		Insert("person").Columns("first_name", "last_name", "username", "password").Values("first_name", "last_name", "username", "password").
-		ToSql()
-	if err != nil {
-		return err
-	}
+
+	query := queries["create_person"]
 
 	result, err := util.PrepAndExec(query, maker, person.FirstName, person.LastName, person.Username, string(person.Password))
 	if err != nil {
@@ -32,16 +28,13 @@ func (maker *personMaker) Create(person *Person) error {
 }
 
 func (maker *personMaker) GetByID(id int64) (*Person, error) {
-	query, _, err := sq.
-		Select("id", "first_name", "last_name", "username", "created_at", "last_updated").From("person").
-		Where(sq.Eq{"ID": id}).
-		ToSql()
 
-	if err != nil {
-		return nil, err
-	}
-	var person = &Person{}
-	err = util.GetAndMarshal(query, maker, person, id)
+	var (
+		query  string  = queries["get_person"]
+		person *Person = &Person{}
+		err    error   = util.GetAndMarshal(query, maker, person, id)
+	)
+
 	if err != nil {
 		return nil, err
 	}
