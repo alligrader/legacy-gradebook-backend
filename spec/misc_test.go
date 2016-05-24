@@ -55,6 +55,7 @@ func TestParseXML(t *testing.T) {
 	</checkstyle>`)
 
 	var doc *tasks.CheckstylePayload = tasks.ParseXMLDocument(s)
+
 	if doc.XMLName.Local != "checkstyle" {
 		t.Fatal("XMLName does not match expected string checkstyle")
 	}
