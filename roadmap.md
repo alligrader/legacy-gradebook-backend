@@ -47,6 +47,20 @@ We need to listen for Git hooks and handle them approperately. For that, we'll u
 
 # TODO
 
+- [ ] Organization
+    Who creates an organization? (An Admin)
+    Professors can sign up without an organization, and create a new origanization.
+    Has a list of repos
+
+
+- [ ] Projects need a due date
+
+- [ ] Projects need a late submission policy
+
+- [ ] Courses have Announcements created by Teachers
+
+- [ ] Check out privileges and roles in DB
+
 - [ ] Make Person a private struct
 
 - [ ] Test the `tasks` package

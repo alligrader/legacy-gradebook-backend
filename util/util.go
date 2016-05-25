@@ -32,6 +32,7 @@ func AcidCtx(body AcidTx, db Execer) error {
 			tx.Rollback()
 			log.Error("Transaction rollback.")
 			err = r.(error)
+			log.Error(err)
 		}
 	}()
 

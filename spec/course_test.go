@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/alligrader/gradebook-backend/db"
@@ -9,14 +10,10 @@ import (
 )
 
 func TestCreateCourse(t *testing.T) {
-	t.Skip()
 	util.WithCleanDB(func() {
 
 		var (
-			teachersVec []*Teacher = make([]*Teacher, 0, 2)
-			studentsVec []*Student = make([]*Student, 0, 2)
-
-			teachers = []Teacher{
+			teachers = []*Teacher{
 				{
 					Person: Person{
 						FirstName: "Jon",
@@ -34,7 +31,7 @@ func TestCreateCourse(t *testing.T) {
 				},
 			}
 
-			students = []Student{
+			students = []*Student{
 				{
 					Person: Person{
 						FirstName: "Neel",
@@ -54,7 +51,7 @@ func TestCreateCourse(t *testing.T) {
 		)
 
 		for _, teacher := range teachers {
-			if err := TeacherStore.Create(&teacher); err != nil {
+			if err := TeacherStore.Create(teacher); err != nil {
 				t.Fatal(err)
 			}
 			if teacher.ID == 0 {
@@ -63,11 +60,10 @@ func TestCreateCourse(t *testing.T) {
 			if teacher.Person.ID == 0 {
 				t.Fatal("No ID on teacher.Person")
 			}
-			teachersVec = append(teachersVec, &teacher)
 		}
 
 		for _, student := range students {
-			if err := StudentStore.Create(&student); err != nil {
+			if err := StudentStore.Create(student); err != nil {
 				t.Fatal(err)
 			}
 			if student.ID == 0 {
@@ -76,13 +72,12 @@ func TestCreateCourse(t *testing.T) {
 			if student.Person.ID == 0 {
 				t.Fatal("No ID on student.Person")
 			}
-			studentsVec = append(studentsVec, &student)
 		}
 
 		var course *Course = &Course{
 			Name:     "Dr. Misurda's Wild Ride",
-			Teachers: teachersVec,
-			Students: studentsVec,
+			Teachers: teachers,
+			Students: students,
 		}
 
 		if err := CourseStore.Create(course); err != nil {
@@ -99,6 +94,8 @@ func TestCreateCourse(t *testing.T) {
 		}
 
 		if !course.Equals(observedCourse) {
+			fmt.Printf("Observed Course: %v \n", observedCourse)
+			fmt.Printf("Expected Course: %v \n", course)
 			t.Fatal("Observed course did not match the original course.")
 		}
 	})

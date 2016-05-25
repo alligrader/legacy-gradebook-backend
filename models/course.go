@@ -14,6 +14,13 @@ type Course struct {
 	LastUpdated time.Time `db:"last_updated"`
 }
 
+func NewCourse() *Course {
+	return &Course{
+		Students: []*Student{},
+		Teachers: []*Teacher{},
+	}
+}
+
 func (course *Course) GetID() string {
 	return strconv.FormatInt(course.ID, 10)
 }

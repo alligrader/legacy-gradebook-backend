@@ -27,5 +27,26 @@ var (
 			FROM teacher
 			JOIN person ON teacher.person_id=person.id
 			WHERE teacher.id=?;`,
+		"create_course": `
+			INSERT INTO course (name)
+			VALUES ( ? );`,
+		"create_course_members": `
+			INSERT INTO course_members (course_id, student_id)
+			VALUES ( ?, ? );`,
+		"create_course_teachers": `
+			INSERT INTO course_teachers (course_id, teacher_id)
+			VALUES ( ?, ? );`,
+		"get_course": `
+			SELECT id, name, created_at, last_updated
+			FROM course
+			WHERE id=?;`,
+		"get_course_members": `
+			SELECT student_id
+			FROM course_members
+			WHERE course_id=?;`,
+		"get_course_teachers": `
+			SELECT teacher_id
+			FROM course_teachers
+			WHERE course_id=?;`,
 	}
 )
