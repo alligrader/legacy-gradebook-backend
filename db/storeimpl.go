@@ -9,13 +9,9 @@ import (
 	_ "github.com/Sirupsen/logrus"
 )
 
-func (maker *PersonMaker) Create(person *Person) error {
-	query, _, err := sq.
-		Insert("person").Columns("first_name", "last_name", "username", "password").Values("first_name", "last_name", "username", "password").
-		ToSql()
-	if err != nil {
-		return err
-	}
+func (maker *personMaker) Create(person *Person) error {
+
+	query := queries["create_person"]
 
 	result, err := util.PrepAndExec(query, maker, person.FirstName, person.LastName, person.Username, string(person.Password))
 	if err != nil {
@@ -26,22 +22,19 @@ func (maker *PersonMaker) Create(person *Person) error {
 	if err != nil {
 		return err
 	}
-	person.ID = int(id)
+	person.ID = id
 
 	return nil
 }
 
-func (maker *PersonMaker) GetByID(id int) (*Person, error) {
-	query, _, err := sq.
-		Select("id", "first_name", "last_name", "username", "created_at", "last_updated").From("person").
-		Where(sq.Eq{"ID": id}).
-		ToSql()
+func (maker *personMaker) GetByID(id int64) (*Person, error) {
 
-	if err != nil {
-		return nil, err
-	}
-	var person = &Person{}
-	err = util.GetAndMarshal(query, maker, person, id)
+	var (
+		query  string  = queries["get_person"]
+		person *Person = &Person{}
+		err    error   = util.GetAndMarshal(query, maker, person, id)
+	)
+
 	if err != nil {
 		return nil, err
 	}
@@ -49,16 +42,14 @@ func (maker *PersonMaker) GetByID(id int) (*Person, error) {
 	return person, nil
 }
 
-func (maker *CourseMaker) CreateCourse(course *Course) error {
+func (maker *studentMaker) Create(student *Student) error {
 
-	query, _, err := sq.
-		Insert("course").Columns("name").Values("name").
-		ToSql()
-	if err != nil {
-		return err
-	}
+	// TODO make PersonStore.Create private.
+	PersonStore.Create(&student.Person)
 
-	result, err := util.PrepAndExec(query, maker, course.Name)
+	query := queries["create_student"]
+
+	result, err := util.PrepAndExec(query, maker, student.Person.ID)
 	if err != nil {
 		return err
 	}
@@ -67,96 +58,81 @@ func (maker *CourseMaker) CreateCourse(course *Course) error {
 	if err != nil {
 		return err
 	}
-	course.ID = int(id)
+	student.ID = id
 
 	return nil
 
 }
+func (maker *studentMaker) Update(student *Student) error {
+	return nil
 
-func (maker *CourseMaker) UpdateCourse(course *Course) error {
+}
+func (maker *studentMaker) GetByID(id int64) (*Student, error) {
+	var (
+		student *Student = &Student{}
+		query   string   = queries["get_student"]
+		err     error    = util.GetAndMarshal(query, maker, student, id)
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return student, nil
+}
+
+func (maker *studentMaker) Destroy(student *Student) error {
+	return nil
+}
+
+func (maker *teacherMaker) Create(teacher *Teacher) error {
+	PersonStore.Create(&teacher.Person)
 
 	query, _, err := sq.
-		Update("course").
-		Set("name", course.Name).
-		Where(sq.Eq{"id": course.ID}).
+		Insert("teacher").Columns("person_id").Values("person_id").
 		ToSql()
 	if err != nil {
 		return err
 	}
 
-	_, err = util.PrepAndExec(query, maker, course.Name, course.ID)
+	result, err := util.PrepAndExec(query, maker, teacher.Person.ID)
 	if err != nil {
 		return err
 	}
 
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	teacher.ID = id
+
 	return nil
 }
+func (maker *teacherMaker) Update(teacher *Teacher) error {
+	return nil
 
-func (maker *CourseMaker) GetCourseByID(id int) (*Course, error) {
+}
+func (maker *teacherMaker) GetByID(id int64) (*Teacher, error) {
 	query, _, err := sq.
-		Select("id, name, created_at, last_updated").From("course").
-		Where(sq.Eq{"ID": id}).
+		Select("teacher.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
+		From("teacher").
+		Join("person on teacher.person_id=person.id").
+		Where(sq.Eq{"teacher.id": id}).
 		ToSql()
 
 	if err != nil {
 		return nil, err
 	}
-	var course = &Course{}
-	err = util.GetAndMarshal(query, maker, course, id)
+	var teacher = &Teacher{}
+	err = util.GetAndMarshal(query, maker, teacher, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return course, nil
-
-}
-func (maker *CourseMaker) DestroyCourse(course *Course) error {
-	query, _, err := sq.
-		Delete("course").
-		Where(sq.Eq{"ID": course.ID}).
-		ToSql()
-
-	if err != nil {
-		return err
-	}
-	_, err = util.PrepAndExec(query, maker, course.ID)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return teacher, nil
 }
 
-func (maker *TeacherMaker) CreateTeacher(teacher *Teacher) error {
-	return nil
-
-}
-func (maker *TeacherMaker) UpdateTeacher(teacher *Teacher) error {
-	return nil
-
-}
-func (maker *TeacherMaker) GetTeacherByID(id int) (*Teacher, error) {
-	return nil, nil
-
-}
-
-func (maker *TeacherMaker) DestroyTeacher(t *Teacher) error {
-	return nil
-}
-
-func (maker *StudentMaker) CreateStudent(student *Student) error {
-	return nil
-
-}
-func (maker *StudentMaker) UpdateStudent(student *Student) error {
-	return nil
-
-}
-func (maker *StudentMaker) GetStudentByID(id int) (*Student, error) {
-	return nil, nil
-
-}
-func (maker *StudentMaker) DestroyStudent(student *Student) error {
+func (maker *teacherMaker) Destroy(t *Teacher) error {
 	return nil
 }
 
@@ -182,7 +158,7 @@ func (maker *AssignmentMaker) CreateAssignment(assig *Assignment) error {
 	if err != nil {
 		return err
 	}
-	assig.ID = int(id)
+	assig.ID = id
 
 	return nil
 }

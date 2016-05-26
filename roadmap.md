@@ -1,20 +1,15 @@
 # Adjusting:
 
-Need to adjust the roadmap to reflect our new direction.
-
-  My tasks package blows ass.
-  I need to adjust the schema to reflect our new data model.
-
-- First, we need to have a route that accepts a POST request with the zip file.
-- Next, we need to store the zip file on the filesystem.
+- I need to make Person a private struct
+- I need to test the `tasks` package
+- We need to test the route that accepts a POST request with the zip file.
+- We need to create the module that serializes files and puts them on the Google filesystem.
 - Then we need to consider under what conditions we move the files onto the Google Cloud Storage. (Only keep the first 3 projects at a time)
-- After that, we need to add a message to the message bus to run checkstyle.
-- After that, we need to add a message to the message bus to run findbugs.
 - Then, we need to parse the XML output and store it in the database.
+
 - Finally, we need to expose an endpoint to return the XML as JSON, along with the associated lines of code.
 
-  I need to clean up the SendTask function
-  I need to create a fixture file for tests
+- I need to create a fixture file for tests
 
 
 # Roadmap
@@ -24,22 +19,7 @@ This document will serve as the roadmap for feature work, as well as a complete 
 
 # Step One: Models
 
-First, I have to correct the models to make sure that I use an array where I'm supposed to.
-Next, make sure that all of the models have the correct fields (aren't missing any)
-Make sure that Goose can generate them.
-
-Second, I have to implement the model tests so that we can "red-green-refactor" our way to success with the SQL queries (DB package).
-
-Write a "WithCleanDB()" function that looks like this:
-
-    ```golang
-    func WithCleanDB(func a ) {
-        Migrate()
-        defer Clean()
-        a()
-    }
-
-    ```
+I need to finish the ORM for our models.
 
 # Step Two: Interfaces
 
@@ -55,19 +35,49 @@ This includes, but is not limited to, the following interfaces:
 0. [type UnmarshalToManyRelations](https://godoc.org/github.com/manyminds/api2go/jsonapi#UnmarshalToManyRelations)
 0. [type UnmarshalToOneRelations](https://godoc.org/github.com/manyminds/api2go/jsonapi#UnmarshalToOneRelations)
 
+When I complete this, I need to add tests to make sure I can send JSON that creates new records in the database.
+
 # Step Three: Repo Creation
 
-I was able to log in to Github using OAuth. Now, I need to make sure I request the right permissions, and store the access token in the database. I also need create an unguessable state string, probabling using time.Now() and bcrypt.
+We no longer need to do repo creation, since Github Education does this for us.
 
-I need to implement the code to interface with the Github API. Luckily, there's [this](https://github.com/google/go-github). Note that it requires use of [the OAuth library](https://github.com/golang/oauth2). It doesn't look awful, but testing it is going to be a huge chore.
+I was able to log in to Github using OAuth. Now, I need to make sure I request the right permissions, and store the access token in the database. I currently don't have the model for the access token. I also need create an unguessable state string, probabling using time.Now() and bcrypt.
 
-Luckily, the end goal is only to programmatically create a set of repos with the right properties. In particular, I need to have a teacher submit a repo name and a course. Then, I get each of the student from the course, and create a new team within the org for each student in the course. Then, I create a new repo for each of the students, and add the student's team to the repo.
-
-# Step Four: Git Hooks
-
-Next, I need to implement a micro service that listens for Git hooks and creates messages in the queue to test a new commit. I might want to use [this](https://github.com/phayes/hookserve), which is at least partially designed to work for Github.
+We need to listen for Git hooks and handle them approperately. For that, we'll use [this](https://github.com/google/go-github) library. Note that it requires use of [the OAuth library](https://github.com/golang/oauth2). It doesn't look awful, but testing it is going to be a huge chore.
 
 # TODO
+
+- [ ] Organization
+    Who creates an organization? (An Admin)
+    Professors can sign up without an organization, and create a new origanization.
+    Has a list of repos
+
+
+- [ ] Projects need a due date
+
+- [ ] Projects need a late submission policy
+
+- [ ] Courses have Announcements created by Teachers
+
+- [ ] Check out privileges and roles in DB
+
+- [ ] Make Person a private struct
+
+- [ ] Test the `tasks` package
+
+- [ ] Test the route that accepts a POST request with the zip file.
+
+- [ ] Create the module that serializes files and puts them on the Google filesystem.
+
+- [ ] Consider under what conditions we move the files onto the Google Cloud Storage. (Only keep the first 3 projects at a time)
+
+- [ ] Parse the XML output and store it in the database.
+
+- [ ] Expose an endpoint to return the XML as JSON, along with the associated lines of code.
+
+- [ ] Create a fixture file for tests with the right Java code and the right XML output.
+
+- [ ] Add a record for Stripe access tokens
 
 - [ ] Write the SQL for the Course, Student, and Teacher tables so that you can test the success of Assignment
 
@@ -75,8 +85,6 @@ Next, I need to implement a micro service that listens for Git hooks and creates
     - This should probable mean that oauth is going in it's own package somewhere
 
 - [ ] In the oauth package, set the gorilla session store and the GetProviderName() function to work with gorilla mux
-
-- [ ] Convert oauth into it's own package
 
 - [ ] Implement a session database object.
 
@@ -99,6 +107,8 @@ Next, I need to implement a micro service that listens for Git hooks and creates
 
 - [ ] Implement server_data.go in `db`
 
+- [x] Convert oauth into it's own package
+
 - [x] Make sure that Goose doesn't return an error when it's already at the newest migration
 
 - [x] Clean up the `postinstall` scripts and the rest of the Vagrant install bash.
@@ -106,3 +116,8 @@ Next, I need to implement a micro service that listens for Git hooks and creates
 - [x] Tear out the test code that uses the Shell to load the schema and replace it with Goose.
 
 - [x] Make sure that Goose installs and runs on Vagrant start
+
+- [x] After that, we need to add a message to the message bus to run checkstyle.
+
+- [x] After that, we need to add a message to the message bus to run findbugs.
+

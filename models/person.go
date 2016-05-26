@@ -6,7 +6,7 @@ import (
 )
 
 type Person struct {
-	ID        int
+	ID        int64
 	FirstName string `db:"first_name"`
 	LastName  string `db:"last_name"`
 	Username  string `db:"username"`
@@ -17,10 +17,13 @@ type Person struct {
 }
 
 func (person *Person) GetID() string {
-	return strconv.Itoa(person.ID)
+	return strconv.FormatInt(person.ID, 10)
 }
 
 func (person *Person) Equals(other *Person) bool {
+	if other == nil {
+		return false
+	}
 	return person.FirstName == other.FirstName &&
 		person.LastName == other.LastName &&
 		person.Username == other.Username

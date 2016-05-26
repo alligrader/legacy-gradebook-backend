@@ -3,11 +3,8 @@ package util
 import (
 	"database/sql"
 	"fmt"
-	"strings"
 
 	log "github.com/Sirupsen/logrus"
-
-	"bitbucket.org/liamstask/goose/lib/goose"
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
 
@@ -17,6 +14,30 @@ import (
 func init() {
 	Configure()
 	ConfigureLogger()
+}
+
+type AcidTx func(*sqlx.Tx)
+
+// AcidCtx catches any panic that occurs in the call to AcidTx. If a panic occurs, tx.Rollback will be called. If not, Tx.Commit. AcidCtx injects the Tx into the func.
+func AcidCtx(body AcidTx, db Execer) error {
+
+	// Make the new Tx.
+	tx, err := db.Beginx()
+	if err != nil {
+		return err
+	}
+	defer tx.Commit()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			log.Error("Transaction rollback.")
+			err = r.(error)
+			log.Error(err)
+		}
+	}()
+
+	body(tx)
+	return err
 }
 
 type DBConfig struct {
@@ -86,111 +107,37 @@ func (config *DBConfig) ConnectToDB() *sqlx.DB {
 }
 
 func PrepAndExec(query string, db Execer, args ...interface{}) (result sql.Result, err error) {
-	var (
-		tx   *sqlx.Tx
-		stmt *sqlx.Stmt
-	)
 
-	tx, err = db.Beginx()
-	defer tx.Commit()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
+	var stmt *sqlx.Stmt
+	var acid AcidTx = func(tx *sqlx.Tx) {
+		stmt, err = tx.Preparex(query)
+		if err != nil {
+			panic(err)
 		}
-	}()
-
-	if err != nil {
-		panic(err)
-		return result, err
+		if result, err = stmt.Exec(args...); err != nil {
+			panic(err)
+		}
 	}
-
-	stmt, err = tx.Preparex(query)
-	if err != nil {
-		panic(err)
-		return result, err
-	}
-	if result, err = stmt.Exec(args...); err != nil {
-		panic(err)
-	}
+	AcidCtx(acid, db)
 
 	return result, err
 }
 
 func GetAndMarshal(query string, db Execer, destination interface{}, args ...interface{}) (err error) {
-	var (
-		tx   *sqlx.Tx
-		stmt *sqlx.Stmt
-	)
+	var stmt *sqlx.Stmt
 
-	tx, err = db.Beginx()
-	defer tx.Commit()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
+	var acid AcidTx = func(tx *sqlx.Tx) {
+		stmt, err = tx.Preparex(query)
+		if err != nil {
+			panic(err)
 		}
-	}()
-
-	if err != nil {
-		panic(err)
-		return err
+		if err = stmt.Get(destination, args...); err != nil {
+			panic(err)
+		}
 	}
-
-	stmt, err = tx.Preparex(query)
-	if err != nil {
-		panic(err)
-		return err
-	}
-	if err = stmt.Get(destination, args...); err != nil {
-		panic(err)
-	}
+	AcidCtx(acid, db)
 
 	return err
-
-}
-
-func newGooseConf() *goose.DBConf {
-
-	var p string = viper.GetString("GOOSE_DIR")
-	var env string = strings.ToLower(viper.GetString("ENV"))
-	var schema string = "db"
-	g, err := goose.NewDBConf(p, env, schema)
-	if err != nil {
-		panic(err)
-	}
-	return g
-}
-
-func Up() {
-
-	var dirpath string = viper.GetString("GOOSE_DIR")
-	cfg := newGooseConf()
-	version, err := goose.GetMostRecentDBVersion(dirpath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = goose.RunMigrations(cfg, dirpath, version)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func Down() {
-	var dirpath string = viper.GetString("GOOSE_DIR")
-	cfg := newGooseConf()
-	version, err := goose.GetMostRecentDBVersion(dirpath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	previous, err := goose.GetPreviousDBVersion(dirpath, version)
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = goose.RunMigrations(cfg, dirpath, previous)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func WithCleanDB(f func()) {
