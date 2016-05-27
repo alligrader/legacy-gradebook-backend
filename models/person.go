@@ -16,6 +16,21 @@ type Person struct {
 	LastUpdated time.Time `db:"last_updated"`
 }
 
+func (person *Person) InsertColumns() string {
+	return "first_name, last_name, username, password"
+}
+
+func (person *Person) GetColumns() string {
+	return "first_name, last_name, username, created_at, last_updated"
+}
+
+func (person *Person) Fields() []interface{} {
+	return []interface{}{
+		&person.ID, &person.FirstName, &person.LastName,
+		&person.Username, &person.CreatedAt, &person.LastUpdated,
+	}
+}
+
 func (person *Person) GetID() string {
 	return strconv.FormatInt(person.ID, 10)
 }

@@ -1,6 +1,8 @@
 package db
 
 import (
+	"fmt"
+
 	. "github.com/alligrader/gradebook-backend/models"
 	"github.com/alligrader/gradebook-backend/util"
 	"github.com/jmoiron/sqlx"
@@ -11,7 +13,7 @@ import (
 
 func (maker *personMaker) Create(person *Person) error {
 
-	query := queries["create_person"]
+	query := fmt.Sprintf(queries["create_person"], person.InsertColumns())
 
 	result, err := util.PrepAndExec(query, maker, person.FirstName, person.LastName, person.Username, string(person.Password))
 	if err != nil {
@@ -30,8 +32,8 @@ func (maker *personMaker) Create(person *Person) error {
 func (maker *personMaker) GetByID(id int64) (*Person, error) {
 
 	var (
-		query  string  = queries["get_person"]
 		person *Person = &Person{}
+		query  string  = fmt.Sprintf(queries["get_person"], person.GetColumns())
 		err    error   = util.GetAndMarshal(query, maker, person, id)
 	)
 
