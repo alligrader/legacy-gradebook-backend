@@ -7,7 +7,7 @@ import (
 
 func init() {
 	conn := util.GetDBConfigFromEnv().ConnectToDB()
-	PersonStore = &personMaker{conn}
+	UserStore = &userMaker{conn}
 	StudentStore = &studentMaker{conn}
 	TeacherStore = &teacherMaker{conn}
 	CourseStore = &courseMaker{conn}
@@ -16,7 +16,7 @@ func init() {
 }
 
 var (
-	PersonStore     *personMaker
+	UserStore       *userMaker
 	StudentStore    *studentMaker
 	TeacherStore    *teacherMaker
 	CourseStore     *courseMaker
@@ -25,7 +25,7 @@ var (
 )
 
 type (
-	personMaker struct {
+	userMaker struct {
 		*sqlx.DB
 	}
 

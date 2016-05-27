@@ -13,7 +13,7 @@ func TestCreateStudent(t *testing.T) {
 	util.WithCleanDB(func() {
 		var (
 			student *Student = &Student{
-				Person: Person{
+				User: User{
 					FirstName: "Robbie",
 					LastName:  "McKinstry",
 					Username:  "thesnowmancometh",
@@ -30,8 +30,8 @@ func TestCreateStudent(t *testing.T) {
 		if student.ID == 0 {
 			t.Fatal("Failed to set a new ID for a created student")
 		}
-		if student.Person.ID == 0 {
-			t.Fatal("Failed to set a new ID for a created person")
+		if student.User.ID == 0 {
+			t.Fatal("Failed to set a new ID for a created user")
 		}
 
 		observedStudent, err := StudentStore.GetByID(student.ID)
@@ -42,7 +42,7 @@ func TestCreateStudent(t *testing.T) {
 		if !student.Equals(observedStudent) {
 			fmt.Println("Observed: %v\n", observedStudent)
 			fmt.Println("Expected: %v\n", student)
-			t.Fatal("Observed student did not match the original person.")
+			t.Fatal("Observed student did not match the original user.")
 
 		}
 	})

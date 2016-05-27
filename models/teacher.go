@@ -7,7 +7,7 @@ import (
 
 type Teacher struct {
 	ID int64
-	Person
+	User
 
 	CreatedAt   time.Time
 	LastUpdated time.Time
@@ -21,5 +21,5 @@ func (teacher *Teacher) Equals(other *Teacher) bool {
 	if other == nil {
 		return false
 	}
-	return teacher.Person.Equals(&other.Person)
+	return teacher.User.Equals(&other.User)
 }

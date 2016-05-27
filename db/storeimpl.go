@@ -11,11 +11,11 @@ import (
 	_ "github.com/Sirupsen/logrus"
 )
 
-func (maker *personMaker) Create(person *Person) error {
+func (maker *userMaker) Create(user *User) error {
 
-	query := fmt.Sprintf(queries["create_person"], person.InsertColumns())
+	query := fmt.Sprintf(queries["create_user"], user.InsertColumns())
 
-	result, err := util.PrepAndExec(query, maker, person.FirstName, person.LastName, person.Username, string(person.Password))
+	result, err := util.PrepAndExec(query, maker, user.FirstName, user.LastName, user.Username, string(user.Password))
 	if err != nil {
 		return err
 	}
@@ -24,34 +24,34 @@ func (maker *personMaker) Create(person *Person) error {
 	if err != nil {
 		return err
 	}
-	person.ID = id
+	user.ID = id
 
 	return nil
 }
 
-func (maker *personMaker) GetByID(id int64) (*Person, error) {
+func (maker *userMaker) GetByID(id int64) (*User, error) {
 
 	var (
-		person *Person = &Person{}
-		query  string  = fmt.Sprintf(queries["get_person"], person.GetColumns())
-		err    error   = util.GetAndMarshal(query, maker, person, id)
+		user  *User  = &User{}
+		query string = fmt.Sprintf(queries["get_user"], user.GetColumns())
+		err   error  = util.GetAndMarshal(query, maker, user, id)
 	)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return person, nil
+	return user, nil
 }
 
 func (maker *studentMaker) Create(student *Student) error {
 
-	// TODO make PersonStore.Create private.
-	PersonStore.Create(&student.Person)
+	// TODO make UserStore.Create private.
+	UserStore.Create(&student.User)
 
 	query := queries["create_student"]
 
-	result, err := util.PrepAndExec(query, maker, student.Person.ID)
+	result, err := util.PrepAndExec(query, maker, student.User.ID)
 	if err != nil {
 		return err
 	}
@@ -88,16 +88,16 @@ func (maker *studentMaker) Destroy(student *Student) error {
 }
 
 func (maker *teacherMaker) Create(teacher *Teacher) error {
-	PersonStore.Create(&teacher.Person)
+	UserStore.Create(&teacher.User)
 
 	query, _, err := sq.
-		Insert("teacher").Columns("person_id").Values("person_id").
+		Insert("teacher").Columns("user_id").Values("user_id").
 		ToSql()
 	if err != nil {
 		return err
 	}
 
-	result, err := util.PrepAndExec(query, maker, teacher.Person.ID)
+	result, err := util.PrepAndExec(query, maker, teacher.User.ID)
 	if err != nil {
 		return err
 	}
@@ -116,9 +116,9 @@ func (maker *teacherMaker) Update(teacher *Teacher) error {
 }
 func (maker *teacherMaker) GetByID(id int64) (*Teacher, error) {
 	query, _, err := sq.
-		Select("teacher.id", "person.first_name", "person.last_name", "person.username", "person.created_at", "person.last_updated").
+		Select("teacher.id", "t_user.first_name", "t_user.last_name", "t_user.username", "t_user.created_at", "t_user.last_updated").
 		From("teacher").
-		Join("person on teacher.person_id=person.id").
+		Join("t_user on teacher.user_id=t_user.id").
 		Where(sq.Eq{"teacher.id": id}).
 		ToSql()
 

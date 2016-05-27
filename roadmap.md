@@ -1,6 +1,5 @@
 # Adjusting:
 
-- I need to make Person a private struct
 - I need to test the `tasks` package
 - We need to test the route that accepts a POST request with the zip file.
 - We need to create the module that serializes files and puts them on the Google filesystem.
@@ -61,7 +60,7 @@ We need to listen for Git hooks and handle them approperately. For that, we'll u
 
 - [ ] Check out privileges and roles in DB
 
-- [ ] Make Person a private struct
+- [x] Make Person a private struct
 
 - [ ] Test the `tasks` package
 

@@ -1,7 +1,7 @@
 
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
-create table person (
+create table t_user (
     id int auto_increment,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -19,9 +19,9 @@ create table student (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    person_id int NOT NULL,
+    user_id int NOT NULL,
 
-    foreign key (person_id) REFERENCES person(id),
+    foreign key (user_id) REFERENCES t_user(id),
     primary key (id)
 );
 
@@ -30,9 +30,9 @@ create table teacher (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    person_id int NOT NULL,
+    user_id int NOT NULL,
 
-    foreign key (person_id) REFERENCES person(id),
+    foreign key (user_id) REFERENCES t_user(id),
     primary key (id)
 );
 
@@ -99,4 +99,4 @@ DROP TABLE course_members;
 DROP TABLE teacher;
 DROP TABLE student;
 DROP TABLE course;
-DROP TABLE person;
+DROP TABLE t_user;

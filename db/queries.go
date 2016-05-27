@@ -2,30 +2,30 @@ package db
 
 var (
 	queries = map[string]string{
-		"create_person": `
-			INSERT INTO person (%s)
+		"create_user": `
+			INSERT INTO t_user (%s)
 			VALUES ( ?, ?, ?, ?);`,
-		"get_person": `
+		"get_user": `
 			SELECT %s
-			FROM person
+			FROM t_user
 			WHERE id=?;`,
 		"create_student": `
-			INSERT INTO student (person_id)
+			INSERT INTO student (user_id)
 			VALUES (?);`,
 		"get_student": `
-			SELECT student.id, person.id, person.first_name, person.last_name,
-			person.username, person.created_at, person.last_updated
+			SELECT student.id, t_user.id, t_user.first_name, t_user.last_name,
+			t_user.username, t_user.created_at, t_user.last_updated
 			FROM student
-			JOIN person ON student.person_id=person.id
+			JOIN t_user ON student.user_id=t_user.id
 			WHERE student.id=?;`,
 		"create_teacher": `
-			INSERT INTO teacher (person_id)
+			INSERT INTO teacher (user_id)
 			VALUES ( ? );`,
 		"get_teacher": `
-			SELECT teacher.id, person.first_name, person.username, 
-			person.created_at, person.last_updated
+			SELECT teacher.id, t_user.first_name, t_user.username, 
+			t_user.created_at, t_user.last_updated
 			FROM teacher
-			JOIN person ON teacher.person_id=person.id
+			JOIN t_user ON teacher.user_id=t_user.id
 			WHERE teacher.id=?;`,
 		"create_course": `
 			INSERT INTO course (name)
