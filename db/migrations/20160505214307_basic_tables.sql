@@ -2,48 +2,42 @@
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
 create table t_user (
-    id int auto_increment,
+    id int auto_increment PRIMARY KEY,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
     username   varchar(255) UNIQUE NOT NULL,
-    password   varchar(255) NOT NULL,
-
-    primary key (id)
+    password   varchar(255) NOT NULL
 );
 
 create table student (
-    id int auto_increment,
+    id int auto_increment PRIMARY KEY,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     user_id int NOT NULL,
 
-    foreign key (user_id) REFERENCES t_user(id),
-    primary key (id)
+    foreign key (user_id) REFERENCES t_user(id)
 );
 
 create table teacher (
-    id int auto_increment,
+    id int auto_increment PRIMARY KEY,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     user_id int NOT NULL,
 
-    foreign key (user_id) REFERENCES t_user(id),
-    primary key (id)
+    foreign key (user_id) REFERENCES t_user(id)
 );
 
 create table course (
-    id int auto_increment,
+    id int auto_increment PRIMARY KEY,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    name varchar(255) NOT NULL,
-    
-    primary key (id)
+    name varchar(255) NOT NULL
 );
 
 create table course_members (
@@ -66,7 +60,7 @@ create table course_teachers (
 );
 
 create table project (
-    id int auto_increment,
+    id int auto_increment PRIMARY KEY,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -74,12 +68,11 @@ create table project (
     name varchar(255) NOT NULL,
     description text,
 
-    foreign key (course_id) REFERENCES course(id),
-    primary key (id)
+    foreign key (course_id) REFERENCES course(id)
 );
 
 create table submission (
-    id int auto_increment,
+    id int auto_increment PRIMARY KEY,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -87,8 +80,7 @@ create table submission (
     student_id int NOT NULL,
 
     foreign key (project_id) REFERENCES project(id),
-    foreign key (student_id) REFERENCES student(id),
-    primary key (id)
+    foreign key (student_id) REFERENCES student(id)
 );
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
