@@ -151,6 +151,7 @@ type CheckstyleFile struct {
 
 type CheckstyleError struct {
 	Line     string `xml:"line,attr"`
+	Column   string `xml:"column,attr"`
 	Severity string `xml:"severity,attr"`
 	Message  string `xml:"message,attr"`
 	Source   string `xml:"source,attr"`
