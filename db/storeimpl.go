@@ -15,7 +15,7 @@ func (maker *userMaker) Create(user *User) error {
 
 	query := fmt.Sprintf(queries["create_user"], user.InsertColumns())
 
-	result, err := util.PrepAndExec(query, maker, user.FirstName, user.LastName, user.Username, string(user.Password))
+	result, err := util.PrepAndExec(query, maker, user.FirstName, user.LastName, user.Username, string(user.Password), user.Status)
 	if err != nil {
 		return err
 	}

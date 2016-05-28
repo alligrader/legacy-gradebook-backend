@@ -4,7 +4,7 @@ var (
 	queries = map[string]string{
 		"create_user": `
 			INSERT INTO t_user (%s)
-			VALUES ( ?, ?, ?, ?);`,
+			VALUES ( ?, ?, ?, ?, ?);`,
 		"get_user": `
 			SELECT %s
 			FROM t_user
