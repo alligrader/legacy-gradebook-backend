@@ -1,7 +1,6 @@
-
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
-create table t_user (
+CREATE TABLE t_user (
     id           int auto_increment PRIMARY KEY,
     created_at   timestamp DEFAULT CURRENT_TIMESTAMP,
     last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -14,14 +13,14 @@ create table t_user (
 );
 
 -- role contains the description and UID of each role in the database
-create table role (
+CREATE TABLE role (
     id          int auto_increment  PRIMARY KEY,
     name        varchar(255)        NOT NULL,
     description text                NOT NULL
 );
 
 -- role_lines maps the user.id to the role.id
-create table role_lines (
+CREATE TABLE role_lines (
     user_id int NOT NULL,
     role_id int NOT NULL,
 
@@ -30,13 +29,13 @@ create table role_lines (
     PRIMARY KEY (user_id, role_id)
 );
 
-create table action (
+CREATE TABLE action (
     id              int auto_increment PRIMARY KEY,
     title           varchar(255)       NOT NULL,
     apply_object    tinyint            NOT NULL
 );
 
-insert into action(title, apply_object) values
+INSERT INTO action(title, apply_object) VALUES
    ('read',     1),
    ('write',    1),
    ('delete',   1),
@@ -47,7 +46,7 @@ insert into action(title, apply_object) values
 
 -- maps the role id to an action that it can do in a certain status.
 -- says a person with role X can do Y in state Z
-create table t_privileges (
+CREATE TABLE t_privileges (
     role_id     int     NOT NULL,
     action_id   int     NOT NULL,
     status      int     NOT NULL,
@@ -55,75 +54,75 @@ create table t_privileges (
     PRIMARY KEY (role_id, action_id, status)
 );
 
-create table student (
-    id int auto_increment PRIMARY KEY,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CREATE TABLE student (
+    id              int auto_increment   PRIMARY KEY,
+    created_at      timestamp            DEFAULT CURRENT_TIMESTAMP,
+    last_updated    timestamp            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     user_id int NOT NULL,
 
     foreign key (user_id) REFERENCES t_user(id)
 );
 
-create table teacher (
-    id int auto_increment PRIMARY KEY,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CREATE TABLE teacher (
+    id int auto_increment       PRIMARY KEY,
+    created_at timestamp        DEFAULT CURRENT_TIMESTAMP,
+    last_updated timestamp      DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     user_id int NOT NULL,
 
     foreign key (user_id) REFERENCES t_user(id)
 );
 
-create table course (
-    id int auto_increment PRIMARY KEY,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CREATE TABLE course (
+    id int auto_increment     PRIMARY KEY,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    last_updated    timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     name varchar(255) NOT NULL
 );
 
-create table course_members (
+CREATE TABLE course_members (
     course_id int NOT NULL,
     student_id int NOT NULL,
 
-    foreign key (course_id) REFERENCES course(id),
-    foreign key (student_id) REFERENCES student(id),
-    primary key(course_id, student_id)
+    FOREIGN KEY (course_id) REFERENCES course(id),
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    PRIMARY KEY (course_id, student_id)
 );
 
-create table course_teachers (
+CREATE TABLE course_teachers (
     course_id int NOT NULL,
     teacher_id int NOT NULL,
 
-    foreign key (course_id) REFERENCES course(id),
-    foreign key (teacher_id) REFERENCES teacher(id),
-    primary key(course_id, teacher_id)
+    FOREIGN KEY (course_id) REFERENCES course(id),
+    FOREIGN KEY (teacher_id) REFERENCES teacher(id),
+    PRIMARY KEY (course_id, teacher_id)
    
 );
 
-create table project (
-    id int auto_increment PRIMARY KEY,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CREATE TABLE project (
+    id              int auto_increment  PRIMARY KEY,
+    created_at      timestamp           DEFAULT CURRENT_TIMESTAMP,
+    last_updated    timestamp           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    course_id int,
-    name varchar(255) NOT NULL,
+    course_id   int,
+    name        varchar(255) NOT NULL,
     description text,
 
-    foreign key (course_id) REFERENCES course(id)
+    FOREIGN KEY (course_id) REFERENCES course(id)
 );
 
-create table submission (
-    id int auto_increment PRIMARY KEY,
-    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    last_updated timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CREATE TABLE submission (
+    id              int auto_increment  PRIMARY KEY,
+    created_at      timestamp           DEFAULT CURRENT_TIMESTAMP,
+    last_updated    timestamp           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    project_id int NOT NULL,
-    student_id int NOT NULL,
+    project_id      int                 NOT NULL,
+    student_id      int                 NOT NULL,
 
-    foreign key (project_id) REFERENCES project(id),
-    foreign key (student_id) REFERENCES student(id)
+    FOREIGN KEY (project_id) REFERENCES project(id),
+    FOREIGN KEY (student_id) REFERENCES student(id)
 );
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
