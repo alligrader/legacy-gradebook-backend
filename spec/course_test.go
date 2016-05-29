@@ -15,14 +15,14 @@ func TestCreateCourse(t *testing.T) {
 		var (
 			teachers = []*Teacher{
 				{
-					Person: Person{
+					User: User{
 						FirstName: "Jon",
 						LastName:  "Misurda",
 						Username:  "Dr. Vape",
 						Password:  []byte("0000"),
 					},
 				}, {
-					Person: Person{
+					User: User{
 						FirstName: "Sebastion",
 						LastName:  "Awful",
 						Username:  "Bjergsen",
@@ -33,14 +33,14 @@ func TestCreateCourse(t *testing.T) {
 
 			students = []*Student{
 				{
-					Person: Person{
+					User: User{
 						FirstName: "Neel",
 						LastName:  "Kowdley",
 						Username:  "3Legs",
 						Password:  []byte("0000"),
 					},
 				}, {
-					Person: Person{
+					User: User{
 						FirstName: "Dave",
 						LastName:  "Sweeney",
 						Username:  "Swim2Win",
@@ -57,8 +57,8 @@ func TestCreateCourse(t *testing.T) {
 			if teacher.ID == 0 {
 				t.Fatal("No ID on teacher.")
 			}
-			if teacher.Person.ID == 0 {
-				t.Fatal("No ID on teacher.Person")
+			if teacher.User.ID == 0 {
+				t.Fatal("No ID on teacher.User")
 			}
 		}
 
@@ -69,8 +69,8 @@ func TestCreateCourse(t *testing.T) {
 			if student.ID == 0 {
 				t.Fatal("No ID on student")
 			}
-			if student.Person.ID == 0 {
-				t.Fatal("No ID on student.Person")
+			if student.User.ID == 0 {
+				t.Fatal("No ID on student.User")
 			}
 		}
 

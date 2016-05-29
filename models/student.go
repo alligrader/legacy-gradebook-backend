@@ -8,7 +8,7 @@ import (
 
 type Student struct {
 	ID int64
-	Person
+	User
 
 	CreatedAt   time.Time
 	LastUpdated time.Time
@@ -22,11 +22,11 @@ func (student *Student) Equals(other *Student) bool {
 	if other == nil {
 		return false
 	}
-	return student.Person.Equals(&other.Person)
+	return student.User.Equals(&other.User)
 }
 
 func (student *Student) String() string {
 	return fmt.Sprintf(" { ID: %v, FirstName: %v, LastName: %v, Username: %v }",
-		student.ID, student.Person.FirstName, student.Person.LastName, student.Person.Username,
+		student.ID, student.User.FirstName, student.User.LastName, student.User.Username,
 	)
 }

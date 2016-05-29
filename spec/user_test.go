@@ -8,11 +8,11 @@ import (
 	"github.com/alligrader/gradebook-backend/util"
 )
 
-func TestCreatePerson(t *testing.T) {
+func TestCreateUser(t *testing.T) {
 
 	util.WithCleanDB(func() {
 		var (
-			person *models.Person = &models.Person{
+			user *models.User = &models.User{
 				FirstName: "Robbie",
 				LastName:  "McKinstry",
 				Username:  "thesnowmancometh",
@@ -20,37 +20,37 @@ func TestCreatePerson(t *testing.T) {
 			}
 		)
 
-		err := PersonStore.Create(person)
+		err := UserStore.Create(user)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if person.ID == 0 {
-			t.Fatal("Failed to set a new ID for a created person")
+		if user.ID == 0 {
+			t.Fatal("Failed to set a new ID for a created user")
 		}
 
-		observedPerson, err := PersonStore.GetByID(person.ID)
+		observedUser, err := UserStore.GetByID(user.ID)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if !person.Equals(observedPerson) {
-			t.Fatal("Observed person did not match the original person.")
+		if !user.Equals(observedUser) {
+			t.Fatal("Observed user did not match the original user.")
 		}
 	})
 
 }
 
-func TestUpdatePerson(t *testing.T) {
+func TestUpdateUser(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Create")
 	}
 }
 
-func TestDeletePerson(t *testing.T) {
+func TestDeleteUser(t *testing.T) {
 }
 
-func TestSelectPerson(t *testing.T) {
+func TestSelectUser(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing dependent on Create")
 	}
