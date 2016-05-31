@@ -90,7 +90,7 @@ func Configure() {
 func ConfigureLogger() {
 	switch viper.GetString("ENV") {
 	case "DEVELOPMENT":
-		log.SetFormatter(&log.TextFormatter{})
+		log.SetFormatter(&log.TextFormatter{ForceColors: true})
 	case "PRODUCTION":
 		log.SetFormatter(&log.JSONFormatter{})
 	default:
