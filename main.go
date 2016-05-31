@@ -31,5 +31,5 @@ func main() {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, GradeShaman!")
+	fmt.Fprintf(w, "Hello, Alligrader!")
 }

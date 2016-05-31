@@ -83,7 +83,7 @@ func RemoveDatabase(db *sqlx.DB, database string) {
 }
 
 func Configure() {
-	viper.SetEnvPrefix("SHAMAN")
+	viper.SetEnvPrefix("ALLIGRADER")
 	viper.AutomaticEnv()
 }
 

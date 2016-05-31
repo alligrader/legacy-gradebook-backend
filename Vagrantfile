@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: ".appdeps/install_go.bash"
   config.vm.provision "shell", path: ".appdeps/as_vagrant.bash", privileged: false
   config.vm.provision "docker" do |d|
-    d.run "mysql",  image: "mysql",    args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=shaman"
+    d.run "mysql",  image: "mysql",    args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=alligrader"
     d.run "rabbit", image: "rabbitmq:3.6.0-management", args: "-p 8080:15672 -p 5672:5672"
   end
 
