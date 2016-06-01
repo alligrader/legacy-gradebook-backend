@@ -7,3 +7,5 @@ The password is `root`. Check out the username and password settings in `.env`, 
 To dump the database contents out into a file, or make a barebones schema:
 
     mysqldump --compatible=ansi --add-drop-database --skip-comments --add-drop-table --disable-keys --skip-set-charset --host=127.0.0.1 -u root --password=root shaman > mysqldump.sql
+
+To run the tests, execute `go test ./spec/...`. The `...` is a special syntax for recursively running tests.

@@ -5,5 +5,5 @@ application {
 
 customization {
     image = "mysql:5.7"
-    run_args = "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=shaman"
+    run_args = "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=alligrader"
 }

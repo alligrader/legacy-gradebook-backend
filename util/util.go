@@ -83,14 +83,14 @@ func RemoveDatabase(db *sqlx.DB, database string) {
 }
 
 func Configure() {
-	viper.SetEnvPrefix("SHAMAN")
+	viper.SetEnvPrefix("ALLIGRADER")
 	viper.AutomaticEnv()
 }
 
 func ConfigureLogger() {
 	switch viper.GetString("ENV") {
 	case "DEVELOPMENT":
-		log.SetFormatter(&log.TextFormatter{})
+		log.SetFormatter(&log.TextFormatter{ForceColors: true})
 	case "PRODUCTION":
 		log.SetFormatter(&log.JSONFormatter{})
 	default:

@@ -16,9 +16,11 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", HomeHandler)
+	r.HandleFunc("/hello", HelloHandler)
 	r.HandleFunc("/zip", ziphandler.MockHandler)
 	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
+
+	r.HandleFunc("/users", CreateUser).Methods("POST")
 
 	s := r.PathPrefix("/auth").Subrouter()
 
@@ -30,6 +32,11 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, GradeShaman!")
+func HelloHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello, Alligrader!\n")
+}
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	fmt.Fprintf(w, `{ "message": "Hello New User!" }`+"\n")
 }
