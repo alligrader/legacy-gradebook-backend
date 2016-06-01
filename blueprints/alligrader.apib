@@ -1,12 +1,13 @@
 # GET /hello
 + Response 200
-Hello, Alligrader!
+
+        Hello, Alligrader!
 
 + Headers
 
-    date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
-    content-length: 18
-    content-type: text/plain; charset=utf-8
+        date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+        content-length: 18
+        content-type: text/plain; charset=utf-8
 
 # Group Account Resources
 Resources related to interacting with account management
@@ -25,9 +26,9 @@ You may create a new user only if that user is the administrator of an Organizat
 
 + Headers
 
-    date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
-    content-length: 16
-    content-type: text/plain; charset=utf-8
+        date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+        content-length: 16
+        content-type: text/plain; charset=utf-8
 
 + Request (application/json)
 
@@ -40,4 +41,5 @@ You may create a new user only if that user is the administrator of an Organizat
     }
 
 + Response 200 (application/json)
+
     { "message": "Hello New User!" }
