@@ -21,11 +21,19 @@ function install_autoenv {
 }
 
 function install_deps {
+    go get github.com/snikch/goodman
     go get bitbucket.org/liamstask/goose/cmd/goose
     go get github.com/Masterminds/glide
     cd $APPDIR
     glide up
     cd -
+}
+
+function install_dredd {
+    sudo apt-get install -yq npm
+    sudo npm install npm -g
+    sudo ln -s `which nodejs` /usr/bin/node
+    sudo npm install -g dredd
 }
 
 function make_storage {
@@ -36,6 +44,7 @@ function main {
     set_env
     install_deps
     install_autoenv
+    install_dredd
     make_storage
 }
 

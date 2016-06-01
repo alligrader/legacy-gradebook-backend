@@ -16,7 +16,7 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", HomeHandler)
+	r.HandleFunc("/hello", HelloHandler)
 	r.HandleFunc("/zip", ziphandler.MockHandler)
 	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
 
@@ -30,6 +30,6 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, Alligrader!")
+func HelloHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello, Alligrader!\n")
 }
