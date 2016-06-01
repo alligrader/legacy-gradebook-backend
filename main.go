@@ -20,6 +20,8 @@ func main() {
 	r.HandleFunc("/zip", ziphandler.MockHandler)
 	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
 
+	r.HandleFunc("/users", CreateUser).Methods("POST")
+
 	s := r.PathPrefix("/auth").Subrouter()
 
 	s.HandleFunc("/{provider}", gothic.BeginAuthHandler)
@@ -32,4 +34,9 @@ func main() {
 
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, Alligrader!\n")
+}
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	fmt.Fprintf(w, `{ "message": "Hello New User!" }`+"\n")
 }
