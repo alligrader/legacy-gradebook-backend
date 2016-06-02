@@ -1,18 +1,3 @@
-
-
-# Adjusting:
-
-- I need to test the `tasks` package
-- We need to test the route that accepts a POST request with the zip file.
-- We need to create the module that serializes files and puts them on the Google filesystem.
-- Then we need to consider under what conditions we move the files onto the Google Cloud Storage. (Only keep the first 3 projects at a time)
-- Then, we need to parse the XML output and store it in the database.
-
-- Finally, we need to expose an endpoint to return the XML as JSON, along with the associated lines of code.
-
-- I need to create a fixture file for tests
-
-
 # Roadmap
 
 The roadmap is my way of issue tracking. It gives me an idea of what we've accomplished and what still needs done. It starts with a high level overview of the Epics that need completed. An Epic is a series of issues (i.e. stories) that make up a complete set of functionality. After the high level overview of the Epics, the rest of the document is devoted to issue tracking.
@@ -40,6 +25,18 @@ We need to listen for Git hooks and handle them approperately. For that, we'll u
 Natalie's working on this one. It requires experimentation.
 
 We need to add the access token to the organization table, and to add the Stripe Payment token to the organization table. I also need create an unguessable state string, probabling using time.Now() and bcrypt.
+
+## Other
+
+- I need to test the `tasks` package
+- We need to test the route that accepts a POST request with the zip file.
+- We need to create the module that serializes files and puts them on the Google filesystem.
+- Then we need to consider under what conditions we move the files onto the Google Cloud Storage. (Only keep the first 3 projects at a time)
+- Then, we need to parse the XML output and store it in the database.
+
+- Finally, we need to expose an endpoint to return the XML as JSON, along with the associated lines of code.
+
+- I need to create a fixture file for tests
 
 # TODO Issue Tracker
 
