@@ -29,5 +29,5 @@ hooks-worker-term-timeout: 5000
 hooks-worker-term-retry: 500
 hooks-worker-handler-host: localhost
 hooks-worker-handler-port: 61321
-blueprint: blueprints/alligrader.apib
+blueprint: [blueprints/alligrader.apib, blueprints/hooks/push.apib, blueprints/hooks/pull_request.apib, blueprints/hooks/deployment.apib]
 endpoint: 'http://localhost:8000'
