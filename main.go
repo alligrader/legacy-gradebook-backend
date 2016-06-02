@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/alligrader/gradebook-backend/oauth"
+	"github.com/alligrader/gradebook-backend/routes"
 	_ "github.com/alligrader/gradebook-backend/tasks"
 	_ "github.com/alligrader/gradebook-backend/util"
 	"github.com/alligrader/gradebook-backend/ziphandler"
@@ -19,6 +20,8 @@ func main() {
 	r.HandleFunc("/hello", HelloHandler)
 	r.HandleFunc("/zip", ziphandler.MockHandler)
 	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
+
+	r.Handle("/", routes.R)
 
 	r.HandleFunc("/users", CreateUser).Methods("POST")
 
