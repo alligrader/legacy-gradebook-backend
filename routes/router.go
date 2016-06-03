@@ -10,7 +10,7 @@ import (
 var R *mux.Router
 
 func init() {
-	R := mux.NewRouter()
+	R = mux.NewRouter()
 	s := R.PathPrefix("/api").Subrouter()
 
 	s.HandleFunc("/classes/{id:[0-9]+}/users", HandleAddUserToClass).Methods("POST")
