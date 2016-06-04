@@ -1,6 +1,25 @@
+machine:
+    environment:
+        ALLIGRADER_ENV:                'DEVELOPMENT'
+        ALLIGRADER_DB_FLAVOR:          'mysql'
+        ALLIGRADER_DB_HOST:            '0.0.0.0'
+        ALLIGRADER_DB_PORT:            '3306'
+        ALLIGRADER_DB_NAME:            'alligrader'
+        ALLIGRADER_DB_URI:             'root:root@(0.0.0.0:3306)/alligrader?parseTime=true'
+        ALLIGRADER_GOOSE_DIR:          './db'
+        ALLIGRADER_AUTH_CLIENT_ID:     '0c1be3f4d8bec15b046d'
+        ALLIGRADER_AUTH_CLIENT_SECRET: '2a4a27c94d8aaddaecb79222fcd5663d38ffbba2'
+        ALLIGRADER_STORAGE_PATH:       '/home/vagrant/storage/'
+
+dependencies:
+    override:
+        - go get github.com/Masterminds/glide
+        - go get bitbucket.org/liamstask/goose/cmd/goose
+        - glide up
+        - npm install -g dredd
+        - go build -v
+
 test:
-    pre:
-        - source ./.env
     override:
         - go test -v -race ./spec/...
         - dredd
