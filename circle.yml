@@ -1,0 +1,6 @@
+test:
+    pre:
+        source ./.env
+    override:
+        go test -v -race ./spec/...
+        dredd
