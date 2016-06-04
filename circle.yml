@@ -13,18 +13,10 @@ machine:
         IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 
 dependencies:
-    override:
-        - mkdir -p $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME
-        - ln -fs $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-        - echo 'export GOPATH=$GOPATH:$HOME/.go_project' >> ~/.circlerc
-        - go get github.com/Masterminds/glide
-        - go get bitbucket.org/liamstask/goose/cmd/goose
-        - glide up
+    pre:
         - npm install -g dredd
-        - cd $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME && go build -v && cp main ~/$CIRCLE_PROJECT_REPONAME
 
 test:
     override:
-        - dredd
         - go test -v -race ./spec/...
 
