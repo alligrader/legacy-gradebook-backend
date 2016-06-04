@@ -4,4 +4,4 @@ development:
 
 testing:
     driver: mysql
-    open: root:root@(0.0.0.0:3306)/alligrader
+    open: ubuntu:@(0.0.0.0:3306)/circle_test
