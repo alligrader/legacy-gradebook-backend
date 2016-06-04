@@ -1,6 +1,6 @@
 test:
     pre:
-        source ./.env
+        - source ./.env
     override:
         - go test -v -race ./spec/...
         - dredd
