@@ -21,7 +21,7 @@ dependencies:
         - go get bitbucket.org/liamstask/goose/cmd/goose
         - glide up
         - npm install -g dredd
-        - cd $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME && go build -v
+        - cd $HOME/.go_project/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME && go build -v && cp main ~/$CIRCLE_PROJECT_REPONAME
 
 test:
     override:
