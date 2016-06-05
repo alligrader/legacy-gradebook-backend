@@ -23,4 +23,4 @@ dependencies:
 test:
     override:
     - go test -v -race ./spec/...
-    - dredd
+    - go build main.go && dredd
