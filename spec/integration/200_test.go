@@ -44,3 +44,28 @@ func TestServer(t *testing.T) {
 		}
 	}
 }
+
+func TestWebhook(t *testing.T) {
+	url := "http://localhost:8000/api/hooks"
+
+	headers := []string{
+		"PushEvent",
+		"DeploymentEvent",
+		"PullRequestEvent",
+	}
+
+	for _, event := range headers {
+		r, err := http.NewRequest("POST", url, nil)
+		if err != nil {
+			t.Error(err)
+		}
+
+		r.Header.Add("X-GitHub-Event", event)
+
+		w := httptest.NewRecorder()
+		routes.R.ServeHTTP(w, r)
+		if w.Code != 200 {
+			t.Errorf("For URL %v:\nExpected Response Code %v\nFound Response Code %v\nDumping body:\n%v", url, 200, w.Code, w.Body.String())
+		}
+	}
+}
