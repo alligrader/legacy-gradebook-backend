@@ -46,17 +46,14 @@ We need to add the access token to the organization table, and to add the Stripe
 
 - [ ] Cherrypick the models tests into an updated testing package
 
-- [ ] Upgrade to Golang 1.7 Beta
-
 - [ ] Add the Dredd tests for each of the routes in the `routes` document.
-
-- [ ] Add the handler and subrouters for each of the routes int he `routes` document.
 
 - [ ] Implement the database code for marshalling privileges and roles
 
 - [ ] Add an organization table
 
 - [ ] Implement a set of integration tests using Response Recorder from `"net/http/httptest"`
+
 - [ ] Projects need a due date
 
 - [ ] Projects need a late submission policy
@@ -96,6 +93,10 @@ We need to add the access token to the organization table, and to add the Stripe
 - [ ] Implement the tests for the model
 
 - [ ] Make sure the .Equals model methods is consistent accross all models (checks ID)
+
+- [x] Upgrade to Golang 1.7 Beta
+
+- [x] Add the handler and subrouters for each of the routes int he `routes` document.
 
 - [x] Move the model tests into their own package
 
