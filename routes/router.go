@@ -3,8 +3,7 @@ package routes
 import (
 	"github.com/gorilla/mux"
 
-	// TODO Natalie, remove this underscore once you add your functions
-	_ "github.com/alligrader/gradebook-backend/routes/hooks"
+	"github.com/alligrader/gradebook-backend/routes/hooks"
 )
 
 var R *mux.Router
@@ -27,5 +26,7 @@ func init() {
 	s.HandleFunc("/organizations/{id:[0-9]+}", HandleDelOrganization).Methods("DELETE")
 	s.HandleFunc("/organizations/{id:[0-9]+}/classes/{id2:[0-9]+}", HandleDelClass).Methods("DELETE")
 
-	// TODO Natalie, add your routes here
+	s.HandleFunc("/hooks", hooks.HandlePushEvent).Headers("X-GitHub-Event", "PushEvent").Methods("POST")
+	s.HandleFunc("/hooks", hooks.HandleDeploymentEvent).Headers("X-GitHub-Event", "DeploymentEvent").Methods("POST")
+	s.HandleFunc("/hooks", hooks.HandlePullRequestEvent).Headers("X-GitHub-Event", "PullRequestEvent").Methods("POST")
 }
