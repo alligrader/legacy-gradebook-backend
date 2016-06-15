@@ -40,7 +40,12 @@ We need to add the access token to the organization table, and to add the Stripe
 
 # TODO Issue Tracker
 
+- [ ] Get Dredd to work on Natalie's branch.
+
+- [ ] Make a new Go migration to add privileges to roles programmatically.
+
 - [ ] Implement the tests for privileges and roles
+    - [ ] Add all of the privileges to all of the roles.
 
 - [ ] Get the privileges tests to pass
 
