@@ -14,19 +14,18 @@ CREATE TABLE t_user (
 
 -- role contains the description and UID of each role in the database
 CREATE TABLE role (
-    id          int auto_increment  PRIMARY KEY,
-    name        varchar(255)        NOT NULL,
+    name        varchar(255)        NOT NULL PRIMARY KEY,
     description text                NOT NULL
 );
 
 -- role_lines maps the user.id to the role.id
 CREATE TABLE role_lines (
-    user_id int NOT NULL,
-    role_id int NOT NULL,
+    user_id   int     NOT NULL,
+    role_name varchar(255) NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES t_user(id),
-    FOREIGN KEY (role_id) REFERENCES role(id),
-    PRIMARY KEY (user_id, role_id)
+    FOREIGN KEY (user_id)   REFERENCES t_user(id),
+    FOREIGN KEY (role_name) REFERENCES role(name),
+    PRIMARY KEY (user_id, role_name)
 );
 
 CREATE TABLE action (
@@ -36,13 +35,18 @@ CREATE TABLE action (
 );
 
 INSERT INTO action(title, apply_object) VALUES
-   ('read',     1),
-   ('write',    1),
-   ('delete',   1),
-   ('join',     1),
-   ('activate', 1),
-   ('passwd',   1),
-   ('list_all', 0);
+   ('invite_student',            1),
+   ('remove_student',            1),
+   ('read_student',              1),
+   ('create_assignment',         1),
+   ('update_assignment',         1),
+   ('update_submission_grade',   1),
+   ('read_submission',           1),
+   ('delete_submission_grade',   1),
+   ('create_class',              1),
+   ('read_class',                1),
+   ('update_class',              1),
+   ('delete_class',              1);
 
 -- maps the role id to an action that it can do in a certain status.
 -- says a person with role X can do Y in state Z
@@ -53,6 +57,8 @@ CREATE TABLE t_privileges (
 
     PRIMARY KEY (role_id, action_id, status)
 );
+
+-- INSERT INTO t_privileges (role_id, action_id, status) VALUES
 
 CREATE TABLE student (
     id              int auto_increment   PRIMARY KEY,
