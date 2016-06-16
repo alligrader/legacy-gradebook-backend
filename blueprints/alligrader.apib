@@ -1,13 +1,16 @@
 # GET /hello
 + Response 200
 
-        Hello, Alligrader!
+    + Headers
 
-+ Headers
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 18
+            content-type: text/plain; charset=utf-8
 
-        date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
-        content-length: 18
-        content-type: text/plain; charset=utf-8
+    + Body
+
+            Hello, Alligrader!
+
 
 # Group Account Resources
 Resources related to interacting with account management
@@ -24,22 +27,25 @@ You may create a new user only if that user is the administrator of an Organizat
 + password (string) - The user's password
 + payment_token (string) - The Stripe token for charging their account
 
-+ Headers
-
-        date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
-        content-length: 16
-        content-type: text/plain; charset=utf-8
-
 + Request (application/json)
 
-    {
-        "first_name": "Robbie",
-        "last_name": "McKinstry",
-        "username": "thesnowmancometh",
-        "password": "foobar",
-        "payment_token": "0000"
-    }
+    + Body
+
+            {
+                "first_name": "Robbie",
+                "last_name": "McKinstry",
+                "username": "thesnowmancometh",
+                "password": "foobar",
+                "payment_token": "0000"
+            }
 
 + Response 200 (application/json)
 
-    { "message": "Hello New User!" }
+    + Headers
+
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 16
+
+    + Body
+
+            { "message": "Hello New User!" }
