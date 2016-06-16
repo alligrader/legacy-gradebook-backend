@@ -3,7 +3,7 @@ hookfiles: null
 language: go
 sandbox: false
 server: ./main
-server-wait: 3
+server-wait: 1
 init: false
 custom: {}
 names: false
