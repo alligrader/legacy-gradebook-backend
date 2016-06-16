@@ -1,80 +1,51 @@
-FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
-
-# Alligrader
-
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
+# GET /hello
++ Response 200
 
     + Headers
 
-            Location: /questions/2
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 18
+            content-type: text/plain; charset=utf-8
+
+    + Body
+
+            Hello, Alligrader!
+
+
+# Group Account Resources
+Resources related to interacting with account management
+
+## User Collection [/users]
+A collection of resources regarding users
+
+### Create a user [POST]
+You may create a new user only if that user is the administrator of an Organization.
+
++ first_name (string) - The user's first name
++ last_name (string) - The user's last name
++ username (string) - The user's username
++ password (string) - The user's password
++ payment_token (string) - The Stripe token for charging their account
+
++ Request (application/json)
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "first_name": "Robbie",
+                "last_name": "McKinstry",
+                "username": "thesnowmancometh",
+                "password": "foobar",
+                "payment_token": "0000"
             }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 16
+
+    + Body
+
+            { "message": "Hello New User!" }
