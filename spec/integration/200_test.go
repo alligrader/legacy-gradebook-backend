@@ -27,7 +27,7 @@ func TestServer(t *testing.T) {
 		{"DELETE", "/organizations/1"},
 		{"DELETE", "/organizations/1/classes/1"},
 	}
-	urlTmpl := "http://localhost:8000/api%s"
+	urlTmpl := "http://localhost:8000%s"
 
 	for _, req := range requestLayout {
 		urlExt, meth := req.UrlExt, req.Method
@@ -46,7 +46,7 @@ func TestServer(t *testing.T) {
 }
 
 func TestWebhook(t *testing.T) {
-	url := "http://localhost:8000/api/hooks"
+	url := "http://localhost:8000/hooks"
 
 	headers := []string{
 		"PushEvent",

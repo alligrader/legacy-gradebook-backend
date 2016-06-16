@@ -1,17 +1,13 @@
 # Group Git Hooks
 Resources for receiving Git hooks from Github
 
-## POST /hooks
-+ Headers
-
-        date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
-        content-length: 43 (string, optional)
+## POST /api/hooks
 
 + Request (application/json)
 
     + Headers
 
-            X-GitHub-Event: Deployment
+            X-GitHub-Event: DeploymentEvent
 
     + Body
 
@@ -160,4 +156,11 @@ Resources for receiving Git hooks from Github
 
 + Response 200 (application/json)
 
-        { "message": "Deployment Event Detected" }
+    + Headers
+
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 43 (string, optional)
+
+    + Body
+
+            { "message": "Deployment Event Detected" }
