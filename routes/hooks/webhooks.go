@@ -6,7 +6,8 @@ import (
 )
 
 func HandlePushEvent(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-type", "application/json")
+	fmt.Fprintf(w, `{ "message": "Push Event Detected" }`+"\n")
 }
 
 func HandleDeploymentEvent(w http.ResponseWriter, r *http.Request) {
@@ -15,5 +16,6 @@ func HandleDeploymentEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandlePullRequestEvent(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-type", "application/json")
+	fmt.Fprintf(w, `{ "message": "Pull Request Event Detected" }`+"\n")
 }

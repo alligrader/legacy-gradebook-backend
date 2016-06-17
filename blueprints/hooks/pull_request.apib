@@ -1,17 +1,13 @@
 # Group Git Hooks
 Resources for receiving Git hooks from Github
 
-## POST /hooks
-+ Headers
-
-        date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
-        content-length: 45 (string, optional)
+## POST /api/hooks
 
 + Request (application/json)
 
     + Headers
 
-            X-GitHub-Event: PullRequest
+            X-GitHub-Event: PullRequestEvent
 
     + Body
 
@@ -181,4 +177,11 @@ Resources for receiving Git hooks from Github
 
 + Response 200 (application/json)
 
-        { "message": "Pull Request Event Detected" }
+    + Headers
+
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 45 (string, optional)
+
+    + Body
+
+            { "message": "Pull Request Event Detected" }

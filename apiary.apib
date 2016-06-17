@@ -1,4 +1,9 @@
-# GET /hello
+FORMAT: 1A
+HOST: http://alligrader.apiblueprint.org/
+
+# Alligrader
+
+## GET /hello
 + Response 200
 
     + Headers
@@ -11,14 +16,13 @@
 
             Hello, Alligrader!
 
-
-# Group Account Resources
+## Group Account Resources
 Resources related to interacting with account management
 
-## User Collection [/users]
+### User Collection [/users]
 A collection of resources regarding users
 
-### Create a user [POST]
+#### Create a user [POST]
 You may create a new user only if that user is the administrator of an Organization.
 
 + first_name (string) - The user's first name
