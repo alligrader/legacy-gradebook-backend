@@ -1,0 +1,8 @@
+box: golang
+
+dev:
+    steps:
+        - internal/watch:
+            code: |
+                go build main.go
+            reload: true
