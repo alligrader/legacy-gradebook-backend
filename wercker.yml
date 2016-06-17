@@ -1,8 +1,28 @@
 box: golang
 
+build:
+    services:
+        - id: mariadb
+          tag: latest
+          env:
+              MYSQL_DATABASE: alligrade
+              MYSQL_ROOT_USERNAME: root
+              MYSQL_ROOT_PASSWORD: root
+
 dev:
+    services:
+        - id: mariadb
+          tag: latest
+          env:
+              MYSQL_DATABASE: alligrade
+              MYSQL_ROOT_USERNAME: root
+              MYSQL_ROOT_PASSWORD: root
     steps:
+        - add-ssh-key:
+            keyname: RSA_KEY
         - internal/watch:
             code: |
+                go get bitbucket.org/liamstask/goose/cmd/goose
+                go get github.com/Masterminds/glide
+                glide up
                 go build main.go
-            reload: true
