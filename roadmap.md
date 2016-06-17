@@ -40,6 +40,14 @@ We need to add the access token to the organization table, and to add the Stripe
 
 # TODO Issue Tracker
 
+- [ ] Make a custom vagrant box and docker container for our base dependencies
+
+- [ ] get wercker to work
+
+- [ ] Clean up wercker so that it's actually useful
+
+- [ ] Shut down Circle CI so I never have to look at it again
+
 - [ ] Implement the tests for privileges and roles
 
 - [ ] Get the privileges tests to pass

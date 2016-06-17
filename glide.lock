@@ -1,5 +1,5 @@
-hash: b8bc07415cb431025cd1364e7079620ce7984371d5b48e3b2f2513d4dab1218b
-updated: 2016-06-16T19:12:14.178224288Z
+hash: 768528de8989d73e6db78201cb484e499f87e596ba7105a198e1ca326e007547
+updated: 2016-06-17T04:16:53.98600239Z
 imports:
 - name: bitbucket.org/liamstask/goose
   version: 8488cc47d90c8a502b1c41a462a6d9cc8ee0a895
@@ -15,9 +15,9 @@ imports:
 - name: github.com/BurntSushi/toml
   version: f0aeabca5a127c4078abb8c8d64298b147264b55
 - name: github.com/dgrijalva/jwt-go
-  version: c04502f106d7c5b3fae17c5da49a1bbdd3006b3c
+  version: d2709f9f1f31ebcda9651b03077758c1f3a0018c
 - name: github.com/docker/docker
-  version: 1f3efe67764b6f8616dd12271747863c17f36f30
+  version: 4c5f1a7e5bfb49647eeb76d20628c7daac65ef8d
   subpackages:
   - opts
   - pkg/archive
@@ -31,7 +31,7 @@ imports:
   - pkg/system
   - pkg/longpath
 - name: github.com/docker/engine-api
-  version: d4b1f372e3bfb0be0a7bf571ba290ef857affa8b
+  version: f3ed0875cb8de46fc5ba6796851f36e798f43f97
   subpackages:
   - types/filters
   - types/versions
@@ -63,7 +63,7 @@ imports:
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/hcl
-  version: d7400db7143f8e869812e50a53acd6c8d92af3b8
+  version: aa7699b7b62c5f410f4cf7b58f3f9b17a71fb4ad
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -92,7 +92,7 @@ imports:
 - name: github.com/magiconair/properties
   version: c265cfa48dda6474e208715ca93e987829f572f8
 - name: github.com/manyminds/api2go
-  version: b3615c11e55b9c7a507320130f114c51222b5177
+  version: 22da272c420e3e0f59a8aaa74dbd0f170053ade7
 - name: github.com/markbates/goth
   version: 4cf2710d55535bd35f29a7fc8d7496b28eb8abf7
   subpackages:

@@ -25,3 +25,5 @@ import:
   subpackages:
   - storage
 - package: github.com/fsouza/go-dockerclient
+ignore:
+- github.com/alligrader/gradebook-backend
