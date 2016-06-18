@@ -1,0 +1,26 @@
+{
+    "builders": [
+        {
+            "export_path": "image.tar",
+            "image": "yikaus/alpine-bash",
+            "type": "docker"
+        }
+    ],
+    "post-processors": [
+        {
+            "repository": "robbiemckinstry/packer-python",
+            "tag": "latest",
+            "type": "docker-import"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "apk update -v",
+                "apk add -v --update py-pip",
+                "pip install -v --upgrade pip"
+            ]
+        }
+    ]
+}
