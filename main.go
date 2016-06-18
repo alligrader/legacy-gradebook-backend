@@ -21,7 +21,7 @@ func main() {
 	r.HandleFunc("/zip", ziphandler.MockHandler)
 	r.HandleFunc("/zip/upload", ziphandler.HandleZipUpload) // TODO remove the stutter
 
-	r.Handle("/", routes.R)
+	r.PathPrefix("/api").Handler(routes.R)
 
 	r.HandleFunc("/users", CreateUser).Methods("POST")
 

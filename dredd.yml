@@ -3,7 +3,7 @@ hookfiles: null
 language: go
 sandbox: false
 server: ./main
-server-wait: 3
+server-wait: 1
 init: false
 custom: {}
 names: false
@@ -29,5 +29,5 @@ hooks-worker-term-timeout: 5000
 hooks-worker-term-retry: 500
 hooks-worker-handler-host: localhost
 hooks-worker-handler-port: 61321
-blueprint: [blueprints/alligrader.apib]
+blueprint: [apiary.apib, blueprints/alligrader.apib, blueprints/hooks/deploy.apib, blueprints/hooks/pull_request.apib, blueprints/hooks/push.apib]
 endpoint: 'http://localhost:8000'

@@ -1,0 +1,55 @@
+FORMAT: 1A
+HOST: http://alligrader.apiblueprint.org/
+
+# Alligrader
+
+## GET /hello
++ Response 200
+
+    + Headers
+
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 18
+            content-type: text/plain; charset=utf-8
+
+    + Body
+
+            Hello, Alligrader!
+
+## Group Account Resources
+Resources related to interacting with account management
+
+### User Collection [/users]
+A collection of resources regarding users
+
+#### Create a user [POST]
+You may create a new user only if that user is the administrator of an Organization.
+
++ first_name (string) - The user's first name
++ last_name (string) - The user's last name
++ username (string) - The user's username
++ password (string) - The user's password
++ payment_token (string) - The Stripe token for charging their account
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "first_name": "Robbie",
+                "last_name": "McKinstry",
+                "username": "thesnowmancometh",
+                "password": "foobar",
+                "payment_token": "0000"
+            }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            date: Wed, 01 Jun 2016 05:17:39 GMT (string, optional)
+            content-length: 16
+
+    + Body
+
+            { "message": "Hello New User!" }

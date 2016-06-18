@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"strings"
 
 	"bitbucket.org/liamstask/goose/lib/goose"
@@ -24,6 +25,7 @@ func Up() {
 
 	var dirpath string = viper.GetString("GOOSE_DIR")
 	cfg := newGooseConf()
+	fmt.Printf("Open str: %s", cfg.Driver.OpenStr)
 	version, err := goose.GetMostRecentDBVersion(dirpath)
 	if err != nil {
 		log.Fatal(err)
