@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   # config.vm.network "forwarded_port", guest: 3306, host: 3306
   config.vm.network "forwarded_port", guest: 5672, host: 5672
+  config.vm.network "forwarded_port", guest: 37904, host: 4000
 
   # removes the default shared folder.
   config.vm.synced_folder ".", "/vagrant", disabled: true
