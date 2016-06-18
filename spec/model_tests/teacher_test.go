@@ -6,6 +6,8 @@ import (
 	. "github.com/alligrader/gradebook-backend/db"
 	. "github.com/alligrader/gradebook-backend/models"
 	"github.com/alligrader/gradebook-backend/util"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func TestCreateTeacher(t *testing.T) {
