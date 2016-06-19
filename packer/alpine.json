@@ -16,10 +16,17 @@
     "provisioners": [
         {
             "type": "shell",
+            "script": "provision.sh",
             "inline": [
-                "apk update -v",
-                "apk add -v --update py-pip",
-                "pip install -v --upgrade pip"
+                "set -e",
+                "echo Hello Alpine!",
+                "apk update",
+                "apk add alpine-sdk",
+
+                "apk add --update python python-dev py-pip",
+                "apk add --update nodejs",
+                "sudo npm install -g npm@latest",
+                "sudo npm install -g dredd@latest"
             ]
         }
     ]
