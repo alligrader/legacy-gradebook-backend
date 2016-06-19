@@ -6,6 +6,8 @@ The roadmap is my way of issue tracking. It gives me an idea of what we've accom
 
 Currently, all models are incomplete. Once I added privileges and roles, everything that I had done was undone. It's kind of demoralizing, so I haven't touched it in a little while.
 
+I need to add a table for an organization and maybe a team.
+
 Right now there are tests and implementations of Teacher and Student objects. However, with the addition of the ACL, there should no longer be Teacher and Student objects. Instead, there should only be a User table.
 
 I did the first step to resolving this, which is to move the model tests into their own package. Then, I should make a new empty package for database tests, and then cherrypick over the testing code from the old package. I need to implement the privileges tests and database code, and then I can finish the implementation of the ORM on all of the other objects.
@@ -40,9 +42,13 @@ We need to add the access token to the organization table, and to add the Stripe
 
 # TODO Issue Tracker
 
-- [ ] Make a custom vagrant box and docker container for our base dependencies
+- [ ] Use the new Docker image on Wercker
 
-- [ ] get wercker to work
+- [ ] Secure the Docker image so that the container is executed with the right user with the right permissions
+
+- [ ] Add `go vet`, `golint`, and race detection (`-race`) to the CI
+
+- [ ] Make a custom Vagrant box with packer to speed up boot time
 
 - [ ] Clean up wercker so that it's actually useful
 
@@ -71,6 +77,8 @@ We need to add the access token to the organization table, and to add the Stripe
 - [ ] Test the `tasks` package
 
 - [ ] Test the route that accepts a POST request with the zip file.
+
+- [ ] Use the Google Container registry or the Docker private registry
 
 - [ ] Create the module that serializes files and puts them on the Google filesystem.
 
@@ -101,6 +109,10 @@ We need to add the access token to the organization table, and to add the Stripe
 - [ ] Implement the tests for the model
 
 - [ ] Make sure the .Equals model methods is consistent accross all models (checks ID)
+
+- [x] Make a docker container for our base dependencies
+
+- [x] get wercker to work
 
 - [x] Upgrade to Golang 1.7 Beta
 

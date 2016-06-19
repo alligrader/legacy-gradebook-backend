@@ -6,17 +6,18 @@
             "type": "docker"
         }
     ],
-    "post-processors": [
-        {
-            "repository": "robbiemckinstry/packer-python",
-            "tag": "latest",
-            "type": "docker-import"
-        }
-    ],
     "provisioners": [
         {
             "type": "shell",
             "script": "provision.sh"
         }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-import",
+            "repository": "alligrader/golang-node",
+            "tag": "latest"
+        },
+        "docker-push"
     ]
 }
