@@ -3,10 +3,10 @@ application {
   type = "go"
 
   dependency {
-    source = "./.appdeps/mysql"
+    source = "./.deploy/mysql"
   }
   dependency {
-    source = "./.appdeps/rabbitmq"
+    source = "./.deploy/rabbitmq"
   }
 
 }
