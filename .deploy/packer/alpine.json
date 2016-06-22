@@ -9,12 +9,14 @@
     "provisioners": [
         {
             "type": "shell",
+            "only": ["docker"],
             "script": "provision.sh"
         }
     ],
     "post-processors": [
         {
             "type": "docker-import",
+            "only": ["docker"],
             "repository": "alligrader/golang-node",
             "tag": "latest"
         }

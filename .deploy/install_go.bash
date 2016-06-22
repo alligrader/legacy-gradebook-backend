@@ -11,7 +11,7 @@ sudo apt-get install -yq \
     vim-nox
 
 if [ ! -d /usr/local/go ]; then
-    curl -O -J -L "https://storage.googleapis.com/golang/go1.7beta1.linux-amd64.tar.gz"
+    curl -O -J -L "https://storage.googleapis.com/golang/go1.7beta2.linux-amd64.tar.gz"
     # wget -q "https://storage.googleapis.com/golang/go1.7beta1.linux-amd64.tar.gz"
-    sudo tar -C /usr/local -xvf go1.7beta1.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xvf go1.7beta2.linux-amd64.tar.gz
 fi

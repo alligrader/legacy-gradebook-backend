@@ -42,17 +42,27 @@ We need to add the access token to the organization table, and to add the Stripe
 
 # TODO Issue Tracker
 
+- [ ] Push our Vagrantbox to a remote registry
+
+- [ ] Rewrite the alpine package install script to correctly install all of our dependencies.
+
 - [ ] Use the new Docker image on Wercker
 
 - [ ] Secure the Docker image so that the container is executed with the right user with the right permissions
 
 - [ ] Add `go vet`, `golint`, and race detection (`-race`) to the CI
 
-- [ ] Make a custom Vagrant box with packer to speed up boot time
-
 - [ ] Clean up wercker so that it's actually useful
 
 - [ ] Shut down Circle CI so I never have to look at it again
+
+- [ ] Add the privileges to the database for the teacher role.
+
+- [ ] Add the privileges to the database for the assistent role.
+
+- [ ] Add the privileges to the database for the billing role.
+
+- [ ] Add the privileges to the database for the student role.
 
 - [ ] Implement the tests for privileges and roles
 
@@ -109,6 +119,8 @@ We need to add the access token to the organization table, and to add the Stripe
 - [ ] Implement the tests for the model
 
 - [ ] Make sure the .Equals model methods is consistent accross all models (checks ID)
+
+- [x] Make a custom Vagrant box with packer to speed up boot time
 
 - [x] Make a docker container for our base dependencies
 
