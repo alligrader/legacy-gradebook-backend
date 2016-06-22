@@ -4,20 +4,24 @@ readonly ME=$(whoami)
 touch $HOME/.profile
 
 function set_env {
+    export PATH="/usr/local/go/bin":$PATH
+    export GOROOT="/usr/local/go"
     export APPDIR="/opt/gopath/src/github.com/alligrader/gradebook-backend"
     export GOPATH="/opt/gopath"
     export GOBIN=$GOPATH/bin
     export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
+    echo "export PATH=/usr/local/go/bin:\$PATH"
+    echo "export GOROOT=/usr/local/go"
     echo "export GOPATH=/opt/gopath" >> $HOME/.profile
     echo "export GOBIN=\$GOPATH/bin" >> $HOME/.profile
     echo "export PATH=\$PATH:/usr/local/go/bin:$GOPATH/bin" >> $HOME/.profile
-    echo 'export GO15VENDOREXPERIMENT=1' >> ~/.profile
     echo "cd $APPDIR" >> $HOME/.bashrc
     source $HOME/.profile
 }
 
 function install_godeps {
+    sudo chown -R $ME:$ME /opt  # Work around bug in Vagrant
     go get github.com/snikch/goodman
     go get bitbucket.org/liamstask/goose/cmd/goose
     go get github.com/Masterminds/glide

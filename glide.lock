@@ -1,5 +1,5 @@
 hash: 768528de8989d73e6db78201cb484e499f87e596ba7105a198e1ca326e007547
-updated: 2016-06-21T18:33:06.185072936Z
+updated: 2016-06-22T21:03:30.973932441Z
 imports:
 - name: bitbucket.org/liamstask/goose
   version: 8488cc47d90c8a502b1c41a462a6d9cc8ee0a895
@@ -17,7 +17,7 @@ imports:
 - name: github.com/dgrijalva/jwt-go
   version: f0777076321ab64f6efc15a82d9d23b98539b943
 - name: github.com/docker/docker
-  version: 7b2b4eb40cfd907f3aa20b630cc2feeb8460404a
+  version: 138f9538f3a740ef56b1a6cd43ae537a78f4d896
   subpackages:
   - opts
   - pkg/archive
@@ -40,7 +40,7 @@ imports:
 - name: github.com/fsnotify/fsnotify
   version: 30411dbcefb7a1da7e84f75530ad3abe4011b4f8
 - name: github.com/fsouza/go-dockerclient
-  version: 8fd726ff652fdc430907f7ba90187458f0617221
+  version: 3c3341e082f778f28a186b9d4b97e825f41f0d5d
 - name: github.com/garyburd/redigo
   version: 8873b2f1995f59d4bcdd2b0dc9858e2cb9bf0c13
   subpackages:
@@ -63,7 +63,7 @@ imports:
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/hcl
-  version: da486364306ed66c218be9b7953e19173447c18b
+  version: 5b7dbf7eefffea49afb3c9655d6582c72fae5fd1
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -86,7 +86,7 @@ imports:
 - name: github.com/lann/ps
   version: 62de8c46ede02a7675c4c79c84883eb164cb71e3
 - name: github.com/lib/pq
-  version: 55196ec83d60d789e27b2627549bf00974a70084
+  version: e2402a7cd1e57e08a576b94cdfed36ae30366545
   subpackages:
   - oid
 - name: github.com/magiconair/properties
@@ -147,7 +147,7 @@ imports:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: 7c71ca708c71bcbd0e6c856b01468ee07fe24557
+  version: bc3663df0ac92f928d419e31e0d2af22e683a5a2
   subpackages:
   - context
 - name: golang.org/x/oauth2
