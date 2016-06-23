@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "rem89/alligrader"
   config.vm.network "forwarded_port", guest: 443, host: 443
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 5000, host: 5000
@@ -22,12 +22,12 @@ Vagrant.configure(2) do |config|
   end
 
   # config.vm.provision "shell", path: ".appdeps/provision.bash"
-  config.vm.provision "shell", path: ".appdeps/install_go.bash"
-  config.vm.provision "shell", path: ".appdeps/as_vagrant.bash", privileged: false
-  config.vm.provision "docker" do |d|
-    d.run "mysql",  image: "mysql",    args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=alligrader"
-    d.run "rabbit", image: "rabbitmq:3.6.0-management", args: "-p 8080:15672 -p 5672:5672"
-  end
+  # config.vm.provision "shell", path: ".deploy/install_go.bash"
+  config.vm.provision "shell", path: ".deploy/packer/as_user.bash", privileged: false
+  #config.vm.provision "docker" do |d|
+  #  d.run "mysql",  image: "mysql",    args: "-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_DATABASE=alligrader"
+  #  d.run "rabbit", image: "rabbitmq:3.6.0-management", args: "-p 8080:15672 -p 5672:5672"
+  #end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at

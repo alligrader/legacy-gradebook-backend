@@ -1,0 +1,24 @@
+{
+    "builders": [
+        {
+            "export_path": "image.tar",
+            "image": "yikaus/alpine-bash",
+            "type": "docker"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "only": ["docker"],
+            "script": "as_root_alpine.bash"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-import",
+            "only": ["docker"],
+            "repository": "alligrader/golang-node",
+            "tag": "latest"
+        }
+    ]
+}
