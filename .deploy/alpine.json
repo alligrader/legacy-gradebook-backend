@@ -2,7 +2,7 @@
     "builders": [
         {
             "export_path": "image.tar",
-            "image": "yikaus/alpine-bash",
+            "image": "thesnowmancometh/gobash",
             "type": "docker"
         }
     ],
@@ -10,7 +10,7 @@
         {
             "type": "shell",
             "only": ["docker"],
-            "script": "as_root_alpine.bash"
+            "script": "as_root_alpine2.bash"
         }
     ],
     "post-processors": [
