@@ -1,4 +1,4 @@
-box: jamesgroat/golang-nodejs
+box: alligrader/gradebook-backend
 
 build:
     services:
@@ -22,11 +22,6 @@ test:
             package-dir: github.com/alligrader/gradebook-backend
 
         - skidder/glide-install@1.0.2
-
-        - script:
-            name: install-dredd
-            code: |
-                sudo npm install -g dredd
 
         - script:
             name: get deps

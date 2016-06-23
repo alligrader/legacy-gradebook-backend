@@ -17,7 +17,7 @@
         {
             "type": "docker-import",
             "only": ["docker"],
-            "repository": "alligrader/golang-node",
+            "repository": "alligrader/gradebook-backend",
             "tag": "latest"
         }
     ]
