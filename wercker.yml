@@ -21,6 +21,7 @@ test:
         - script:
             name: envVars
             code: |
+                env
                 export ALLIGRADER_ENV=WERCKER
                 export ALLIGRADER_DB_FLAVOR=mysql
                 export ALLIGRADER_DB_HOST=$MARIADB_PORT_3306_TCP_ADDR

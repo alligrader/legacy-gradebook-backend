@@ -35,11 +35,32 @@ function install_dredd {
     echo '~~ dredd installed successfully ~~'
 }
 
+function set_env {
+    touch $HOME/.profile
+    export PATH="/usr/local/go/bin":$PATH
+    export GOROOT="/usr/local/go"
+    export APPDIR="/opt/gopath/src/github.com/alligrader/gradebook-backend"
+    export GOPATH="/opt/gopath"
+    export GOBIN=$GOPATH/bin
+    export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+
+    echo "export GOPATH=/opt/gopath" >> $HOME/.profile
+    echo "export GOPATH=/opt/gopath" >> $HOME/.bashrc
+    echo "export GOBIN=\$GOPATH/bin" >> $HOME/.profile
+    echo "export GOBIN=\$GOPATH/bin" >> $HOME/.bashrc
+    echo "export PATH=\$PATH:/usr/local/go/bin:$GOPATH/bin" >> $HOME/.profile
+    echo "export PATH=\$PATH:/usr/local/go/bin:$GOPATH/bin" >> $HOME/.bashrc
+    echo "cd $APPDIR" >> $HOME/.bashrc
+    source $HOME/.profile
+}
+
+
 function main {
     update
     install_deps
     make_gopath
     install_dredd
+    set_env
 }
 
 main
