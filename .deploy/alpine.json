@@ -10,7 +10,7 @@
         {
             "type": "shell",
             "only": ["docker"],
-            "script": "provision.sh"
+            "script": "as_root_alpine.bash"
         }
     ],
     "post-processors": [
