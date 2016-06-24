@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
 
   config.ssh.forward_agent = true
   config.vm.provider "virtualbox" do |v|
-    v.memory = 2048 # this line is required to make the box large enough for all the docker deps
+    v.memory = 4096 # this line is required to make the box large enough for all the docker deps
     v.cpus = 2
   end
 
