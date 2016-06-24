@@ -14,19 +14,18 @@ CREATE TABLE t_user (
 
 -- role contains the description and UID of each role in the database
 CREATE TABLE role (
-    id          int auto_increment  PRIMARY KEY,
-    name        varchar(255)        NOT NULL,
+    name        varchar(255)        NOT NULL PRIMARY KEY,
     description text                NOT NULL
 );
 
 -- role_lines maps the user.id to the role.id
 CREATE TABLE role_lines (
-    user_id int NOT NULL,
-    role_id int NOT NULL,
+    user_id                 int                 NOT NULL,
+    role_name               varchar(255)        NOT NULL,
 
     FOREIGN KEY (user_id) REFERENCES t_user(id),
-    FOREIGN KEY (role_id) REFERENCES role(id),
-    PRIMARY KEY (user_id, role_id)
+    FOREIGN KEY (role_name) REFERENCES role(name),
+    PRIMARY KEY (user_id, role_name)
 );
 
 CREATE TABLE action (
@@ -35,23 +34,15 @@ CREATE TABLE action (
     apply_object    tinyint            NOT NULL
 );
 
-INSERT INTO action(title, apply_object) VALUES
-   ('read',     1),
-   ('write',    1),
-   ('delete',   1),
-   ('join',     1),
-   ('activate', 1),
-   ('passwd',   1),
-   ('list_all', 0);
-
--- maps the role id to an action that it can do in a certain status.
+-- maps the role_name to an action that it can do in a certain status.
 -- says a person with role X can do Y in state Z
 CREATE TABLE t_privileges (
-    role_id     int     NOT NULL,
-    action_id   int     NOT NULL,
-    status      int     NOT NULL,
+    role_name   varchar(255)    NOT NULL,
+    action_id   int             NOT NULL,
+    status      int             NOT NULL,
 
-    PRIMARY KEY (role_id, action_id, status)
+    FOREIGN KEY (role_name) REFERENCES role(name),
+    PRIMARY KEY (role_name, action_id, status)
 );
 
 CREATE TABLE student (

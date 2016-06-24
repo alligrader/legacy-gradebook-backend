@@ -14,9 +14,6 @@ import:
 - package: gopkg.in/Masterminds/squirrel.v1
 - package: github.com/markbates/goth
 - package: github.com/gorilla/sessions
-- package: bitbucket.org/liamstask/goose
-  subpackages:
-  - cmd/goose
 - package: golang.org/x/crypto
   subpackages:
   - bcrypt
