@@ -1,11 +1,6 @@
 hash: 768528de8989d73e6db78201cb484e499f87e596ba7105a198e1ca326e007547
 updated: 2016-06-22T21:03:30.973932441Z
 imports:
-- name: bitbucket.org/liamstask/goose
-  version: 8488cc47d90c8a502b1c41a462a6d9cc8ee0a895
-  subpackages:
-  - cmd/goose
-  - lib/goose
 - name: github.com/auth0/go-jwt-middleware
   version: f3f7de3b9e394e3af3b88e1b9457f6f71d1ae0ac
 - name: github.com/bradfitz/gomemcache
