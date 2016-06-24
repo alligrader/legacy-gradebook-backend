@@ -12,3 +12,7 @@ type (
 	Status     int
 	Privileges map[Action][]Status
 )
+
+func (r *Role) Can(a Action, s Status) bool {
+	return false
+}
