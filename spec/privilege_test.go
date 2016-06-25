@@ -27,10 +27,34 @@ func TestRolesHavePrivileges(t *testing.T) {
 	}
 }
 
-func failOnFalse(failed bool, t *testing.T, message string) {
-	if failed {
+func failOnFalse(ok bool, t *testing.T, message string) {
+	if !ok {
 		t.Error(message)
 	}
+}
+
+func TestCan(t *testing.T) {
+	read := Action("read")
+	write := Action("write")
+	del := Action("delete")
+	execute := Action("execute")
+
+	stat := Status(0)
+
+	r := &Role{
+		Name:        "test",
+		Description: "empty",
+		Privileges: Privileges{
+			read:  []Status{stat},
+			write: []Status{stat},
+			del:   []Status{stat},
+		},
+	}
+
+	failOnFalse(r.Can(read, stat), t, "Cannot read")
+	failOnFalse(r.Can(write, stat), t, "Cannot write")
+	failOnFalse(r.Can(del, stat), t, "Cannot delete")
+	failOnFalse(!r.Can(execute, stat), t, "Can execute when you shouldn't be able to")
 }
 
 func teacherPrivileges(t *testing.T) {
@@ -59,7 +83,7 @@ func teacherPrivileges(t *testing.T) {
 
 	for _, elem := range table {
 		r := Role{Name: elem.role}
-		failOnFalse(!r.Can(Action(elem.action), Status(elem.status)), t, elem.message)
+		failOnFalse(r.Can(Action(elem.action), Status(elem.status)), t, elem.message)
 	}
 }
 
