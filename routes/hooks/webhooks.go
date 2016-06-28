@@ -5,30 +5,36 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/alligrader/gradebook-backend/tasks"
+	_ "github.com/alligrader/gradebook-backend/tasks"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/google/go-github/github"
 )
 
 func HandlePushEvent(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
-	fmt.Fprintf(w, `{ "message": "Push Event Detected" }`+"\n")
 
-	var requestBody github.Event = github.Event{}
+	var (
+		message github.PushEvent = github.PushEvent{}
+		// ghEvent                  = &github.Event{}
+		err = json.NewDecoder(r.Body).Decode(&message)
+	)
 
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&requestBody)
 	if err != nil {
 		log.Error(err)
+		return
 	}
 
-	var message github.PushEvent
+	// fmt.Printf("%v\n", ghEvent)
+	// fmt.Println(ghEvent.Type)
+	//i := ghEvent.Payload()
 
-	message = requestBody.Payload().(github.PushEvent)
+	// message = i.(github.PushEvent)
 
-	tasks.Bus.PushCheckstyle(*message.PushID)
-	tasks.Bus.PushFindbugs(*message.PushID)
+	// tasks.Bus.PushCheckstyle(*(message.PushID))
+	// tasks.Bus.PushFindbugs(*(message.PushID))
+	w.Header().Set("Content-type", "application/json")
+
+	fmt.Fprintf(w, `{ "message": "Push Event Detected" }`+"\n")
 }
 
 func HandleDeploymentEvent(w http.ResponseWriter, r *http.Request) {
