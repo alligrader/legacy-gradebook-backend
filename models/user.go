@@ -3,8 +3,6 @@ package models
 import (
 	"strconv"
 	"time"
-
-	. "github.com/alligrader/gradebook-backend/models/privileges"
 )
 
 type User struct {

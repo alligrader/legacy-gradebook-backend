@@ -1,4 +1,4 @@
-package privileges
+package models
 
 type (
 	Role struct {
