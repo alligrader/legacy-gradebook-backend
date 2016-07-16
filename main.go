@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/alligrader/gradebook-backend/oauth"
 	"github.com/alligrader/gradebook-backend/routes"
+	"github.com/alligrader/gradebook-backend/routes/oauth"
 	_ "github.com/alligrader/gradebook-backend/tasks"
 	_ "github.com/alligrader/gradebook-backend/util"
 	"github.com/alligrader/gradebook-backend/ziphandler"

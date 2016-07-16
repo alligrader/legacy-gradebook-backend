@@ -90,7 +90,7 @@ func AuthCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, err := template.ParseFiles("oauth/templates/user.html.tmpl")
+	t, err := template.ParseFiles("routes/oauth/templates/user.html.tmpl")
 	if err != nil {
 		log.Warn(w, err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
