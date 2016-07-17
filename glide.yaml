@@ -1,4 +1,6 @@
 package: github.com/alligrader/gradebook-backend
+ignore:
+- github.com/alligrader/gradebook-backend
 import:
 - package: github.com/onsi/gomega
 - package: github.com/dgrijalva/jwt-go
@@ -22,5 +24,5 @@ import:
   subpackages:
   - storage
 - package: github.com/fsouza/go-dockerclient
-ignore:
-- github.com/alligrader/gradebook-backend
+- package: github.com/mikespook/gorbac
+  version: ~2.0.0
