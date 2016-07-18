@@ -107,52 +107,52 @@ func addRolesToACL() {
 }
 
 func assignBillingPrivileges() {
-	Billing.Assign(CreateBilling)
-	Billing.Assign(ReadBilling)
-	Billing.Assign(DeleteBilling)
-	Billing.Assign(UpdateBilling)
-	Billing.Assign(InviteTeacher)
-	Billing.Assign(KickTeacher)
-	Billing.Assign(ReadCourses)
+	assign(Billing, CreateBilling)
+	assign(Billing, ReadBilling)
+	assign(Billing, DeleteBilling)
+	assign(Billing, UpdateBilling)
+	assign(Billing, InviteTeacher)
+	assign(Billing, KickTeacher)
+	assign(Billing, ReadCourses)
 }
 func assignStudentPrivileges() {
-	Student.Assign(CreateSubmission)
-	Student.Assign(ReadSubmision)
-	Student.Assign(ReadSubmissionGrade)
-	Student.Assign(ReadCourses)
-	Student.Assign(ReadAssignments)
+	assign(Student, CreateSubmission)
+	assign(Student, ReadSubmission)
+	assign(Student, ReadSubmissionGrade)
+	assign(Student, ReadCourses)
+	assign(Student, ReadAssignments)
 }
 
 func assignTeacherPrivileges() {
-	Teacher.Assign(InviteStudent)
-	Teacher.Assign(KickStudent)
-	Teacher.Assign(ReadStudents)
-	Teacher.Assign(CreateAssignment)
-	Teacher.Assign(ReadAssignment)
-	Teacher.Assign(UpdateAssignment)
-	Teacher.Assign(DeleteAssignment)
-	Teacher.Assign(GradeSubmission)
-	Teacher.Assign(ReadSubmissionGrade)
-	Teacher.Assign(UpdateSubmissionGrade)
-	Teacher.Assign(DeleteSubmissionGrade)
-	Teacher.Assign(CreateCourse)
-	Teacher.Assign(ReadCourses)
-	Teacher.Assign(UpdateCourse)
-	Teacher.Assign(DeleteCourse)
+	assign(Teacher, InviteStudent)
+	assign(Teacher, KickStudent)
+	assign(Teacher, ReadStudents)
+	assign(Teacher, CreateAssignment)
+	assign(Teacher, ReadAssignment)
+	assign(Teacher, UpdateAssignment)
+	assign(Teacher, DeleteAssignment)
+	assign(Teacher, GradeSubmission)
+	assign(Teacher, ReadSubmissionGrade)
+	assign(Teacher, UpdateSubmissionGrade)
+	assign(Teacher, DeleteSubmissionGrade)
+	assign(Teacher, CreateCourse)
+	assign(Teacher, ReadCourses)
+	assign(Teacher, UpdateCourse)
+	assign(Teacher, DeleteCourse)
 }
 func assignAssistantPrivileges() {
-	Assistant.Assign(GradeSubmission)
-	Assistant.Assign(ReadSubmissionGrade)
-	Assistant.Assign(DeleteSubmissionGrade)
-	Assistant.Assign(ReadSubmission)
-	Assistant.Assign(ReadCourses)
+	assign(Assistant, GradeSubmission)
+	assign(Assistant, ReadSubmissionGrade)
+	assign(Assistant, DeleteSubmissionGrade)
+	assign(Assistant, ReadSubmission)
+	assign(Assistant, ReadCourses)
 }
 
 type Permission gorbac.Permission
 type Role gorbac.Role
 
-func (r Role) Assign(p Permission) {
-	role := gorbac.Role(r)
+func assign(r Role, p Permission) {
+	role := r.(*gorbac.StdRole)
 	perm := gorbac.Permission(p)
 	role.Assign(perm)
 }
