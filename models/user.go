@@ -13,7 +13,6 @@ type User struct {
 	Password  []byte     `db:"password"`
 	Status    UserStatus `db:"status"`
 
-	Privileges
 	CreatedAt   time.Time `db:"created_at"`
 	LastUpdated time.Time `db:"last_updated"`
 }

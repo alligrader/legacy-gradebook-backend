@@ -5,8 +5,7 @@ import (
 	"testing"
 
 	_ "github.com/alligrader/gradebook-backend/db"
-	_ "github.com/alligrader/gradebook-backend/db/access"
-	. "github.com/alligrader/gradebook-backend/models"
+	"github.com/alligrader/gradebook-backend/db/access"
 	_ "github.com/alligrader/gradebook-backend/util"
 )
 
@@ -28,39 +27,34 @@ func TestRolesHavePrivileges(t *testing.T) {
 	}
 }
 
-func failOnFalse(failed bool, t *testing.T, message string) {
-	if failed {
-		t.Error(message)
+func teacherPrivileges(t *testing.T) {
+
+	privileges := []access.Permission{
+		access.InviteStudent,
+		access.KickStudent,
+		access.ReadStudents,
+		access.CreateAssignment,
+		access.ReadAssignment,
+		access.UpdateAssignment,
+		access.DeleteAssignment,
+		access.GradeSubmission,
+		access.UpdateSubmissionGrade,
+		access.DeleteSubmissionGrade,
+		access.CreateCourse,
+		access.UpdateCourse,
+		access.DeleteCourse,
+	}
+
+	for _, priv := range privileges {
+		if !access.AnyGranted([]string{"teacher"}, priv, nil) {
+			t.Errorf("Missing privilege %v", priv)
+		}
 	}
 }
 
-func teacherPrivileges(t *testing.T) {
-
-	t.Skip()
-	table := []struct {
-		role    string
-		action  string
-		status  int
-		message string
-	}{
-		{"teacher", "invite_student", 0, "Teacher cannot invite student"},
-		{"teacher", "remove_student", 0, "Teacher cannot remove student"},
-		{"teacher", "read_student", 0, "Teacher cannot read student"},
-		{"teacher", "create_assignment", 0, "Teacher cannot create assignment"},
-		{"teacher", "read_assignment", 0, "Teacher cannot read assignment"},
-		{"teacher", "update_assignment", 0, "Teacher cannot update assignment"},
-		{"teacher", "update_submission_grade", 0, "Teacher cannot update submission grade"},
-		{"teacher", "read_submission", 0, "Teacher cannot read submission"},
-		{"teacher", "delete_submission_grade", 0, "Teacher cannot delete submission grade"},
-		{"teacher", "create_class", 0, "Teacher cannot create class"},
-		{"teacher", "read_class", 0, "Teacher cannot read class"},
-		{"teacher", "update_class", 0, "Teacher cannot update class"},
-		{"teacher", "delete_class", 0, "Teacher cannot delete class"},
-	}
-
-	for _, elem := range table {
-		r := Role{Name: elem.role}
-		failOnFalse(!r.Can(Action(elem.action), Status(elem.status)), t, elem.message)
+func failOnFalse(failed bool, t *testing.T, message string) {
+	if failed {
+		t.Error(message)
 	}
 }
 
