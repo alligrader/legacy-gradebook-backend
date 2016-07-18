@@ -45,8 +45,9 @@ func teacherPrivileges(t *testing.T) {
 		access.DeleteCourse,
 	}
 
+	roleToTest := []access.Role{access.Teacher}
 	for _, priv := range privileges {
-		if !access.AnyGranted([]string{"teacher"}, priv, nil) {
+		if !access.AnyGranted(roleToTest, priv, nil) {
 			t.Errorf("Missing privilege %v", priv)
 		}
 	}
