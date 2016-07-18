@@ -13,6 +13,7 @@ func TestRolesHavePrivileges(t *testing.T) {
 	// Fetch the privileges for each role
 	// And make sure that they match.
 
+	// TODO use the correct privileges
 	roles := map[string]func(*testing.T){
 		"teacher":            teacherPrivileges,
 		"admin":              adminPrivileges,

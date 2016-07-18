@@ -42,31 +42,31 @@ We need to add the access token to the organization table, and to add the Stripe
 
 # TODO Issue Tracker
 
-- Create an Apiary branch with the full description of all of the routes.
+- [ ] Implement the tests for privileges and roles
+
+- [ ] Get the privileges tests to pass
+
+- [ ] Implement the database code for marshalling privileges and roles
+
+- [ ] Add middleware for injecting the DB connection
+
+- [ ] Add middleware for injecting the access control `AssertionFunc`
+
+- [ ] Add middleware for asserting the privileges are authorized
+
+- [ ] Add middleware for unmarhsalling the JWT token
+
+- [ ] Encrypt the database records for the student's grades
+
+- [ ] Create an Apiary branch with the full description of all of the routes.
 
 - [ ] Secure the Docker image so that the container is executed with the right user with the right permissions
 
 - [ ] Add `go vet`, `golint`, and race detection (`-race`) to the CI
 
-- [ ] Clean up wercker so that it's actually useful
-
-- [ ] Add the privileges to the database for the teacher role.
-
-- [ ] Add the privileges to the database for the assistent role.
-
-- [ ] Add the privileges to the database for the billing role.
-
-- [ ] Add the privileges to the database for the student role.
-
-- [ ] Implement the tests for privileges and roles
-
-- [ ] Get the privileges tests to pass
-
 - [ ] Cherrypick the models tests into an updated testing package
 
 - [ ] Add the Dredd tests for each of the routes in the `routes` document.
-
-- [ ] Implement the database code for marshalling privileges and roles
 
 - [ ] Add an organization table
 
@@ -89,6 +89,8 @@ We need to add the access token to the organization table, and to add the Stripe
 - [ ] Consider under what conditions we move the files onto the Google Cloud Storage. (Only keep the first 3 projects at a time)
 
 - [ ] Parse the XML output and store it in the database.
+
+- [ ] Expose a `healthz` endpoint for heartbeat detection by Kubernetes
 
 - [ ] Expose an endpoint to return the XML as JSON, along with the associated lines of code.
 
@@ -113,6 +115,16 @@ We need to add the access token to the organization table, and to add the Stripe
 - [ ] Implement the tests for the model
 
 - [ ] Make sure the .Equals model methods is consistent accross all models (checks ID)
+
+- [x] Add the privileges to the database for the teacher role.
+
+- [x] Add the privileges to the database for the assistent role.
+
+- [x] Add the privileges to the database for the billing role.
+
+- [x] Add the privileges to the database for the student role.
+
+- [x] Clean up wercker so that it's actually useful
 
 - [x] Shut down Circle CI so I never have to look at it again
 
